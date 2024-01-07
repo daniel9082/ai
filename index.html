@@ -249,15 +249,10 @@ x_train = x.iloc[:600]
 x_test = x.iloc[600:]
 y_train = y[:600]
 y_test = y[600:]
-
-
 support_vector_c = SVC(kernel="linear").fit(x_train,y_train)
 support_vector_c
-
 support_vector_c.C
-
 y_pred = support_vector_c.predict(x_test)
-
 cm = confusion_matrix(y_test,y_pred)
 cm
 accuracy_score(y_test,y_pred)
