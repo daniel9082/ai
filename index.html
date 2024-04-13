@@ -11,6 +11,10 @@
   <button onclick="copyMultilineText5()">K-Nearest Neighbor</button>
   <button onclick="copyMultilineText6()">Naive Bayes</button>
   <button onclick="copyMultilineText7()">K-Means</button>
+  <button onclick="copyMultilineText8()">K-Means</button>
+  <button onclick="copyMultilineText9()">K-Means</button>
+  <button onclick="copyMultilineText10()">K-Means</button>
+  <button onclick="copyMultilineText11()">K-Means</button>
 
 
   <script>
@@ -544,6 +548,274 @@ plt.xlabel('Number of Clusters (K)')
 plt.ylabel('Silhouette Score')
 plt.show()
 `;
+
+      // Assign the variable's value to the text variable
+      var text = yourMultilineVariable;
+
+      // Create a temporary textarea element to hold the text
+      var tempTextArea = document.createElement("textarea");
+      tempTextArea.value = text;
+
+      // Append the textarea element to the DOM
+      document.body.appendChild(tempTextArea);
+
+      // Select the text in the textarea
+      tempTextArea.select();
+      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
+
+      // Copy the selected text to the clipboard
+      document.execCommand("copy");
+
+      // Remove the temporary textarea
+      document.body.removeChild(tempTextArea);
+
+      
+    }
+  function copyMultilineText1() {
+      // Your variable containing multiline text data
+      var yourMultilineVariable = `x = float(input("Enter value of x : "))
+w = float(input("Enter value of weight w : "))
+b = float(input("Enter value of bias b : "))
+
+net = int(w*x+b)
+if(net<0):
+  out = 0
+elif((net>0)&(net<=1)):
+  out = net
+else:
+  out = 1
+print("net: ",net)
+print("output: ",out)
+n = int(input("Enter number of elements: "))
+print(" ")
+
+print("Enter the inputs ")
+inputs = [] #creating empty list for inputs
+#iterating till the range
+for i in range(0, n):
+  ele = float(input())
+  inputs.append(ele) #adding the elements
+
+print(inputs)
+print(" ")
+
+print("Enter the weights")
+#creating an empty lists for weights
+weights = []
+for i in range(0, n):
+  ele = float(input())
+  weights.append(ele) #adding the elements
+
+print(weights)
+print(" ")
+
+print("The net input can be calculated as Yin = x1w1 + x2w2 + x3w3")
+#In[5]:
+Yin = []
+for i in range(0,n):
+  Yin.append(inputs[i]*weights[i])
+print(round(sum(Yin),3))`;
+
+      // Assign the variable's value to the text variable
+      var text = yourMultilineVariable;
+
+      // Create a temporary textarea element to hold the text
+      var tempTextArea = document.createElement("textarea");
+      tempTextArea.value = text;
+
+      // Append the textarea element to the DOM
+      document.body.appendChild(tempTextArea);
+
+      // Select the text in the textarea
+      tempTextArea.select();
+      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
+
+      // Copy the selected text to the clipboard
+      document.execCommand("copy");
+
+      // Remove the temporary textarea
+      document.body.removeChild(tempTextArea);
+
+      
+    }
+    function copyMultilineText2() {
+      // Your variable containing multiline text data
+      var yourMultilineVariable = `import numpy as np
+
+# enter the no of values
+num_ip= int(input("Enter the number of inputs:"))
+
+# set the weights with value 1
+w1= 1
+w2= 1
+print("For the", num_ip, "inputs calculate the net input using yin- x1w1 + x2w2")
+x1= []
+x2= []
+for i in range(0,num_ip):
+    ele1 = int(input("x1 = "))
+    ele2 = int(input("x2 = "))
+    x1.append(ele1)
+    x2.append(ele2)
+print("x1 = ",x1)
+print("x2 = ",x2)
+
+n = x1* w1
+m = x2 * w2
+Yin = []
+
+for i in range(0,num_ip):
+    Yin.append(n[i] + m[i])
+print("Yin =", Yin)
+Yin = []
+
+for i in range(0,num_ip):
+    Yin.append(n[i] - m[i])
+print("After assuming one weight as excitatory and the other as inhibitory Yin-", Yin)
+#from the calculated net inputs, now it is possible yo fire the neuron for input(1,-1)
+# only by fixing a threshold of 1, i.e., 0> 1 for Y unit
+# Thus, w1 = 1, w2 -1, 0>=1
+
+Y=[]
+for i in range(0,num_ip):
+    if(Yin[i]>=1):
+        ele=1
+        Y.append(ele)
+    if(Yin[i]<1):
+        ele=0
+        Y.append(ele)
+print("Y=",Y)`;
+
+      // Assign the variable's value to the text variable
+      var text = yourMultilineVariable;
+
+      // Create a temporary textarea element to hold the text
+      var tempTextArea = document.createElement("textarea");
+      tempTextArea.value = text;
+
+      // Append the textarea element to the DOM
+      document.body.appendChild(tempTextArea);
+
+      // Select the text in the textarea
+      tempTextArea.select();
+      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
+
+      // Copy the selected text to the clipboard
+      document.execCommand("copy");
+
+      // Remove the temporary textarea
+      document.body.removeChild(tempTextArea);
+
+      
+    }
+     function copyMultilineText3() {
+      // Your variable containing multiline text data
+      var yourMultilineVariable = `import pandas as pd
+import matplotlib.pyplot as plt
+
+#loading the Playtennis data
+PlayTennis = pd.read_csv("play_tennis.csv")
+print(PlayTennis)
+
+
+print(PlayTennis.shape)
+print(PlayTennis.describe())
+print(PlayTennis.dtypes)
+print(PlayTennis.head(4))
+print(PlayTennis.tail(4))
+
+
+print(PlayTennis.columns)
+
+
+from sklearn.preprocessing import LabelEncoder
+Le = LabelEncoder()
+PlayTennis['day'] = Le.fit_transform(PlayTennis ['day'])
+PlayTennis['outlook'] = Le.fit_transform(PlayTennis ['outlook'])
+PlayTennis['temp'] = Le.fit_transform (PlayTennis ['temp'])
+PlayTennis['humidity'] = Le.fit_transform(PlayTennis['humidity'])
+PlayTennis['wind'] = Le.fit_transform (PlayTennis ['wind'])
+PlayTennis['play'] = Le.fit_transform (PlayTennis['play'])
+print(PlayTennis)
+
+
+
+y = PlayTennis['play']
+x = PlayTennis.drop(['play'], axis=1)
+print(x.dtypes)
+
+
+
+from sklearn import tree
+c1f = tree.DecisionTreeClassifier (criterion = 'entropy')
+c1f = c1f.fit(x, y)
+
+plt.figure(figsize=(10, 4))
+tree.plot_tree(c1f, feature_names=x.columns, class_names=['No', 'Yes'], filled=True)
+plt.show()`;
+
+      // Assign the variable's value to the text variable
+      var text = yourMultilineVariable;
+
+      // Create a temporary textarea element to hold the text
+      var tempTextArea = document.createElement("textarea");
+      tempTextArea.value = text;
+
+      // Append the textarea element to the DOM
+      document.body.appendChild(tempTextArea);
+
+      // Select the text in the textarea
+      tempTextArea.select();
+      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
+
+      // Copy the selected text to the clipboard
+      document.execCommand("copy");
+
+      // Remove the temporary textarea
+      document.body.removeChild(tempTextArea);
+
+      
+    }
+    function copyMultilineText4() {
+      // Your variable containing multiline text data
+      var yourMultilineVariable = `import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn import svm
+from sklearn.svm import SVC, LinearSVC
+from sklearn.metrics import confusion_matrix, accuracy_score, classification_report
+
+pd.set_option('display.max_row', 1000)
+pd.set_option('display.max_columns', 1000)
+pd.set_option('display.width', 1000)
+
+data = pd.read_csv('diabetes.csv')
+data.head()
+data.shape
+data.describe()
+
+x = data.drop("Outcome",axis=1)
+y = data["Outcome"]
+
+x_train = x.iloc[:600]
+x_test = x.iloc[600:]
+y_train = y[:600]
+y_test = y[600:]
+
+
+support_vector_c = SVC(kernel="linear").fit(x_train,y_train)
+support_vector_c
+
+support_vector_c.C
+
+y_pred = support_vector_c.predict(x_test)
+
+cm = confusion_matrix(y_test,y_pred)
+cm
+accuracy_score(y_test,y_pred)
+print(classification_report(y_test,y_pred))`;
 
       // Assign the variable's value to the text variable
       var text = yourMultilineVariable;
