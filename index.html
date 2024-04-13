@@ -6,8 +6,8 @@
 <body>
   <button onclick="copyMultilineText1()">Linear Regression</button>
   <button onclick="copyMultilineText2()">Logistic Regression</button>
-  <button onclick="copyMultilineText3()">K nearest neighbor</button>
-  <button onclick="copyMultilineText4()">R programmming</button>
+  <button onclick="copyMultilineText3()">R programmming</button>
+  <button onclick="copyMultilineText4()">k nearest neighbour</button>
   <button onclick="copyMultilineText5()">naive bayes 1</button>
   <button onclick="copyMultilineText6()">Naive Bayes 2</button>
   <button onclick="copyMultilineText7()">K-Means clustering</button>
@@ -21,48 +21,30 @@
   <script>
     function copyMultilineText1() {
       // Your variable containing multiline text data
-      var yourMultilineVariable = `x = float(input("Enter value of x : "))
-w = float(input("Enter value of weighfgsdt w : "))
-b = float(input("Enter value of bias b : "))
-
-net = int(w*x+b)
-if(net<0):
-  out = 0
-elif((net>0)&(net<=1)):
-  out = net
-else:
-  out = 1
-print("net: ",net)
-print("output: ",out)
-n = int(input("Enter number of elements: "))
-print(" ")
-
-print("Enter the inputs ")
-inputs = [] #creating empty list for inputs
-#iterating till the range
-for i in range(0, n):
-  ele = float(input())
-  inputs.append(ele) #adding the elements
-
-print(inputs)
-print(" ")
-
-print("Enter the weights")
-#creating an empty lists for weights
-weights = []
-for i in range(0, n):
-  ele = float(input())
-  weights.append(ele) #adding the elements
-
-print(weights)
-print(" ")
-
-print("The net input can be calculated as Yin = x1w1 + x2w2 + x3w3")
-#In[5]:
-Yin = []
-for i in range(0,n):
-  Yin.append(inputs[i]*weights[i])
-print(round(sum(Yin),3))`;
+      var yourMultilineVariable = `#Libraries Required
+import random
+from sklearn.linear_model import LinearRegression
+print("Name : Daniel Injeti 11")
+#Declarartion Code
+feature_set = []
+target_set = []
+rows = 200
+limit = 2000
+# To ready Training Data
+for i in range(0,rows):
+x = random.randint(0,limit)
+y = random.randint(0,limit)
+z = random.randint(0,limit)
+g = 10*x + 2*y + 3*z
+print("x=",x,"\ty=",y,"\tz=",z,"\tg=",g);
+feature_set.append([x,y,z])
+target_set.append(g)py
+# Train The Model
+model = LinearRegression()
+model.fit(feature_set,target_set)
+Test_Data = [[1,2,1]]
+prediction = model.predict(Test_Data)
+print('Prediction:'+str(prediction)+'\t'+ 'Coefficient:'+str(model.coef_))`;
 
       // Assign the variable's value to the text variable
       var text = yourMultilineVariable;
@@ -88,50 +70,26 @@ print(round(sum(Yin),3))`;
     }
     function copyMultilineText2() {
       // Your variable containing multiline text data
-      var yourMultilineVariable = `import numpy as np
+      var yourMultilineVariable = `import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix, accuracy_score
+dataset = pd.read_csv("C:/DS Practicals DI-11/diabetes.csv")
+print(dataset.head())
+x = dataset.iloc[:, [0, 1, 2, 3, 4, 5, 6, 7]].values
+y = dataset.iloc[:, [-1]].values
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=100)
+sc = StandardScaler()
+x_train = sc.fit_transform(x_train)
+x_test = sc.transform(x_test)
 
-# enter the no of values
-num_ip= int(input("Enter the number of inputs:"))
-
-# set the weights with value 1
-w1= 1
-w2= 1
-print("For the", num_ip, "inputs calculate the net input using yin- x1w1 + x2w2")
-x1= []
-x2= []
-for i in range(0,num_ip):
-    ele1 = int(input("x1 = "))
-    ele2 = int(input("x2 = "))
-    x1.append(ele1)
-    x2.append(ele2)
-print("x1 = ",x1)
-print("x2 = ",x2)
-
-n = x1* w1
-m = x2 * w2
-Yin = []
-
-for i in range(0,num_ip):
-    Yin.append(n[i] + m[i])
-print("Yin =", Yin)
-Yin = []
-
-for i in range(0,num_ip):
-    Yin.append(n[i] - m[i])
-print("After assuming one weight as excitatory and the other as inhibitory Yin-", Yin)
-#from the calculated net inputs, now it is possible yo fire the neuron for input(1,-1)
-# only by fixing a threshold of 1, i.e., 0> 1 for Y unit
-# Thus, w1 = 1, w2 -1, 0>=1
-
-Y=[]
-for i in range(0,num_ip):
-    if(Yin[i]>=1):
-        ele=1
-        Y.append(ele)
-    if(Yin[i]<1):
-        ele=0
-        Y.append(ele)
-print("Y=",Y)`;
+model = LogisticRegression()
+model.fit(x_train, y_train) # Train the model
+y_pred = model.predict(x_test)
+cm = confusion_matrix(y_test, y_pred)
+print("Confusion Matrix :\n ", cm)
+print("Accuracy :", accuracy_score(y_test, y_pred) * 100)`;
 
       // Assign the variable's value to the text variable
       var text = yourMultilineVariable;
@@ -157,49 +115,61 @@ print("Y=",Y)`;
     }
      function copyMultilineText3() {
       // Your variable containing multiline text data
-      var yourMultilineVariable = `import pandas as pd
-import matplotlib.pyplot as plt
+      var yourMultilineVariable = `Multiple Variables:
+print("Daniel Injeti 11")
+var1 <- var2 <- var3 <- "Orange"
+print(var1)
+print(var2)
+print(var3)
+print("Daniel Injeti 11")
 
-#loading the Playtennis data
-PlayTennis = pd.read_csv("play_tennis.csv")
-print(PlayTennis)
+R Plotting:
+plot(1,3)
 
+Draw two points in the diagram, one at position (1, 3) and one in position (8, 10):
+plot(c(1,8), c(3,10))
 
-print(PlayTennis.shape)
-print(PlayTennis.describe())
-print(PlayTennis.dtypes)
-print(PlayTennis.head(4))
-print(PlayTennis.tail(4))
+R Line:
+plot(1:10, type="l")
 
+Line Color:
+plot(1:10, type="l", col="blue")
 
-print(PlayTennis.columns)
+Line Width:
+plot(1:10, type="l", lwd=2)
 
+Multiple Lines:
+line1 <- c(1,2,3,4,5,10)
+line2 <- c(2,5,7,8,9,10)
+plot(line1, type = "l", col = "blue")
+lines(line2, type="l", col = "red")
 
-from sklearn.preprocessing import LabelEncoder
-Le = LabelEncoder()
-PlayTennis['day'] = Le.fit_transform(PlayTennis ['day'])
-PlayTennis['outlook'] = Le.fit_transform(PlayTennis ['outlook'])
-PlayTennis['temp'] = Le.fit_transform (PlayTennis ['temp'])
-PlayTennis['humidity'] = Le.fit_transform(PlayTennis['humidity'])
-PlayTennis['wind'] = Le.fit_transform (PlayTennis ['wind'])
-PlayTennis['play'] = Le.fit_transform (PlayTennis['play'])
-print(PlayTennis)
+Scatter Plots:
+x <- c(5,7,8,7,2,2,9,4,11,12,9,6)
+y <- c(99,86,87,88,111,103,87,94,78,77,85,86)
+plot(x, y)
 
+The observation in the example above should show the result of 12 cars passing by:
+x <- c(5,7,8,7,2,2,9,4,11,12,9,6)
+y <- c(99,86,87,88,111,103,87,94,78,77,85,86)
+plot(x, y, main="Observation of Cars\n Daniel Injeti 11", xlab="Car age", ylab="Car speed")
 
+Bar Charts:
+# x-axis values
+x <- c("A", "B", "C", "D")
+# y-axis values
+y <- c(2, 4, 6, 8)
+barplot(y, names.arg = x, main= "Bar Plot\n Daniel Injeti 11")
 
-y = PlayTennis['play']
-x = PlayTennis.drop(['play'], axis=1)
-print(x.dtypes)
+Concatenate Elements:
+print("Daniel Injeti 11")
+text <- "awesome"
+cat("R is", text)
 
-
-
-from sklearn import tree
-c1f = tree.DecisionTreeClassifier (criterion = 'entropy')
-c1f = c1f.fit(x, y)
-
-plt.figure(figsize=(10, 4))
-tree.plot_tree(c1f, feature_names=x.columns, class_names=['No', 'Yes'], filled=True)
-plt.show()`;
+print("Daniel Injeti 11")
+text1 <- "R is"
+text2 <- "awesome"
+cat(text1, text2)`;
 
       // Assign the variable's value to the text variable
       var text = yourMultilineVariable;
@@ -225,45 +195,35 @@ plt.show()`;
     }
     function copyMultilineText4() {
       // Your variable containing multiline text data
-      var yourMultilineVariable = `import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn import svm
-from sklearn.svm import SVC, LinearSVC
-from sklearn.metrics import confusion_matrix, accuracy_score, classification_report
-
-pd.set_option('display.max_row', 1000)
-pd.set_option('display.max_columns', 1000)
-pd.set_option('display.width', 1000)
-
-data = pd.read_csv('diabetes.csv')
-data.head()
-data.shape
-data.describe()
-
-x = data.drop("Outcome",axis=1)
-y = data["Outcome"]
-
-x_train = x.iloc[:600]
-x_test = x.iloc[600:]
-y_train = y[:600]
-y_test = y[600:]
-
-
-support_vector_c = SVC(kernel="linear").fit(x_train,y_train)
-support_vector_c
-
-support_vector_c.C
-
-y_pred = support_vector_c.predict(x_test)
-
-cm = confusion_matrix(y_test,y_pred)
-cm
-accuracy_score(y_test,y_pred)
-print(classification_report(y_test,y_pred))`;
+      var yourMultilineVariable = `import matplotlib.pyplot as plt
+from sklearn.neighbors import KNeighborsClassifier
+#Data Set
+x = [4, 5, 10, 4, 3, 11, 14 , 8, 10, 12]
+y = [21, 19, 24, 17, 16, 25, 24, 22, 21, 21]
+classes = [0, 0, 1, 0, 0, 1, 1, 0, 1, 1]
+plt.scatter(x, y, c=classes)
+plt.show()
+#To merge x and y into single list
+data = list(zip(x, y))
+print(data)
+#model creation
+model = KNeighborsClassifier(n_neighbors=1)
+# Model is trained
+model.fit(data, classes)
+new_x = 8
+new_y = 21
+new_point = [(new_x, new_y)]
+prediction = model.predict(new_point)
+plt.scatter(x + [new_x], y + [new_y], c=classes + [prediction[0]])
+plt.text(x=new_x-1.7, y=new_y-0.7, s=f"new point, class: {prediction[0]}")
+plt.show()
+model = KNeighborsClassifier(n_neighbors=5)
+model.fit(data, classes)
+prediction = model.predict(new_point)
+print(prediction)
+plt.scatter(x + [new_x], y + [new_y], c=classes + [prediction[0]])
+plt.text(x=new_x-1.7, y=new_y-0.7, s=f"new point, class: {prediction[0]}")
+plt.show()`;
 
       // Assign the variable's value to the text variable
       var text = yourMultilineVariable;
@@ -290,72 +250,40 @@ print(classification_report(y_test,y_pred))`;
     function copyMultilineText5() {
       // Your variable containing multiline text data
       var yourMultilineVariable = `
-import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-plt.style.use('ggplot')
-
-df = pd.read_csv('diabetes.csv')
-print(" ")
-print(df.head())
-print(" ")
-
-print("df.shape")
-print(df.shape)
-print(" ")
-
-print("df.dtypes")
-print(df.dtypes)
-print(" ")
-
-x = df.drop('Outcome', axis=1).values
-y = df['Outcome'].values
-
-from sklearn.model_selection import train_test_split
-
-x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.3,random_state=42)
-
-from sklearn.neighbors import KNeighborsClassifier
-neighbors = np.arange(1,9)
-train_accuracy = np.empty(len(neighbors))
-test_accuracy = np.empty(len(neighbors))
-
-for i,k in enumerate(neighbors):
-  knn = KNeighborsClassifier(n_neighbors=k)
-  knn.fit(x_train, y_train)
-  train_accuracy[i] = knn.score(x_train, y_train)
-  test_accuracy[i] = knn.score(x_test, y_test)
-
-plt.title('K-NN Varying number of neighbors')
-plt.plot(neighbors, test_accuracy, label='Testing Accuracy')
-plt.plot(neighbors, train_accuracy, label='Training Accuracy')
-plt.legend()
-plt.xlabel('Number of neighbors')
-plt.ylabel('Accuracy')
-plt.show()
-
-knn = KNeighborsClassifier(n_neighbors=7)
-knn.fit(x_train,y_train)
-
-knn.score(x_test,y_test)
-
-from sklearn.metrics import confusion_matrix
-y_pred = knn.predict(x_test)
-confusion_matrix(y_test,y_pred)
-
-from sklearn.metrics import classification_report
-print(classification_report(y_test,y_pred))
-y_pred_proba = knn.predict_proba(x_test)[:,1]
-
-from sklearn.metrics import roc_curve
-fpr, tpr, thresholds = roc_curve(y_test, y_pred_proba)
-
-plt.plot([0,1],[0,1],'k--')
-plt.plot(fpr,tpr, label='Knn')
-plt.xlabel('fpr')
-plt.ylabel('tpr')
-plt.title('Knn(n_neighbors=7) ROC curve')
-plt.show()
+from pgmpy.estimators import MaximumLikelihoodEstimator
+from pgmpy.models import BayesianModel
+from pgmpy.inference import VariableElimination
+data = pd.read_csv("ds4.csv")
+heart_disease = pd.DataFrame(data)
+print(heart_disease)
+model = BayesianModel([
+('age', 'Lifestyle'),
+('Gender', 'Lifestyle'),
+('Family', 'heartdisease'),
+('diet', 'cholestrol'),
+('Lifestyle', 'diet'),
+('cholestrol', 'heartdisease'),
+('diet', 'cholestrol')
+])
+model.fit(heart_disease, estimator=MaximumLikelihoodEstimator)
+HeartDisease_infer = VariableElimination(model)
+print('For Age enter SuperSeniorCitizen:0, SeniorCitizen:1, MiddleAged:2, Youth:3, Teen:4')
+print('For Gender enter Male:0, Female:1')
+print('For Family History enter Yes:1, No:0')
+print('For Diet enter High:0, Medium:1')
+print('for LifeStyle enter Athlete:0, Active:1, Moderate:2, Sedentary:3')
+print('for Cholesterol enter High:0, BorderLine:1, Normal:2')
+q = HeartDisease_infer.query(variables=['heartdisease'],
+evidence={
+'age': int(input('Enter Age: ')),
+'Gender': int(input('Enter Gender: ')),
+'Family': int(input('Enter Family History: ')),
+'diet': int(input('Enter Diet: ')),
+'Lifestyle': int(input('Enter Lifestyle: ')),
+'cholestrol': int(input('Enter Cholestrol: '))
+})
+print(q)
 `;
 
       // Assign the variable's value to the text variable
@@ -384,91 +312,26 @@ plt.show()
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 import pandas as pd
-import numpy as np
+from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
-from sklearn.metrics import accuracy_score
-
-from sklearn.naive_bayes import MultinomialNB ,CategoricalNB
-from sklearn.metrics import classification_report,accuracy_score,confusion_matrix
-
-data = pd.read_csv("Iris.csv")
-
-print(data.head())
-
-
-
-print(data.describe)
-
-
-print(data.dtypes)
-
-
-print(data.info())
-
-
-print(data.shape)
-
-
-X = data.iloc[:,[1,2,3,4]].values
-Y = data.iloc[:,5].values
-
-X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size=0.2,random_state=40)
-
-print("***************For Gaussain Navie bayes classification************ \n")
-
-GB = GaussianNB()
-GB.fit(X_train, Y_train)
-
-Y_pred = GB.predict(X_test)
-out = GB.predict([[5.9,3.0,5.1,1.8]])
-
-print("predicted species:",out)
-print("\n")
-print("confusion_matrix \n"),confusion_matrix(Y_test,Y_pred)
-print(" ")
-print("Accuracy: \n",accuracy_score(Y_test,Y_pred))
-print("")
-print("Classification Report: \n",classification_report(Y_test,Y_pred))
-
-print("***************For Multinomial Navie bayes classification************ \n")
-
-MNBclf = MultinomialNB()
-MNBclf.fit(X_train,Y_train)
-
-Y_pred = MNBclf.predict(X_test)
-out = MNBclf.predict([[5.9,3.0,5.1,1.8]])
-
-print("********Predicted Species**********",out)
-
-print("Confusion Matrics \n",confusion_matrix(Y_test,Y_pred))
-print("")
-
-print("Accuracy : \n",accuracy_score(Y_test,Y_pred))
-print("")
-
-print("Classification Report: \n",classification_report(Y_test,Y_pred))
-
-print("***************For Categorical Navie bayes classification************ \n")
-
-CNBclf = CategoricalNB()
-CNBclf.fit(X_train,Y_train)
-
-Y_pred = CNBclf.predict(X_test)
-out = CNBclf.predict([[5.9,3.0,5.1,1.8]])
-
-print("********Predicted Species**********",out)
-print("\n")
-print("")
-
-print("Confusion Matrics \n",confusion_matrix(Y_test,Y_pred))
-print("")
-
-print("Accuracy : \n",accuracy_score(Y_test,Y_pred))
-print("")
-
-print("Classification Report: \n",classification_report(Y_test,Y_pred))
-print("\n")`;
+from sklearn.metrics import accuracy_score,classification_report,confusion_matrix
+iris = load_iris()
+X,y=iris.data,iris.target
+x_train,x_test,y_train,y_test =train_test_split(X,y,test_size=0.2,random_state=23)
+GNB= GaussianNB()
+GNB.fit(x_train,y_train)
+y_pred =GNB.predict(x_test)
+user=[[5.7,3.0,5.4,2.0]]
+predict_index=GNB.predict(user)
+predict_species=iris.target_names[predict_index]
+print("Predicted Species for user input is ",predict_species)
+print("Confusion matrix")
+print(confusion_matrix(y_test,y_pred))
+print("Accuracy Score")
+print(accuracy_score(y_test,y_pred))
+print("Classification Report")
+print(classification_report(y_test,y_pred))`;
 
       // Assign the variable's value to the text variable
       var text = yourMultilineVariable;
@@ -494,59 +357,16 @@ print("\n")`;
     }
         function copyMultilineText7() {
       // Your variable containing multiline text data
-      var yourMultilineVariable = `import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.model_selection import train_test_split
-from sklearn import preprocessing
+      var yourMultilineVariable = `import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
-from sklearn.metrics import silhouette_score
-import warnings
-
-warnings.filterwarnings("ignore")
-
-home_data = pd.read_csv('housing.csv', usecols=['longitude', 'latitude', 'median_house_value'])
-print(home_data.head())
-
-# Scatterplot of the original data
-sns.scatterplot(data=home_data, x='longitude', y='latitude', hue='median_house_value')
-plt.title('Scatterplot of Original Data')
+x = [4, 5, 10, 4, 3, 11, 14 , 6, 10, 12]
+y = [21, 19, 24, 17, 16, 25, 24, 22, 21, 21]
+plt.scatter(x, y)
 plt.show()
-
-X_train, X_test, Y_train, Y_test = train_test_split(home_data[['latitude', 'longitude']], home_data[['median_house_value']], test_size=0.33, random_state=42)
-
-X_train_norm = preprocessing.normalize(X_train)
-X_test_norm = preprocessing.normalize(X_test)
-
-kmeans = KMeans(n_clusters=5, random_state=41)
-kmeans.fit(X_train_norm)
-
-# Scatterplot after k-means clustering
-sns.scatterplot(data=X_train, x='longitude', y='latitude', hue=kmeans.labels_)
-plt.title('Scatterplot after K-Means Clustering')
-plt.show()
-
-# Boxplot of the clustered data
-sns.boxplot(x=kmeans.labels_, y=Y_train['median_house_value'])
-plt.title('Boxplot of Clustered Data')
-plt.show()
-
-# Silhouette Score vs Number of Clusters
-K = range(2, 8)
-fits = []
-score = []
-
-for k in K:
-    model = KMeans(n_clusters=k, random_state=0).fit(X_train_norm)
-    fits.append(model)
-    score.append(silhouette_score(X_train_norm, model.labels_, metric='euclidean'))
-
-# Create a line plot using matplotlib
-plt.figure(figsize=(8, 6))
-sns.lineplot(x=K, y=score)
-plt.title('Silhouette Score vs Number of Clusters')
-plt.xlabel('Number of Clusters (K)')
-plt.ylabel('Silhouette Score')
+data = list(zip(x, y))
+kmeans = KMeans(n_clusters=2)
+kmeans.fit(data)
+plt.scatter(x, y, c=kmeans.labels_)
 plt.show()
 `;
 
@@ -572,50 +392,44 @@ plt.show()
 
       
     }
-  function copyMultilineText1() {
+  function copyMultilineText8() {
       // Your variable containing multiline text data
-      var yourMultilineVariable = `x = float(input("Enter value of x : "))
-w = float(input("Enter value of weight w : "))
-b = float(input("Enter value of bias b : "))
+      var yourMultilineVariable = `import pandas as pd
+# reading the database
+data = pd.read_csv("tips.csv")
+# printing the top 10 rows
+display(data.head(10))
 
-net = int(w*x+b)
-if(net<0):
-  out = 0
-elif((net>0)&(net<=1)):
-  out = net
-else:
-  out = 1
-print("net: ",net)
-print("output: ",out)
-n = int(input("Enter number of elements: "))
-print(" ")
+scatter plot
 
-print("Enter the inputs ")
-inputs = [] #creating empty list for inputs
-#iterating till the range
-for i in range(0, n):
-  ele = float(input())
-  inputs.append(ele) #adding the elements
+import pandas as pd
+import matplotlib.pyplot as plt
+data = pd.read_csv("tips.csv")
+# Scatter plot with day against tip
+plt.scatter(data['day'], data['tip'])
+# Adding Title to the Plot
+plt.title("Scatter Plot")
+# Setting the X and Y labels
+plt.xlabel('Day')
+plt.ylabel('Tip')
+plt.show()
 
-print(inputs)
-print(" ")
+scatter plot 2
 
-print("Enter the weights")
-#creating an empty lists for weights
-weights = []
-for i in range(0, n):
-  ele = float(input())
-  weights.append(ele) #adding the elements
-
-print(weights)
-print(" ")
-
-print("The net input can be calculated as Yin = x1w1 + x2w2 + x3w3")
-#In[5]:
-Yin = []
-for i in range(0,n):
-  Yin.append(inputs[i]*weights[i])
-print(round(sum(Yin),3))`;
+import pandas as pd
+import matplotlib.pyplot as plt
+data = pd.read_csv("tips.csv")
+# Scatter plot with day against tip
+plt.scatter(data['day'], data['tip'], c=data['size'],
+s=data['total_bill'])
+# Adding Title to the Plot
+plt.title("Scatter Plot")
+# Setting the X and Y labels
+plt.xlabel('Day')
+plt.ylabel('Tip')
+plt.colorbar()
+plt.show()
+`;
 
       // Assign the variable's value to the text variable
       var text = yourMultilineVariable;
@@ -639,184 +453,205 @@ print(round(sum(Yin),3))`;
 
       
     }
-    function copyMultilineText2() {
+    function copyMultilineText9() {
+      // Your variable containing multiline text data
+      var yourMultilineVariable = `import pandas as pd
+import matplotlib.pyplot as plt
+
+# reading the database
+data = pd.read_csv("tips.csv")
+# Bar chart with day against tip
+plt.bar(data['day'], data['tip'])
+plt.title("Bar Chart")
+# Setting the X and Y labels
+plt.xlabel('Day')
+plt.ylabel('Tip')
+# Adding the legends
+plt.show()
+
+pie chart
+import matplotlib.pyplot as plt
+import numpy as np
+y = np.array([35, 25, 25, 15])
+plt. pie (y)
+plt. show()
+
+import matplotlib.pyplot as plt
+import numpy as np
+y = np. array([35, 25, 25, 15])
+mylabels = ["Apples", "Bananas", "Cherries", "Dates"]
+plt.pie(y, labels = mylabels)
+plt. show( )
+
+import matplotlib.pyplot as plt
+import numpy as np
+y = np.array([135, 25, 25, 15])
+mylabels = ["Apples", "Bananas", "Cherries", "Dates"]
+mycolors = ["black", "hotpink", "b", "#4CAF50"]
+plt.pie(y, labels = mylabels, colors = mycolors)
+plt. show()
+`;
+
+      // Assign the variable's value to the text variable
+      var text = yourMultilineVariable;
+
+      // Create a temporary textarea element to hold the text
+      var tempTextArea = document.createElement("textarea");
+      tempTextArea.value = text;
+
+      // Append the textarea element to the DOM
+      document.body.appendChild(tempTextArea);
+
+      // Select the text in the textarea
+      tempTextArea.select();
+      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
+
+      // Copy the selected text to the clipboard
+      document.execCommand("copy");
+
+      // Remove the temporary textarea
+      document.body.removeChild(tempTextArea);
+
+      
+    }
+     function copyMultilineText10() {
+      // Your variable containing multiline text data
+      var yourMultilineVariable = `import requests
+from bs4 import BeautifulSoup
+
+def check_word_in_webpage(url, word):
+response = requests.get(url)
+if response.status_code == 200:
+soup = BeautifulSoup(response.content, 'html.parser')
+text_content = soup.get_text()
+if word.lower() in text_content.lower():
+print(f"The word '{word}' is present in the webpage.")
+else:
+print(f"The word '{word}' is not present in the webpage.")
+else:
+print("Failed to retrieve webpage.")
+
+url = input("Enter the url you want to Scrap : ")
+word_to_check = input("Enter the text you want to know which is present or not : ")
+check_word_in_webpage(url, word_to_check)`;
+
+      // Assign the variable's value to the text variable
+      var text = yourMultilineVariable;
+
+      // Create a temporary textarea element to hold the text
+      var tempTextArea = document.createElement("textarea");
+      tempTextArea.value = text;
+
+      // Append the textarea element to the DOM
+      document.body.appendChild(tempTextArea);
+
+      // Select the text in the textarea
+      tempTextArea.select();
+      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
+
+      // Copy the selected text to the clipboard
+      document.execCommand("copy");
+
+      // Remove the temporary textarea
+      document.body.removeChild(tempTextArea);
+
+      
+    }
+    function copyMultilineText11() {
+      // Your variable containing multiline text data
+      var yourMultilineVariable = `import pandas as pd
+import matplotlib. pyplot as plt
+#Uploading Dataset
+data = pd.read_csv("Nifty.csv")
+print(data)
+print(" ")
+#Plotting of x-axis & y-axis plot
+plt. plot(data['Open '],marker = "o",markeredgecolor="white", markerfacecolor="blue")
+plt. plot(data['Close '],marker = "o",markeredgecolor="white", markerfacecolor="orange")
+plt.grid()
+plt. title("Line Plot of NIFTY-50 by using Matplotlib")
+plt. xlabel('Open ')
+plt. ylabel('Close ')
+plt.legend(['Open', 'Close'])
+plt. show()
+
+seaborn
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+# Load dataset
+data = pd.read_csv("Nifty.csv")
+# Plotting
+plt.figure(figsize=(10, 6))
+sns.lineplot(data=data[['Open ', 'Close ']], markers=True, marker='o', markeredgecolor="white",
+palette=['green', 'red'])
+plt.title("Line Plot of NIFTY-50 by using Seaborn")
+plt.xlabel('Index')
+plt.ylabel('Price')
+plt.grid(True)
+plt.show()
+
+plotly
+
+import pandas as pd
+import plotly.express as px
+# Load dataset
+data = pd.read_csv("Nifty.csv")
+# Plotting
+fig = px.line(data, x=data.index, y=['Open ', 'Close '], markers=True,
+title="Line Plot of NIFTY-50 using Plotly", labels={'index': 'Index', 'value': 'Price'},
+color_discrete_sequence=['green', 'red'])
+fig.update_layout(legend_title='Price', legend=dict(x=0, y=1, traceorder='normal'),
+plot_bgcolor='rgba(0,0,0,0)')
+fig.show()`;
+
+      // Assign the variable's value to the text variable
+      var text = yourMultilineVariable;
+
+      // Create a temporary textarea element to hold the text
+      var tempTextArea = document.createElement("textarea");
+      tempTextArea.value = text;
+
+      // Append the textarea element to the DOM
+      document.body.appendChild(tempTextArea);
+
+      // Select the text in the textarea
+      tempTextArea.select();
+      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
+
+      // Copy the selected text to the clipboard
+      document.execCommand("copy");
+
+      // Remove the temporary textarea
+      document.body.removeChild(tempTextArea);
+
+      
+    }
+    function copyMultilineText12() {
       // Your variable containing multiline text data
       var yourMultilineVariable = `import numpy as np
-
-# enter the no of values
-num_ip= int(input("Enter the number of inputs:"))
-
-# set the weights with value 1
-w1= 1
-w2= 1
-print("For the", num_ip, "inputs calculate the net input using yin- x1w1 + x2w2")
-x1= []
-x2= []
-for i in range(0,num_ip):
-    ele1 = int(input("x1 = "))
-    ele2 = int(input("x2 = "))
-    x1.append(ele1)
-    x2.append(ele2)
-print("x1 = ",x1)
-print("x2 = ",x2)
-
-n = x1* w1
-m = x2 * w2
-Yin = []
-
-for i in range(0,num_ip):
-    Yin.append(n[i] + m[i])
-print("Yin =", Yin)
-Yin = []
-
-for i in range(0,num_ip):
-    Yin.append(n[i] - m[i])
-print("After assuming one weight as excitatory and the other as inhibitory Yin-", Yin)
-#from the calculated net inputs, now it is possible yo fire the neuron for input(1,-1)
-# only by fixing a threshold of 1, i.e., 0> 1 for Y unit
-# Thus, w1 = 1, w2 -1, 0>=1
-
-Y=[]
-for i in range(0,num_ip):
-    if(Yin[i]>=1):
-        ele=1
-        Y.append(ele)
-    if(Yin[i]<1):
-        ele=0
-        Y.append(ele)
-print("Y=",Y)`;
-
-      // Assign the variable's value to the text variable
-      var text = yourMultilineVariable;
-
-      // Create a temporary textarea element to hold the text
-      var tempTextArea = document.createElement("textarea");
-      tempTextArea.value = text;
-
-      // Append the textarea element to the DOM
-      document.body.appendChild(tempTextArea);
-
-      // Select the text in the textarea
-      tempTextArea.select();
-      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
-
-      // Copy the selected text to the clipboard
-      document.execCommand("copy");
-
-      // Remove the temporary textarea
-      document.body.removeChild(tempTextArea);
-
-      
-    }
-     function copyMultilineText3() {
-      // Your variable containing multiline text data
-      var yourMultilineVariable = `import pandas as pd
+import pandas as pd # Import Pandas for data loading
 import matplotlib.pyplot as plt
-
-#loading the Playtennis data
-PlayTennis = pd.read_csv("play_tennis.csv")
-print(PlayTennis)
-
-
-print(PlayTennis.shape)
-print(PlayTennis.describe())
-print(PlayTennis.dtypes)
-print(PlayTennis.head(4))
-print(PlayTennis.tail(4))
-
-
-print(PlayTennis.columns)
-
-
-from sklearn.preprocessing import LabelEncoder
-Le = LabelEncoder()
-PlayTennis['day'] = Le.fit_transform(PlayTennis ['day'])
-PlayTennis['outlook'] = Le.fit_transform(PlayTennis ['outlook'])
-PlayTennis['temp'] = Le.fit_transform (PlayTennis ['temp'])
-PlayTennis['humidity'] = Le.fit_transform(PlayTennis['humidity'])
-PlayTennis['wind'] = Le.fit_transform (PlayTennis ['wind'])
-PlayTennis['play'] = Le.fit_transform (PlayTennis['play'])
-print(PlayTennis)
-
-
-
-y = PlayTennis['play']
-x = PlayTennis.drop(['play'], axis=1)
-print(x.dtypes)
-
-
-
-from sklearn import tree
-c1f = tree.DecisionTreeClassifier (criterion = 'entropy')
-c1f = c1f.fit(x, y)
-
-plt.figure(figsize=(10, 4))
-tree.plot_tree(c1f, feature_names=x.columns, class_names=['No', 'Yes'], filled=True)
-plt.show()`;
-
-      // Assign the variable's value to the text variable
-      var text = yourMultilineVariable;
-
-      // Create a temporary textarea element to hold the text
-      var tempTextArea = document.createElement("textarea");
-      tempTextArea.value = text;
-
-      // Append the textarea element to the DOM
-      document.body.appendChild(tempTextArea);
-
-      // Select the text in the textarea
-      tempTextArea.select();
-      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
-
-      // Copy the selected text to the clipboard
-      document.execCommand("copy");
-
-      // Remove the temporary textarea
-      document.body.removeChild(tempTextArea);
-
-      
-    }
-    function copyMultilineText4() {
-      // Your variable containing multiline text data
-      var yourMultilineVariable = `import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
+from sklearn.tree import DecisionTreeClassifier, plot_tree
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn import svm
-from sklearn.svm import SVC, LinearSVC
-from sklearn.metrics import confusion_matrix, accuracy_score, classification_report
-
-pd.set_option('display.max_row', 1000)
-pd.set_option('display.max_columns', 1000)
-pd.set_option('display.width', 1000)
-
-data = pd.read_csv('diabetes.csv')
-data.head()
-data.shape
-data.describe()
-
-x = data.drop("Outcome",axis=1)
-y = data["Outcome"]
-
-x_train = x.iloc[:600]
-x_test = x.iloc[600:]
-y_train = y[:600]
-y_test = y[600:]
-
-
-support_vector_c = SVC(kernel="linear").fit(x_train,y_train)
-support_vector_c
-
-support_vector_c.C
-
-y_pred = support_vector_c.predict(x_test)
-
-cm = confusion_matrix(y_test,y_pred)
-cm
-accuracy_score(y_test,y_pred)
-print(classification_report(y_test,y_pred))`;
+from sklearn.metrics import accuracy_score
+print("KFMSCIT028 Surabhi")
+data = pd.read_csv('iris.csv')
+print(data.head())
+# Assuming the target variable is in a column named 'target'
+X = data.drop('species', axis=1)
+y = data['species']
+X_train, X_test, y_train, y_test =train_test_split(X, y, test_size=0.2, random_state=42)
+model = DecisionTreeClassifier()
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy :. 2f}")
+# Visualize and interpret the generated decision tree
+plt.figure(figsize=(12, 8))
+plot_tree(model, filled=True, feature_names=X.columns, class_names=y.unique().astype(str))
+plt.title("Decision Tree Visualization - surabhi")
+plt.show()`;
 
       // Assign the variable's value to the text variable
       var text = yourMultilineVariable;
