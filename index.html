@@ -9,8 +9,8 @@
   <button onclick="copyMultilineText3()">Ncat</button>
   <button onclick="copyMultilineText4()">maltego</button>
   <button onclick="copyMultilineText5()">puttyssh</button>
-  <button onclick="copyMultilineText6()">sqll</button>
   <button onclick="copyMultilineText6()">wireshark</button>
+  <button onclick="copyMultilineText7()">sqll</button>
   
   <script>
     function copyMultilineText1() {
@@ -277,7 +277,65 @@ print("DECRYPTED MESSAGE IS", decrypted_message)`;
 
       
     }
-       
+    function copyMultilineText6() {
+      // Your variable containing multiline text data
+      var yourMultilineVariable = `
+
+
+`;
+
+      // Assign the variable's value to the text variable
+      var text = yourMultilineVariable;
+
+      // Create a temporary textarea element to hold the text
+      var tempTextArea = document.createElement("textarea");
+      tempTextArea.value = text;
+
+      // Append the textarea element to the DOM
+      document.body.appendChild(tempTextArea);
+
+      // Select the text in the textarea
+      tempTextArea.select();
+      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
+
+      // Copy the selected text to the clipboard
+      document.execCommand("copy");
+
+      // Remove the temporary textarea
+      document.body.removeChild(tempTextArea);
+
+      
+    }
+    function copyMultilineText7() {
+      // Your variable containing multiline text data
+      var yourMultilineVariable = ` 
+      altoro mutual
+      
+      ' or 1=1--
+      `;
+
+      // Assign the variable's value to the text variable
+      var text = yourMultilineVariable;
+
+      // Create a temporary textarea element to hold the text
+      var tempTextArea = document.createElement("textarea");
+      tempTextArea.value = text;
+
+      // Append the textarea element to the DOM
+      document.body.appendChild(tempTextArea);
+
+      // Select the text in the textarea
+      tempTextArea.select();
+      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
+
+      // Copy the selected text to the clipboard
+      document.execCommand("copy");
+
+      // Remove the temporary textarea
+      document.body.removeChild(tempTextArea);
+
+      
+    }
   </script>
 </body>
 </html>
