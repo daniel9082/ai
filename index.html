@@ -4,90 +4,88 @@
   <title>Copy Multiline Variable Text to Clipboard</title>
 </head>
 <body>
-  <button onclick="copyMultilineText1()">core mvc</button>
-  <button onclick="copyMultilineText2()">rest api</button>
-  <button onclick="copyMultilineText3()">docker com,img,cont</button>
-  <button onclick="copyMultilineText4()">software docker inst</button>
-  <button onclick="copyMultilineText5()">docker vol net</button>
-  <button onclick="copyMultilineText6()">circleci</button>
-  <button onclick="copyMultilineText7()">back serv asp.net</button>
-  <button onclick="copyMultilineText8()">kub</button>
+  <button onclick="copyMultilineText1()">p1-mmm</button>
+  <button onclick="copyMultilineText2()">p2-zscore</button>
+  <button onclick="copyMultilineText3()">p3-normal dist</button>
+  <button onclick="copyMultilineText4()">p4-annova</button>
+  <button onclick="copyMultilineText5()">p5-linear regression analy</button>
+  <button onclick="copyMultilineText6()">p6-pearson spearmen</button>
+  <button onclick="copyMultilineText7()">p7-latin square</button>
+  <button onclick="copyMultilineText8()">p8-trend analy</button>
+  <button onclick="copyMultilineText9()">p8-seasonal</button>
+  <button onclick="copyMultilineText10()">p8-cyclic</button>
+  <button onclick="copyMultilineText11()">p8-irregular vari</button>
+  <button onclick="copyMultilineText12()">p8-decomp of TS</button>
+  <button onclick="copyMultilineText13()">p9-Stock Price Analy</button>
+  <button onclick="copyMultilineText14()">p9-weather forecast</button>
+  <button onclick="copyMultilineText15()">p10-Sales forecast sarimax</button>
+  <button onclick="copyMultilineText16()">p11-LSM for linear regg</button>
   
   <script>
     function copyMultilineText1() {
       // Your variable containing multiline text data
       var yourMultilineVariable = `
       
-      create MyMVC folder 
-cmd from mvc folder
->dotnet new mvc --auth none
+      def group_mean(classes,frequency):
+  midpoints = [(low+high)/2 for low,high in classes]
+  # Extract the tuple of frequencies directly
+  frequencies = frequency[0]
+  total_points = sum(frequencies)
+  return sum(f*m for f,m in zip(frequencies,midpoints))/total_points
 
-mod HomeController.cs
+classes = [(10,20),(20,30),(30,40),(40,50)]
+frequency = [(5,10,20,15)]
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using MyMVC.Models;
-namespace MyMVC.Controllers
-{ public class HomeController : Controller
-{
-public String Index()
-{ return " KFMSCIT0  name "; }
-}
-}
+print("Mean:-",group_mean(classes,frequency))
 
->dotnet run
+# Geometric Mean
+from scipy.stats import gmean
+data = [35,39,43,48,24]
+print("Geometric Mean:-",gmean(data))
 
+#hormonic Mean
+from scipy.stats import hmean
+data = [35,39,43,48,24]
+print("Hormonic Mean:-",hmean(data))
 
-model -> create new StockQuote.cs
+def group_median(classes,frequency):
+  frequency = frequency[0]
+  total_points = sum(frequency)
+  median_points = total_points//2
+  cum_freq = 0
+  for i,freq in enumerate(frequency):
+    cum_freq += freq
+    if cum_freq > median_points:
+      lower_bond, _ = classes[i]
+      if i==0:
+        c1=0
+      else:
+        c1 = cum_freq - freq
+        class_width = classes[i][1] - classes[i][0]
+        return lower_bond + (median_points - c1)/freq * class_width
+classes = [(10,20),(20,30),(30,40),(40,50)]
+frequency = [(5,10,20,15)]
 
-using System;
-namespace MyMVC.Models
-{
-public class StockQuote
-{ public string Symbol {get;set;}
-public int Price{get;set;}
-}
-}
+print("Median:-",group_median(classes,frequency))
 
+def group_mode(classes,frequency):
+  model_class_index = frequency[0].index(max(frequency[0]))
+  lower_bond, _ = classes[model_class_index]
+  class_width = classes[model_class_index][1] - classes[model_class_index][0]
+  if model_class_index == 0:
+    d1 = frequency[0] - 0
+  else:
+    d1 = frequency[0][model_class_index] - frequency[0][model_class_index-1]
+  if model_class_index == len(frequency)-1:
+      d2 = frequency[-1]-0
+  else:
+      d2 = frequency[0][model_class_index] - frequency[0][model_class_index+1]
+  return lower_bond + (d1/(d1+d2))*class_width
 
-view -> home ->  index.cshtml
+classes = [(10,20),(20,30),(30,40),(40,50)]
+frequency = [(5,10,20,15)]
 
-@{
-ViewData["Title"] = "Home Page";
-}
-<div>
-Symbol: @Model.Symbol <br/>
-Price: $@Model.Price <br/>
-</div>
-
-
-mod HomeController.cs
-
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using MyMVC.Models;
-namespace MyMVC.Controllers
-{
-public class HomeController : Controller
-{ public async Task <IActionResult> Index()
-{
-var model= new StockQuote{ Symbol="HELLO", Price=3200};
-return View(model);
-}
-}
-}
-
->dotnet run
+print("Mode:-",group_mode(classes,frequency))
       
       `;
 
