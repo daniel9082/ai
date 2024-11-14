@@ -556,7 +556,7 @@ data = trend + noise
 
 #Create a dataframe
 df_trend = pd.DataFrame({'Time':time,'data':data})
-print("Mitali KSMSCIT 039")
+print("  ")
 plt.figure(figsize=(10,6))
 plt.plot(df_trend['Time'],df_trend['data'],label='Data with Trend', color='blue')
 plt.plot(df_trend['Time'],trend,label='Linear',linestyle='--',color='red')
@@ -609,7 +609,7 @@ data = 50 + seasonality + noise
 
 #Create a dataframe
 df_seasonal = pd.DataFrame({'Time':time,'data':data})
-print("Mitali KSMSCIT 039")
+print("  ")
 plt.figure(figsize=(10,6))
 plt.plot(df_seasonal['Time'],df_seasonal['data'],label='Data with Seasonal Variation',color='blue')
 plt.plot(df_seasonal['Time'],seasonality,label='Seasonal Variation',linestyle='--',color='red')
@@ -660,7 +660,7 @@ data = 50 + cycle + noise
 
 #Create a dataframe
 df_cycle = pd.DataFrame({'Time':time,'data':data})
-print("Mitali KSMSCIT 039")
+print("  ")
 plt.figure(figsize=(10,6))
 plt.plot(df_cycle['Time'],df_cycle['data'],label='Data with Seasonal Variation',color='blue')
 plt.title('Seasonal Variation Example')
@@ -708,7 +708,7 @@ time = np.arange(0,100)
 noise = np.random.normal(0,10,size=100)
 
 df_irregular = pd.DataFrame({'Time':time,'data':noise})
-print("Mitali KSMSCIT 039")
+print("  ")
 plt.figure(figsize=(10,6))
 plt.plot(df_irregular['Time'],df_irregular['data'],label='Data with Seasonal Variation',color='blue')
 plt.xlabel('Time')
@@ -755,7 +755,7 @@ data = pd.read_csv('airline-passengers.csv', index_col='Month', parse_dates=True
 #decompose the time series into trend, seasonal and residual component
 
 result = seasonal_decompose(data['Passengers'],model='multiplicative')
-print("Mitali KSMSCIT 039")
+print("  ")
 result.plot()
 plt.suptitle('Decomposition of Airline Passenger',fontsize=7.5)
 plt.show()
@@ -799,10 +799,10 @@ from statsmodels.tsa.seasonal import seasonal_decompose
 
 stock_symbol = 'SUZLON.NS'
 stock_data = yf.download(stock_symbol,start='2019-01-01', end='2024-09-28')
-print("Mitali KSMSCIT 039")
+print("  ")
 print(stock_data.head())
 print(stock_data.tail())
-print("Mitali KSMSCIT 039")
+print("  ")
 plt.figure(figsize=(12,6))
 plt.plot(stock_data.index, stock_data['Adj Close'], label='Adjusted Close Price', color='blue')
 plt.title('Stock Price Analysis')
@@ -813,7 +813,7 @@ plt.show()
 
 stock_data_monthly = stock_data['Adj Close'].resample('M').mean()
 decompose_result = seasonal_decompose(stock_data_monthly, model='multiplicative')
-print("Mitali KSMSCIT 039")
+print("  ")
 decompose_result.plot()
 plt.suptitle('Decomposition of Stock Price',fontsize=10)
 plt.show()
@@ -822,7 +822,7 @@ plt.show()
 
 stock_data['SMA_50'] = stock_data['Adj Close'].rolling(window=15).mean()
 stock_data['SMA_200'] = stock_data['Adj Close'].rolling(window=200).mean()
-print("Mitali KSMSCIT 039")
+print("  ")
 plt.figure(figsize=(12,6))
 plt.plot(stock_data.index, stock_data['Adj Close'], label='Adjusted Close Price', color='blue')
 plt.plot(stock_data.index, stock_data['SMA_50'], label='SMA_50', color='green')
@@ -887,14 +887,14 @@ df['Date'] = pd.to_datetime(df['Date'])
 df.set_index('Date', inplace=True)
 
 # Display the first few rows of the dataset
-print("Mitali KSMSCIT 039")
+print("  ")
 print(df.head())
 print(df.tail())
 
 # Trend Analysis
 plt.figure(figsize=(12, 6))
 plt.plot(df['Temp'], label='Daily Minimum Temperature', color='blue')
-plt.title('Daily Minimum Temperature Over Time\nKSMSCIT039 Mitali', fontsize=14)
+plt.title('Daily Minimum Temperature Over Time\n   ', fontsize=14)
 plt.xlabel('Date')
 plt.ylabel('Temperature (°C)')
 plt.legend()
@@ -925,7 +925,7 @@ plt.plot(residual, label='Residual', color='red')
 plt.legend(loc='upper left')
 
 plt.tight_layout()
-plt.suptitle('Decomposition of Daily Minimum Temperature\nKSMSCIT039 Mitali', fontsize=14)
+plt.suptitle('Decomposition of Daily Minimum Temperature\n   ', fontsize=14)
 plt.show()
 
 # Forecasting with ARIMA
@@ -942,7 +942,7 @@ forecast_dates = pd.date_range(start=df.index[-1] + pd.Timedelta(days=1), period
 plt.figure(figsize=(12, 6))
 plt.plot(df['Temp'], label='Historical Temperature', color='blue')
 plt.plot(forecast_dates, forecast, label='Forecasted Temperature', color='orange')
-plt.title('Temperature Forecast\nKSMSCIT039 Mitali', fontsize=14)
+plt.title('Temperature Forecast\n   ', fontsize=14)
 plt.xlabel('Date')
 plt.ylabel('Temperature (°C)')
 plt.legend()
@@ -996,12 +996,12 @@ data_dict = {
 data = pd.DataFrame(data_dict)
 data.set_index('Date', inplace=True)
 
-print("KSMSCIT011 Daniel Injeti")
+print(" ")
 
 # Plot sales data
 plt.figure(figsize=(12, 6))
 plt.plot(data['Sales'], label='Monthly Sales')
-plt.title('Monthly Sales\nKSMSCIT011 Daniel Injeti', fontsize=14)
+plt.title('Monthly Sales\n ', fontsize=14)
 plt.xlabel('Date')
 plt.ylabel('Sales')
 plt.legend()
@@ -1010,7 +1010,7 @@ plt.show()
 # Decomposition
 decomposition = seasonal_decompose(data['Sales'], model='additive', period=12)
 decomposition.plot()
-plt.suptitle('Sales Decomposition\nKSMSCIT011 Daniel Injeti', fontsize=14)
+plt.suptitle('Sales Decomposition\n ', fontsize=14)
 plt.show()
 
 # Train-test split (80-20 split)
@@ -1034,7 +1034,7 @@ plt.figure(figsize=(12, 6))
 plt.plot(test.index, test['Sales'], label='Actual Sales', marker='o')
 plt.plot(test.index, forecast_series, label='Forecasted Sales', color='red', marker='o')
 plt.fill_between(forecast_series.index, conf_int.iloc[:, 0], conf_int.iloc[:, 1], color='pink', alpha=0.3)
-plt.title('Monthly Sales Forecast\nKSMSCIT011 Daniel Injeti', fontsize=14)
+plt.title('Monthly Sales Forecast\n ', fontsize=14)
 plt.xlabel('Date')
 plt.ylabel('Sales')
 plt.legend()
@@ -1060,7 +1060,7 @@ plt.figure(figsize=(12, 6))
 plt.plot(data.index, data['Sales'], label='Historical Sales')
 plt.plot(future_forecast_series.index, future_forecast_series, label='Future Forecasted Sales', color='green', marker='o')
 plt.fill_between(future_forecast_series.index, future_conf_int.iloc[:, 0], future_conf_int.iloc[:, 1], color='lightgreen', alpha=0.3)
-plt.title('Future Sales Forecast\nKSMSCIT011 Daniel Injeti', fontsize=14)
+plt.title('Future Sales Forecast\n ', fontsize=14)
 plt.xlabel('Date')
 plt.ylabel('Sales')
 plt.legend()
