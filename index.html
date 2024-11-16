@@ -4,88 +4,29 @@
   <title>Copy Multiline Variable Text to Clipboard</title>
 </head>
 <body>
-  <button onclick="copyMultilineText1()">p1-mmm</button>
-  <button onclick="copyMultilineText2()">p2-zscore</button>
-  <button onclick="copyMultilineText3()">p3-normal dist</button>
-  <button onclick="copyMultilineText4()">p4-annova</button>
-  <button onclick="copyMultilineText5()">p5-linear regression analy</button>
-  <button onclick="copyMultilineText6()">p6-pearson spearmen</button>
-  <button onclick="copyMultilineText7()">p7-latin square</button>
-  <button onclick="copyMultilineText8()">p8-trend analy</button>
-  <button onclick="copyMultilineText9()">p8-seasonal</button>
-  <button onclick="copyMultilineText10()">p8-cyclic</button>
-  <button onclick="copyMultilineText11()">p8-irregular vari</button>
-  <button onclick="copyMultilineText12()">p8-decomp of TS</button>
-  <button onclick="copyMultilineText13()">p9-Stock Price Analy</button>
-  <button onclick="copyMultilineText14()">p9-weather forecast</button>
-  <button onclick="copyMultilineText15()">p10-Sales forecast sarimax</button>
-  <button onclick="copyMultilineText16()">p11-LSM for linear regg</button>
+  <button onclick="copyMultilineText1()">p1-sum of 2 var</button>
+  <button onclick="copyMultilineText2()">p2-if num is + - 0</button>
+  <button onclick="copyMultilineText3()">p3-id name age data domain</button>
+  <button onclick="copyMultilineText4()">p4-factorial subroutine</button>
+  <button onclick="copyMultilineText5()">p5-alv</button>
+  <button onclick="copyMultilineText6()">p6-setget</button>
+  <button onclick="copyMultilineText7()">p7-join</button>
   
   <script>
     function copyMultilineText1() {
       // Your variable containing multiline text data
       var yourMultilineVariable = `
       
-      def group_mean(classes,frequency):
-  midpoints = [(low+high)/2 for low,high in classes]
-  # Extract the tuple of frequencies directly
-  frequencies = frequency[0]
-  total_points = sum(frequencies)
-  return sum(f*m for f,m in zip(frequencies,midpoints))/total_points
+    SE38
+Create Program (z)
+*DATA: num1 TYPE I VALUE 10,
+      num2 TYPE I VALUE 20,
+      result TYPE I.
+*Calculate the sum
+result = num1 + num2.
+*Display the result
+WRITE: / 'The sum of', num1, 'and', num2, 'is', result.
 
-classes = [(10,20),(20,30),(30,40),(40,50)]
-frequency = [(5,10,20,15)]
-
-print("Mean:-",group_mean(classes,frequency))
-
-# Geometric Mean
-from scipy.stats import gmean
-data = [35,39,43,48,24]
-print("Geometric Mean:-",gmean(data))
-
-#hormonic Mean
-from scipy.stats import hmean
-data = [35,39,43,48,24]
-print("Hormonic Mean:-",hmean(data))
-
-def group_median(classes,frequency):
-  frequency = frequency[0]
-  total_points = sum(frequency)
-  median_points = total_points//2
-  cum_freq = 0
-  for i,freq in enumerate(frequency):
-    cum_freq += freq
-    if cum_freq > median_points:
-      lower_bond, _ = classes[i]
-      if i==0:
-        c1=0
-      else:
-        c1 = cum_freq - freq
-        class_width = classes[i][1] - classes[i][0]
-        return lower_bond + (median_points - c1)/freq * class_width
-classes = [(10,20),(20,30),(30,40),(40,50)]
-frequency = [(5,10,20,15)]
-
-print("Median:-",group_median(classes,frequency))
-
-def group_mode(classes,frequency):
-  model_class_index = frequency[0].index(max(frequency[0]))
-  lower_bond, _ = classes[model_class_index]
-  class_width = classes[model_class_index][1] - classes[model_class_index][0]
-  if model_class_index == 0:
-    d1 = frequency[0] - 0
-  else:
-    d1 = frequency[0][model_class_index] - frequency[0][model_class_index-1]
-  if model_class_index == len(frequency)-1:
-      d2 = frequency[-1]-0
-  else:
-      d2 = frequency[0][model_class_index] - frequency[0][model_class_index+1]
-  return lower_bond + (d1/(d1+d2))*class_width
-
-classes = [(10,20),(20,30),(30,40),(40,50)]
-frequency = [(5,10,20,15)]
-
-print("Mode:-",group_mode(classes,frequency))
       
       `;
 
@@ -115,24 +56,19 @@ print("Mode:-",group_mode(classes,frequency))
       // Your variable containing multiline text data
       var yourMultilineVariable = `
       
-     from scipy.stats import norm
-population_mean=100
-population_std=15
-sample_mean=108
-sample_size=36
+    SE38
+Create Program (z)
+*Declare a variable to hold the input number
+DATA: number TYPE I VALUE -5.
+*Check if the number is positive, negative, or zero
+IF number > 0.
+  WRITE: / 'The number', number, 'is positive.'.
+ELSEIF number < 0.
+  WRITE: / 'The number', number, 'is negative.'.
+ELSE.
+  WRITE: / 'The number is zero.'.
+ENDIF.
 
-print("")
-z_score=(sample_mean-population_mean)/(population_std/sample_size**0.5)
-print("Z-score:",z_score)
-
-p_value=2*(1-norm.cdf(abs(z_score)))
-print("P-value:",p_value)
-
-alpha=0.05
-if p_value<alpha:
-    print("Reject the null hypothesis")
-else:
-    print("Accept the null hypothesis")
      
       `;
 
@@ -162,56 +98,12 @@ else:
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-from scipy import stats
-import matplotlib.pyplot as plt
-import numpy as np
+SE11
+Make Domain
+Make Data Type (Data Element)
+Make Database table
+Add entry and display
 
-# given data
-overall_mean = 74.5
-overall_std = 8.0
-sample_mean = 75.9
-sample_size = 200
-alpha = 0.05
-
-#hypothsis null and alterntative
-
-null_hypo = overall_mean>sample_mean #assuming higher mean at the college(one tail)
-
-alternative_hypo = !null_hypo
-
-z_score = (sample_mean - overall_mean)/(overall_std/np.sqrt(sample_size))
-print("Z Score:-",z_score)
-
-pval = 1 - stats.norm.cdf(z_score)
-print("P Value:-",pval)
-
-if pval < alpha:
-  print("reject")
-else:
-  print("accept")
-
-
-
-# two tail key value
-pval2 = 2 * (1 - stats.norm.cdf(abs(z_score)))
-print("P Value:-",pval2)
-
-if pval2 < alpha:
-  print("reject")
-else:
-  print("accept")
-
-
-from scipy.stats import norm
-x = np.linspace(overall_mean - 3 * overall_std, overall_mean + 3 * overall_std,100)
-plt.plot(x, norm.pdf(x,overall_mean,overall_std), label = 'Normal Distribution')
-plt.axvline(x = overall_mean,color = 'g',linestyle = '--', label = 'Overall Mean')
-plt.axvline(x = sample_mean,color = 'r',linestyle = '-', label = 'Sample Mean')
-plt.xlabel('Exam Grade')
-plt.ylabel('Prabability Density')
-plt.title('Normal Distribution Visualization')
-plt.legend()
-plt.show()
 
       
       `;
@@ -242,40 +134,24 @@ plt.show()
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
- print("One Way Annova")
-import pandas as pd
-from scipy.stats import f_oneway
-data = {"Subject1":[85,95,98,90,84,88,87],
-        "Subject2":[88,93,94,93,80,89,86],
-        "Subject3":[83,90,93,94,88,92,84]}
-df = pd.DataFrame(data)
-df.head()
-f,p = f_oneway(df["Subject1"],df["Subject2"],df["Subject3"])
-print("F-statistic:",f)
-print("p-value:",p)
-
-if p<0.05:
-    print("Reject the null hypothesis")
-else:
-    print("Accept the null hypothesis")
-
-
-print("Two Way Annova")
-import pandas as pd
-from scipy.stats import f_oneway
-import statsmodels.api as sm
-from statsmodels.formula.api import ols
-import numpy as np
-
-data = {'blend':['x','x','x','x','y','y','y','y','z','z','z','z'],
-        'crop':['wheat','corn','soya','rice','wheat','corn','soya','rice','wheat','corn','soya','rice'],
-        'values':[123,138,110,151,145,165,140,167,156,176,185,175]}
-df=pd.DataFrame(data)
-print(df)
-
-model=ols('values~C(blend)+C(crop)+C(blend):C(crop)',data=df).fit()
-print(model.summary())
-
+ SE38
+Create Program (z)
+*Declaration of variables
+DATA: number    TYPE i VALUE 5,
+      factorial TYPE i VALUE 1.
+*Subroutine to calculate factorial
+FORM calculate_factorial USING num TYPE i
+                         CHANGING fact TYPE i.
+  DATA i TYPE i.
+  fact = 1.
+  DO num TIMES.
+    fact = fact  sy-index.
+  ENDDO.
+ENDFORM.
+*Main program logic
+START-OF-SELECTION.
+  PERFORM calculate_factorial USING number CHANGING factorial.
+  WRITE: / 'Factorial of', number, 'is', factorial.
 
       
       `;
@@ -306,73 +182,31 @@ print(model.summary())
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
+SE11
+Make Domain
+Make Data Type (Data Element)
+Make Database table (id,Name,DEPT_NO)
+Add entry and display
+SE38
+Create Program (z)
 
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error, r2_score
+*Internal table to hold employee data
+DATA: lt_STUDENTS TYPE TABLE OF ZEMP_GRP2.
+ *Fetch data from database
+SELECT * FROM ZEMP_GRP2 INTO TABLE lt_STUDENTS.
+ *ALV display function module
+CALL FUNCTION 'REUSE_ALV_LIST_DISPLAY'
+  EXPORTING
+    i_structure_name = ' ZEMP_GRP2'
+  TABLES
+    t_outtab        = lt_STUDENTS
+  EXCEPTIONS
+    program_error   = 1
+    others          = 2.
+IF sy-subrc <> 0.
+  WRITE: / 'Error displaying ALV report'.
+ENDIF.
 
-# Generate synthetic dataset
-np.random.seed(42)
-sizes = np.random.normal(2000, 500, 1000).astype(int)
-bedrooms = np.random.choice([1, 2, 3, 4, 5], 1000)
-bathrooms = np.random.choice([1, 2, 3], 1000)
-ages = np.random.normal(15, 10, 1000).astype(int)
-locations = np.random.choice(['Urban', 'Suburban'], 1000)
-
-def calculate_price(size, bedrooms, bathrooms, age, location):
-    base_price = 50000
-    price = base_price + size * 150 + bedrooms * 25000 + bathrooms * 12000 - age * 2000
-    return price * (1.2 if location == 'Urban' else 1.0)
-
-prices = [calculate_price(sizes[i], bedrooms[i], bathrooms[i], ages[i], locations[i]) for i in range(1000)]
-
-# Create DataFrame
-house_data = pd.DataFrame({
-    'Size': sizes,
-    'Bedrooms': bedrooms,
-    'Bathrooms': bathrooms,
-    'Age': ages,
-    'Location': locations,
-    'Price': prices
-})
-
-# Linear Regression
-house_data = pd.get_dummies(house_data, columns=['Location'], drop_first=True)
-X = house_data.drop('Price', axis=1)
-y = house_data['Price']
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-model = LinearRegression()
-model.fit(X_train, y_train)
-
-y_pred = model.predict(X_test)
-
-# Evaluation
-mse = mean_squared_error(y_test, y_pred)
-r2 = r2_score(y_test, y_pred)
-
-print("")
-print("\nModel Coefficients:")
-for i, col in enumerate(X.columns):
-    print(f"{col}: {model.coef_[i]}")
-
-print("\nMean Squared Error:", mse)
-print("R² Score:", r2)
-
-# Visualization
-plt.figure(figsize=(10, 6))
-plt.scatter(np.arange(len(y_test)), y_test, color='blue', label='Actual Prices', alpha=0.6)
-plt.scatter(np.arange(len(y_pred)), y_pred, color='orange', label='Predicted Prices', alpha=0.6)
-plt.xlabel("Sample Index")
-plt.ylabel("House Prices")
-plt.title("Actual Prices vs Predicted Prices\n", fontsize=14)
-plt.axhline(0, color='black', linewidth=0.5, ls='--')
-plt.legend()
-plt.grid()
-plt.show()
 
 
 `;
@@ -403,36 +237,40 @@ plt.show()
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-import numpy as np
-from scipy.stats import pearsonr, spearmanr
+SE38
+Create Program (z)
+CLASS ZCL_PERSON DEFINITION.
+  PUBLIC SECTION.
+    DATA: name TYPE STRING,
+          age TYPE I.
+METHODS: set_name IMPORTING i_name TYPE STRING,
+             set_age IMPORTING i_age TYPE I,
+             get_name RETURNING VALUE(r_name) TYPE STRING,
+             get_age RETURNING VALUE(r_age) TYPE I.
+ENDCLASS.
+CLASS ZCL_PERSON IMPLEMENTATION.
+  METHOD set_name.
+    name = i_name.
+  ENDMETHOD.
+ METHOD set_age.
+    age = i_age.
+  ENDMETHOD.
+ METHOD get_name.
+    r_name = name.
+  ENDMETHOD.
+ METHOD get_age.
+    r_age = age.
+  ENDMETHOD.
+ENDCLASS.
+START-OF-SELECTION.
+  DATA: person TYPE REF TO ZCL_PERSON.
 
-# Sample data for two variables X and Y
-X = np.array([43, 21, 25, 42, 57, 59, 63, 55, 47, 58])
-Y = np.array([99, 65, 79, 75, 87, 81, 109, 92, 80, 103])
+  CREATE OBJECT person.
+  person->set_name( 'name' ).
+  person->set_age(  ).
 
-# 1. Calculate Pearson correlation coefficient
-pearson_corr, pearson_p_value = pearsonr(X, Y)
-
-# 2. Calculate Spearman rank correlation coefficient
-spearman_corr, spearman_p_value = spearmanr(X, Y)
-
-# Print results
-print("Pearson Correlation Coefficient:")
-print(f"Coefficient: {pearson_corr:.3f}, P-value: {pearson_p_value:.3f}")
-
-print("\nSpearman Rank Correlation Coefficient:")
-print(f"Coefficient: {spearman_corr:.3f}, P-value: {spearman_p_value:.3f}")
-
-# Interpretation
-if pearson_p_value < 0.05:
-    print("\nPearson correlation is statistically significant.")
-else:
-    print("\nPearson correlation is not statistically significant.")
-
-if spearman_p_value < 0.05:
-    print("Spearman correlation is statistically significant.")
-else:
-    print("Spearman correlation is not statistically significant.")
+  WRITE: / 'Name:', person->get_name( ),
+         / 'Age:', person->get_age( ).
 
 
 
@@ -464,656 +302,38 @@ else:
       // Your variable containing multiline text data
       var yourMultilineVariable = ` 
       
-  import numpy as np
-import pandas as pd
+SE11
+Make Domain
+Make Data Type (Data Element)
+Make Database table (ID,NAME,DEPTID)
+Make Database table (DEPTID,DEPT_NAME)
+Add entry and display
+SE38
+Create Program (z)
+*Declare internal table and work area for the joined data
+TYPES: BEGIN OF ty_empdept,
+         emp_id TYPE ZEMP_ACCC-ID,
+         emp_name TYPE ZEMP_ACCC-NAME,
+         dept_name TYPE ZDEPT_ACCC-DEPT_NAME,
+       END OF ty_empdept.
+
+DATA: lt_empdept TYPE TABLE OF ty_empdept,
+      ls_empdept TYPE ty_empdept.
+
+*Select data using INNER JOIN
+SELECT a~ID AS emp_id, a~NAME AS emp_name, b~DEPT_NAME AS dept_name
+  INTO CORRESPONDING FIELDS OF TABLE @lt_empdept
+  FROM ZEMP_ACCC AS a
+  INNER JOIN ZDEPT_ACCC AS b ON a~DEPTID = b~DEPTID.
+
+*Display the joined data
+LOOP AT lt_empdept INTO ls_empdept.
+  WRITE: / 'Employee ID:', ls_empdept-emp_id,
+         / 'Employee Name:', ls_empdept-emp_name,
+         / 'Department:', ls_empdept-dept_name.
+ENDLOOP.
 
-# Define the treatments, subjects, and seasons
-treatments = ['Drip Irrigation', 'Sprinkler Irrigation', 'Surface Irrigation']
-crops = ['Crop 1', 'Crop 2', 'Crop 3']
-seasons = ['Spring', 'Summer', 'Fall']
 
-# Create a 3x3 Latin Square matrix
-latin_square = np.array([
-    [treatments[0], treatments[1], treatments[2]],  # Spring
-    [treatments[1], treatments[2], treatments[0]],  # Summer
-    [treatments[2], treatments[0], treatments[1]],  # Fall
-])
-
-# Create a DataFrame for the Latin Square Design
-experiment_design = pd.DataFrame(latin_square, columns=crops, index=seasons)
-
-print("")
-# Display the experiment design
-print("Latin Square Design:")
-print(experiment_design)
-
-# Data collection: heights of crops after one month (in cm)
-data = {
-    'Crop 1': [25, 30, 28],  # Growth corresponding to the design
-    'Crop 2': [35, 32, 30],
-    'Crop 3': [29, 33, 31]
-}
-
-# Create a DataFrame for the collected data
-growth_data = pd.DataFrame(data, index=seasons)
-print("\nCollected Crop Growth Data (cm):")
-print(growth_data)
-
-import statsmodels.api as sm
-from statsmodels.formula.api import ols
-
-# Reshape the data for ANOVA
-growth_data_melted = growth_data.reset_index().melt(id_vars='index', var_name='Crop', value_name='Growth')
-growth_data_melted.columns = ['Season', 'Crop', 'Growth']
-
-# Fit the ANOVA model
-model = ols('Growth ~ C(Crop) + C(Season)', data=growth_data_melted).fit()
-anova_table = sm.stats.anova_lm(model, typ=2)
-
-# Display the ANOVA results
-print("\nANOVA Results:")
-print(anova_table)
-
-      `;
-
-      // Assign the variable's value to the text variable
-      var text = yourMultilineVariable;
-
-      // Create a temporary textarea element to hold the text
-      var tempTextArea = document.createElement("textarea");
-      tempTextArea.value = text;
-
-      // Append the textarea element to the DOM
-      document.body.appendChild(tempTextArea);
-
-      // Select the text in the textarea
-      tempTextArea.select();
-      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
-
-      // Copy the selected text to the clipboard
-      document.execCommand("copy");
-
-      // Remove the temporary textarea
-      document.body.removeChild(tempTextArea);
-
-      
-    }
-    function copyMultilineText8() {
-      // Your variable containing multiline text data
-      var yourMultilineVariable = ` 
-
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-
-#Generate the data with a clear upward trend
-np.random.seed(0)
-time= np.arange(100)
-trend= 0.5*time
-noise= np.random.normal(0,5,size=100)
-
-data = trend + noise
-
-#Create a dataframe
-df_trend = pd.DataFrame({'Time':time,'data':data})
-print("  ")
-plt.figure(figsize=(10,6))
-plt.plot(df_trend['Time'],df_trend['data'],label='Data with Trend', color='blue')
-plt.plot(df_trend['Time'],trend,label='Linear',linestyle='--',color='red')
-plt.title('Trend Example with an upward trend')
-plt.xlabel('Time')
-plt.ylabel('Data')
-plt.legend()
-plt.show()
-
-      
-      `;
-
-      // Assign the variable's value to the text variable
-      var text = yourMultilineVariable;
-
-      // Create a temporary textarea element to hold the text
-      var tempTextArea = document.createElement("textarea");
-      tempTextArea.value = text;
-
-      // Append the textarea element to the DOM
-      document.body.appendChild(tempTextArea);
-
-      // Select the text in the textarea
-      tempTextArea.select();
-      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
-
-      // Copy the selected text to the clipboard
-      document.execCommand("copy");
-
-      // Remove the temporary textarea
-      document.body.removeChild(tempTextArea);
-
-      
-    }
-    function copyMultilineText9() {
-      // Your variable containing multiline text data
-      var yourMultilineVariable = ` 
-
-
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-
-#Generate the data with a clear seasonal variation
-np.random.seed(0)
-time = np.arange(0,100)
-seasonality = 10*np.sin(2*np.pi*time/12)
-noise = np.random.normal(0.2,size=100)
-data = 50 + seasonality + noise
-
-#Create a dataframe
-df_seasonal = pd.DataFrame({'Time':time,'data':data})
-print("  ")
-plt.figure(figsize=(10,6))
-plt.plot(df_seasonal['Time'],df_seasonal['data'],label='Data with Seasonal Variation',color='blue')
-plt.plot(df_seasonal['Time'],seasonality,label='Seasonal Variation',linestyle='--',color='red')
-plt.title('Seasonal Variation Example')
-plt.xlabel('Time')
-plt.ylabel('Data')
-plt.legend()
-plt.show()
-      
-      `;
-
-      // Assign the variable's value to the text variable
-      var text = yourMultilineVariable;
-
-      // Create a temporary textarea element to hold the text
-      var tempTextArea = document.createElement("textarea");
-      tempTextArea.value = text;
-
-      // Append the textarea element to the DOM
-      document.body.appendChild(tempTextArea);
-
-      // Select the text in the textarea
-      tempTextArea.select();
-      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
-
-      // Copy the selected text to the clipboard
-      document.execCommand("copy");
-
-      // Remove the temporary textarea
-      document.body.removeChild(tempTextArea);
-
-      
-    }
-    function copyMultilineText10() {
-      // Your variable containing multiline text data
-      var yourMultilineVariable = ` 
-
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-
-#Generate the data with a clear seasonal variation
-np.random.seed(0)
-time = np.arange(0,100)
-cycle = 20*np.sin(2*np.pi*time/50)
-noise = np.random.normal(0.2,size=100)
-data = 50 + cycle + noise
-
-#Create a dataframe
-df_cycle = pd.DataFrame({'Time':time,'data':data})
-print("  ")
-plt.figure(figsize=(10,6))
-plt.plot(df_cycle['Time'],df_cycle['data'],label='Data with Seasonal Variation',color='blue')
-plt.title('Seasonal Variation Example')
-plt.xlabel('Time')
-plt.ylabel('Data')
-plt.legend()
-plt.show()
-
-      
-      `;
-
-      // Assign the variable's value to the text variable
-      var text = yourMultilineVariable;
-
-      // Create a temporary textarea element to hold the text
-      var tempTextArea = document.createElement("textarea");
-      tempTextArea.value = text;
-
-      // Append the textarea element to the DOM
-      document.body.appendChild(tempTextArea);
-
-      // Select the text in the textarea
-      tempTextArea.select();
-      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
-
-      // Copy the selected text to the clipboard
-      document.execCommand("copy");
-
-      // Remove the temporary textarea
-      document.body.removeChild(tempTextArea);
-
-      
-    }
-    function copyMultilineText11() {
-      // Your variable containing multiline text data
-      var yourMultilineVariable = ` 
-
-
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-
-np.random.seed(0)
-time = np.arange(0,100)
-noise = np.random.normal(0,10,size=100)
-
-df_irregular = pd.DataFrame({'Time':time,'data':noise})
-print("  ")
-plt.figure(figsize=(10,6))
-plt.plot(df_irregular['Time'],df_irregular['data'],label='Data with Seasonal Variation',color='blue')
-plt.xlabel('Time')
-plt.ylabel('Data')
-plt.title('Irregular Fluctuation Example')
-plt.legend()
-plt.show()
-      
-      `;
-
-      // Assign the variable's value to the text variable
-      var text = yourMultilineVariable;
-
-      // Create a temporary textarea element to hold the text
-      var tempTextArea = document.createElement("textarea");
-      tempTextArea.value = text;
-
-      // Append the textarea element to the DOM
-      document.body.appendChild(tempTextArea);
-
-      // Select the text in the textarea
-      tempTextArea.select();
-      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
-
-      // Copy the selected text to the clipboard
-      document.execCommand("copy");
-
-      // Remove the temporary textarea
-      document.body.removeChild(tempTextArea);
-
-      
-    }
-    function copyMultilineText12() {
-      // Your variable containing multiline text data
-      var yourMultilineVariable = ` 
-
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from statsmodels.tsa.seasonal import seasonal_decompose
-
-data = pd.read_csv('airline-passengers.csv', index_col='Month', parse_dates=True)
-
-#decompose the time series into trend, seasonal and residual component
-
-result = seasonal_decompose(data['Passengers'],model='multiplicative')
-print("  ")
-result.plot()
-plt.suptitle('Decomposition of Airline Passenger',fontsize=7.5)
-plt.show()
-
-      
-      `;
-
-      // Assign the variable's value to the text variable
-      var text = yourMultilineVariable;
-
-      // Create a temporary textarea element to hold the text
-      var tempTextArea = document.createElement("textarea");
-      tempTextArea.value = text;
-
-      // Append the textarea element to the DOM
-      document.body.appendChild(tempTextArea);
-
-      // Select the text in the textarea
-      tempTextArea.select();
-      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
-
-      // Copy the selected text to the clipboard
-      document.execCommand("copy");
-
-      // Remove the temporary textarea
-      document.body.removeChild(tempTextArea);
-
-      
-    }
-    function copyMultilineText13() {
-      // Your variable containing multiline text data
-      var yourMultilineVariable = ` 
-
-
-!pip install yfinance
-import yfinance as yf
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from statsmodels.tsa.seasonal import seasonal_decompose
-
-stock_symbol = 'SUZLON.NS'
-stock_data = yf.download(stock_symbol,start='2019-01-01', end='2024-09-28')
-print("  ")
-print(stock_data.head())
-print(stock_data.tail())
-print("  ")
-plt.figure(figsize=(12,6))
-plt.plot(stock_data.index, stock_data['Adj Close'], label='Adjusted Close Price', color='blue')
-plt.title('Stock Price Analysis')
-plt.xlabel('Date')
-plt.ylabel('Adjusted Close Price')
-plt.legend()
-plt.show()
-
-stock_data_monthly = stock_data['Adj Close'].resample('M').mean()
-decompose_result = seasonal_decompose(stock_data_monthly, model='multiplicative')
-print("  ")
-decompose_result.plot()
-plt.suptitle('Decomposition of Stock Price',fontsize=10)
-plt.show()
-
-#Calculate Simple moving average of 15 - 200 days
-
-stock_data['SMA_50'] = stock_data['Adj Close'].rolling(window=15).mean()
-stock_data['SMA_200'] = stock_data['Adj Close'].rolling(window=200).mean()
-print("  ")
-plt.figure(figsize=(12,6))
-plt.plot(stock_data.index, stock_data['Adj Close'], label='Adjusted Close Price', color='blue')
-plt.plot(stock_data.index, stock_data['SMA_50'], label='SMA_50', color='green')
-plt.plot(stock_data.index, stock_data['SMA_200'], label='SMA_200', color='red')
-plt.title('Stock Price Analysis with Moving Average')
-plt.xlabel('Date')
-plt.ylabel('Adjusted Close Price')
-plt.legend()
-plt.show()
-      
-      `;
-
-      // Assign the variable's value to the text variable
-      var text = yourMultilineVariable;
-
-      // Create a temporary textarea element to hold the text
-      var tempTextArea = document.createElement("textarea");
-      tempTextArea.value = text;
-
-      // Append the textarea element to the DOM
-      document.body.appendChild(tempTextArea);
-
-      // Select the text in the textarea
-      tempTextArea.select();
-      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
-
-      // Copy the selected text to the clipboard
-      document.execCommand("copy");
-
-      // Remove the temporary textarea
-      document.body.removeChild(tempTextArea);
-
-      
-    }
-    function copyMultilineText14() {
-      // Your variable containing multiline text data
-      var yourMultilineVariable = ` 
-
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from statsmodels.tsa.seasonal import seasonal_decompose
-from statsmodels.tsa.arima.model import ARIMA
-
-# Load the dataset
-data = {
-    'Date': [
-        '1981-01-01', '1981-01-02', '1981-01-03', '1981-01-04', '1981-01-05',
-        '1981-01-06', '1981-01-07', '1981-01-08', '1981-01-09', '1981-01-10'
-    ],
-    'Temp': [
-        20.7, 17.9, 18.8, 14.6, 15.8,
-        19.2, 22.1, 23.5, 21.0, 18.4
-    ]
-}
-
-# Create a DataFrame
-df = pd.DataFrame(data)
-
-# Data Preprocessing
-df['Date'] = pd.to_datetime(df['Date'])
-df.set_index('Date', inplace=True)
-
-# Display the first few rows of the dataset
-print("  ")
-print(df.head())
-print(df.tail())
-
-# Trend Analysis
-plt.figure(figsize=(12, 6))
-plt.plot(df['Temp'], label='Daily Minimum Temperature', color='blue')
-plt.title('Daily Minimum Temperature Over Time\n   ', fontsize=14)
-plt.xlabel('Date')
-plt.ylabel('Temperature (°C)')
-plt.legend()
-plt.show()
-
-# Seasonal Decomposition with period of 5
-decomposition = seasonal_decompose(df['Temp'], model='additive', period=5)  # Adjusted period
-trend = decomposition.trend
-seasonal = decomposition.seasonal
-residual = decomposition.resid
-
-# Plot the decomposition
-plt.figure(figsize=(12, 12))
-plt.subplot(4, 1, 1)
-plt.plot(df['Temp'], label='Original', color='blue')
-plt.legend(loc='upper left')
-
-plt.subplot(4, 1, 2)
-plt.plot(trend, label='Trend', color='orange')
-plt.legend(loc='upper left')
-
-plt.subplot(4, 1, 3)
-plt.plot(seasonal, label='Seasonal', color='green')
-plt.legend(loc='upper left')
-
-plt.subplot(4, 1, 4)
-plt.plot(residual, label='Residual', color='red')
-plt.legend(loc='upper left')
-
-plt.tight_layout()
-plt.suptitle('Decomposition of Daily Minimum Temperature\n   ', fontsize=14)
-plt.show()
-
-# Forecasting with ARIMA
-model = ARIMA(df['Temp'].dropna(), order=(1, 1, 0))  # Adjust parameters as needed
-model_fit = model.fit()
-
-# Generate forecast for the next 30 days
-forecast = model_fit.forecast(steps=30)
-
-# Prepare forecast dates
-forecast_dates = pd.date_range(start=df.index[-1] + pd.Timedelta(days=1), periods=30)
-
-# Visualization of forecast results
-plt.figure(figsize=(12, 6))
-plt.plot(df['Temp'], label='Historical Temperature', color='blue')
-plt.plot(forecast_dates, forecast, label='Forecasted Temperature', color='orange')
-plt.title('Temperature Forecast\n   ', fontsize=14)
-plt.xlabel('Date')
-plt.ylabel('Temperature (°C)')
-plt.legend()
-plt.show()
-
-      
-      `;
-
-      // Assign the variable's value to the text variable
-      var text = yourMultilineVariable;
-
-      // Create a temporary textarea element to hold the text
-      var tempTextArea = document.createElement("textarea");
-      tempTextArea.value = text;
-
-      // Append the textarea element to the DOM
-      document.body.appendChild(tempTextArea);
-
-      // Select the text in the textarea
-      tempTextArea.select();
-      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
-
-      // Copy the selected text to the clipboard
-      document.execCommand("copy");
-
-      // Remove the temporary textarea
-      document.body.removeChild(tempTextArea);
-
-      
-    }
-    function copyMultilineText15() {
-      // Your variable containing multiline text data
-      var yourMultilineVariable = ` 
-
-
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from statsmodels.tsa.seasonal import seasonal_decompose
-from statsmodels.tsa.statespace.sarimax import SARIMAX
-from sklearn.metrics import mean_squared_error
-
-# Define dataset
-data_dict = {
-    'Date': pd.date_range(start='2021-01-01', periods=24, freq='M'),
-    'Sales': [
-        230, 220, 250, 260, 290, 350, 310, 320, 315, 380, 210, 350,  # Year 1
-        245, 235, 270, 280, 310, 320, 330, 335, 325, 290, 280, 370   # Year 2
-    ]
-}
-data = pd.DataFrame(data_dict)
-data.set_index('Date', inplace=True)
-
-print(" ")
-
-# Plot sales data
-plt.figure(figsize=(12, 6))
-plt.plot(data['Sales'], label='Monthly Sales')
-plt.title('Monthly Sales\n ', fontsize=14)
-plt.xlabel('Date')
-plt.ylabel('Sales')
-plt.legend()
-plt.show()
-
-# Decomposition
-decomposition = seasonal_decompose(data['Sales'], model='additive', period=12)
-decomposition.plot()
-plt.suptitle('Sales Decomposition\n ', fontsize=14)
-plt.show()
-
-# Train-test split (80-20 split)
-train_size = int(len(data) * 0.8)
-train, test = data.iloc[:train_size], data.iloc[train_size:]
-print('Train size:', len(train), 'Test size:', len(test))
-
-# Fit SARIMAX model
-model = SARIMAX(train['Sales'], order=(1, 1, 1), seasonal_order=(1, 1, 1, 12),
-                enforce_stationarity=False, enforce_invertibility=False)
-model_fit = model.fit(disp=False)
-print(model_fit.summary())
-
-# Forecast
-forecast = model_fit.get_forecast(steps=len(test))
-forecast_series = forecast.predicted_mean
-conf_int = forecast.conf_int()
-
-# Plot forecast against actual values
-plt.figure(figsize=(12, 6))
-plt.plot(test.index, test['Sales'], label='Actual Sales', marker='o')
-plt.plot(test.index, forecast_series, label='Forecasted Sales', color='red', marker='o')
-plt.fill_between(forecast_series.index, conf_int.iloc[:, 0], conf_int.iloc[:, 1], color='pink', alpha=0.3)
-plt.title('Monthly Sales Forecast\n ', fontsize=14)
-plt.xlabel('Date')
-plt.ylabel('Sales')
-plt.legend()
-plt.show()
-
-# Evaluate model
-mse = mean_squared_error(test['Sales'], forecast_series)
-print('Mean Squared Error (MSE):', mse)
-
-# Final Model Fitting for future prediction
-final_model = SARIMAX(data['Sales'], order=(1, 1, 1), seasonal_order=(1, 1, 1, 12),
-                      enforce_stationarity=False, enforce_invertibility=False)
-final_model_fit = final_model.fit()
-
-# Future forecast (12 months ahead)
-future_forecast = final_model_fit.get_forecast(steps=12)
-future_index = pd.date_range(start=data.index[-1] + pd.Timedelta(days=1), periods=12, freq='M')
-future_forecast_series = pd.Series(future_forecast.predicted_mean, index=future_index)
-future_conf_int = future_forecast.conf_int()
-
-# Plot future forecast
-plt.figure(figsize=(12, 6))
-plt.plot(data.index, data['Sales'], label='Historical Sales')
-plt.plot(future_forecast_series.index, future_forecast_series, label='Future Forecasted Sales', color='green', marker='o')
-plt.fill_between(future_forecast_series.index, future_conf_int.iloc[:, 0], future_conf_int.iloc[:, 1], color='lightgreen', alpha=0.3)
-plt.title('Future Sales Forecast\n ', fontsize=14)
-plt.xlabel('Date')
-plt.ylabel('Sales')
-plt.legend()
-plt.show()
-      
-      `;
-
-      // Assign the variable's value to the text variable
-      var text = yourMultilineVariable;
-
-      // Create a temporary textarea element to hold the text
-      var tempTextArea = document.createElement("textarea");
-      tempTextArea.value = text;
-
-      // Append the textarea element to the DOM
-      document.body.appendChild(tempTextArea);
-
-      // Select the text in the textarea
-      tempTextArea.select();
-      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
-
-      // Copy the selected text to the clipboard
-      document.execCommand("copy");
-
-      // Remove the temporary textarea
-      document.body.removeChild(tempTextArea);
-
-      
-    }
-    function copyMultilineText16() {
-      // Your variable containing multiline text data
-      var yourMultilineVariable = ` 
-
-
-import scipy.stats as stats
-import numpy as np
-
-# Sample data (x and y values)
-x = np.array([59, 65, 45, 52, 60, 62, 70, 55, 45, 49])
-y = np.array([76, 70, 55, 65, 60, 64, 80, 65, 54, 61])
-
-slope_yx, intercept_yx, r_value_yx, p_value_yx, std_err_yx = stats.linregress(y, x)
-slope_xy, intercept_xy, r_value_xy, p_value_xy, std_err_xy = stats.linregress(x, y)
-
-estimate_yx = slope_yx * 61 + intercept_yx
-
-# Output results
-print("slope_yx:", slope_yx)
-print("intercept_yx:", intercept_yx)
-print("slope_xy:", slope_xy)
-print("intercept_xy:", intercept_xy)
-print("estimate_yx:", estimate_yx)
-      
       `;
 
       // Assign the variable's value to the text variable
