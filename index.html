@@ -4,76 +4,50 @@
   <title>Copy Multiline Variable Text to Clipboard</title>
 </head>
 <body>
-  <button onclick="copyMultilineText1()">p1-Spam Classifier</button>
-  <button onclick="copyMultilineText2()">p2-Apriori Algorithm</button>
-  <button onclick="copyMultilineText3()">p3-basic crawler</button>
-  <button onclick="copyMultilineText4()">p4-Sentiment analysis</button>
-  <button onclick="copyMultilineText5()">p5-Link Analysis and PageRank</button>
-  <button onclick="copyMultilineText6()">p6-Scrape social media</button>
-  <button onclick="copyMultilineText7()">p7-Web Crawling and Indexing</button>
-  <button onclick="copyMultilineText8()">p8-focused crawler</button>
+  <button onclick="copyMultilineText1()">p1-Color Maps in Matplotlib</button>
+  <button onclick="copyMultilineText2()">p2-Geospatial Visualization</button>
+  <button onclick="copyMultilineText3()">p3- Geo Visual with Folium</button>
+  <button onclick="copyMultilineText4()">p4-Moon Using Astropy</button>
+  <button onclick="copyMultilineText5()">p5-COVID-19 Cases Using Plotly Express</button>
+  <button onclick="copyMultilineText6()">p6-Linear Regression Analysis Diabities</button>
+  <button onclick="copyMultilineText7()">p7-Word Cloud </button>
+  <button onclick="copyMultilineText8()">p8-Cassandra</button>
+  <button onclick="copyMultilineText9()">p8-vid to img</button>
+  <button onclick="copyMultilineText10()">p8-mongo db</button>
+  <button onclick="copyMultilineText11()">p8-audio to horus</button>
+  <button onclick="copyMultilineText12()">p8-Data Analysis and Visualization</button>
   
   <script>
     function copyMultilineText1() {
       // Your variable containing multiline text data
       var yourMultilineVariable = `
       
-  import tensorflow as tf
-import numpy as np
-from tensorflow.keras.preprocessing.text import Tokenizer
-from tensorflow.keras.preprocessing.sequence import pad_sequences
+ # Import the necessary libraries
+import matplotlib.pyplot as plt  # For creating plots
+import numpy as np  # For numerical operations, especially for generating random numbers
 
-dataset = (
-    "Hey, You got a lottery worth of $1000000!",
-    "Can we have a lunch today?",
-    "Congratulations, you won a prize in RummyCircle!",
-    "An amount of $10000 has been credited to your Poker Account",
-    "Your meeting will start at 5:00PM Today",
-    "it's an important call for you"
-)
+# Loop through the color maps, limiting to the first 5
+for index, i in enumerate(plt.colormaps()):
+    if index >= 3:  # Stop the loop after 5 iterations
+        break
 
-label = (1,0,1,1,0,0)
+    # Set the title for each plot based on the color map name
+    sTitle = '  \n Color Map: ' + i
 
-max_words, word_len = 1000, 50
+    # Create a figure for the plot with a specific size
+    fig = plt.figure(figsize=(4, 4))
 
-tokenizer = Tokenizer(num_words=max_words, oov_token = "<OOV>")
-tokenizer.fit_on_texts(dataset)
-sequences = tokenizer.texts_to_sequences(dataset)
-padded_sequences = pad_sequences(sequences, maxlen=word_len, padding='post', truncating='post')
-print(padded_sequences)
+    # Set the title for the plot
+    plt.title(sTitle)
 
-model = tf.keras.Sequential([
-    tf.keras.layers.Embedding(input_dim=max_words, output_dim=16),
-    tf.keras.layers.Flatten(),
-    tf.keras.layers.Dense(16, activation='relu'),
-    tf.keras.layers.Dense(1, activation='sigmoid')
-])
+    # Generate a random 10x10 matrix and plot it as an image
+    imgplot = plt.imshow(np.random.rand(10, 10))
 
-model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+    # Apply the current color map to the image plot
+    imgplot.set_cmap(i)
 
-training_sequence = np.array(padded_sequences)
-training_label = np.array(label)
-
-print("==========================================")
-print(training_sequence)
-
-print("==========================================")
-print(training_label)
-
-model.fit(training_sequence, training_label, epochs=50)
-
-def check_is_spam(email, threshold = 0.5):
-  sequences = tokenizer.texts_to_sequences([email])
-  padded_sequences = pad_sequences(sequences, maxlen=word_len, padding='post', truncating='post')
-  prediction = model.predict(padded_sequences)[0][0]
-  if prediction > threshold:
-        print(f"Probably Spam mail, Score: {prediction:.2f}")
-  else:
-        print(f"Probably Not a Spam mail, Score: {prediction:.2f}")
-
-check_is_spam("hey, congratulations you won a lottery of $200")
-check_is_spam("You have meeting today at 3:00 PM")
-check_is_spam("Hey, You got a lottery worth of $1000000!")
+    # Display the plot
+    plt.show()
 
       
       `;
@@ -104,38 +78,26 @@ check_is_spam("Hey, You got a lottery worth of $1000000!")
       // Your variable containing multiline text data
       var yourMultilineVariable = `
       
-  from mlxtend.frequent_patterns import apriori
-from mlxtend.frequent_patterns import association_rules
+ #Visualising Geospecial data with geopanda
+!pip install fiona
+import geopandas as gpd
+import matplotlib.pyplot as plt
+import fiona
+from shapely.geometry import Point # Import the Point object
 
-import pandas as pd
+fiona.drvsupport.supported_drivers['ESRI Shapefile'] = 'rw'
+with fiona.Env(SHAPE_RESTORE_SHX='YES'):
+  india_gdf = gpd.read_file("/content/india_st.shp")
 
-
-dataset = [
-    ['Milk', 'Bread','Nuts'],
-     ['Milk', 'Bread'],
-      ['Milk', 'Eggs','Nuts'],
-       ['Milk', 'Bread','Eggs'],
-        ['Bread', 'Nuts'],
-    ]
-
-df = pd.DataFrame(dataset)
-print("")
-print("------:Database:------")
-print(df)
-
-df_encoded = pd.get_dummies(df, prefix='',prefix_sep='')
-print("------:Encoded:------")
-print(df_encoded)
-
-frequent_itemsets = apriori(df_encoded, min_support=0.5, use_colnames=True)
-print("------:Frequent Itemsets:------")
-print(frequent_itemsets)
-
-rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.1)
-print("------:Association Rules:------")
-print(rules)
-print("")
-
+#Mumbai City in Bharat
+mumbai=gpd.GeoDataFrame([{'City':'Mumbai','geometry':Point(72.877,19.0760)}],crs="EPSG:4326")
+fig,ax=plt.subplots(1,1,figsize=(10,10))
+india_gdf.plot(ax=ax,color='white',edgecolor="black")
+mumbai.plot(ax=ax,color='red')
+for x,y,label in zip(mumbai.geometry.x,mumbai.geometry.y,mumbai['City']):
+  ax.text(x,y,label)
+plt.title("  \n India")
+plt.show()
      
       `;
 
@@ -165,40 +127,26 @@ print("")
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-print(" ")
+import folium
 import requests
-from bs4 import BeautifulSoup
-import re
+m = folium.Map(location=[20.5937, 78.9629], zoom_start=5)
+geojson_data = requests.get("https://raw.githubusercontent.com/python-visualization/folium/master/examples/data/world-countries.json").json()
+folium.GeoJson(geojson_data, name="India", highlight_function=lambda x: {'fillColor': 'green'}).add_to(m)
+cities = [
+    {"name": "New Delhi", "location": [28.6139, 77.2090], "population": "21.75 million"},
+    {"name": "Mumbai", "location": [19.0760, 72.8777], "population": "20.18 million"},
+    {"name": "Bengaluru", "location": [12.9716, 77.5946], "population": "8.42 million"},
+    {"name": "Chennai", "location": [13.0827, 80.2707], "population": "10.97 million"},
+    {"name": "Kolkata", "location": [22.5726, 88.3639], "population": "14.85 million"}
+]
+folium.GeoJson(geojson_data, name="India", highlight_function=lambda x: {'fillColor': 'green'}).add_to(m)
 
-def crawl_and_search(url, keyword):
-  try:
-    # Fetch the content from the URL
-    response = requests.get(url)
-    response.raise_for_status() # Check if the request was successful
-    page_content = response.text
+for city in cities:
+    folium.Marker(city['location'], popup=f"<b>{city['name']}</b><br>Population: {city['population']}", tooltip=city['name']).add_to(m)
 
-    # Parse the content using BeautifulSoup
-    soup = BeautifulSoup(page_content, 'html.parser')
+m.save("india_cities_map.html")
+m
 
-    # Extract the text from the page
-    text = soup.get_text()
-
-    # Search for the keyword in the text
-    if re.search(keyword, text, re. IGNORECASE):
-      print(f"Keyword '{keyword}' found in {url}")
-    else:
-      print(f"Keyword '{keyword}' not found in {url}")
-
-  except requests.exceptions. RequestException as e:
-    print(f"Failed to retrieve {ur1}: {e}")
-
-# Define the URL and the keyword to search for
-url = input("Enter the URL to crawl: ")
-keyword = input("Enter the keyword to search for: ")
-
-# Start the crawling process
-crawl_and_search(url, keyword)
-print(" ")
 
       
       `;
@@ -229,63 +177,26 @@ print(" ")
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-print(" ")
-import nltk
-from nltk. sentiment.vader import SentimentIntensityAnalyzer
+from astropy.coordinates import solar_system_ephemeris, get_moon, AltAz, EarthLocation
+import astropy.units as u
 import matplotlib.pyplot as plt
-import seaborn as sns
+solar_system_ephemeris.set('builtin')
+from astropy.time import Time
 
-print("")
-# Step 1: Download VADER lexicon if not already done
-nltk.download('vader_lexicon')
+time_utc = Time.now()
 
-# Step 2: Initialize the VADER sentiment intensity analyzer
-sia = SentimentIntensityAnalyzer()
-
-# Step 3: List of customer reviews
-reviews = [
-    "The product quality is amazing, I'm very satisfied!",
-    "Terrible service, I will never buy from here again.",
-    "Decent product, but shipping was too slow.",
-    "Absolutely love it! Will recommend to everyone.",
-    "Not worth the money, very disappointing.",
-    "Great experience overall, but could improve the packaging.",
-    "Mediocre, not what I expected.",
-    "Excellent value for the price, highly recommended.",
-    "Worst purchase I've made this year.",
-    "It's okay, nothing special."
-    ]
-
-# Step 4: Analyze sentiment for each review
-sentiments = []
-for review in reviews:
-  sentiment_score = sia.polarity_scores(review)
-  compound_score = sentiment_score['compound' ]
-
-  if compound_score >= 0.05:
-    sentiments. append('Positive')
-  elif compound_score <= -0.05:
-    sentiments.append('Negative' )
-  else:
-    sentiments.append('Neutral')
-
-# Step 5: Count the occurrences of each sentiment
-sentiment_counts = {
-'Positive': sentiments. count('Positive'),
-'Negative': sentiments.count('Negative'),
-'Neutral': sentiments. count('Neutral')
-}
-
-# Step 6: Visualization
-sns.set(style="whitegrid")
-plt.figure(figsize=(8, 6))
-sns.barplot(x=list(sentiment_counts.keys()), y=list(sentiment_counts.values()),
-palette="viridis")
-plt.title('Sentiment Analysis of Customer Reviews')
-plt.xlabel('Sentiment' )
-plt.ylabel ('Number of Reviews')
+moon = get_moon(time_utc)
+location = EarthLocation.of_site('Kitt Peak')
+moon_altaz = moon.transform_to(AltAz(obstime=time_utc, location=location))
+print(f'Moon coordinates (RA, Dec): {moon.ra}, {moon.dec}')
+print(f'Moon Altitude: {moon_altaz.alt}')
+print(f'Moon Azimuth: {moon_altaz.az}')
+plt.figure(figsize=(10, 8))
+plt.subplot(111, projection='polar')
+plt.title('Moon Position', y=1.1)
+plt.polar(moon.ra.radian, moon.dec.radian, 'o', markersize=10)
+plt.grid(True)
 plt.show()
-print(" ")
       
       `;
 
@@ -315,20 +226,69 @@ print(" ")
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-print(" ")
-import networkx as nx
-G = nx.random_k_out_graph(n=8, k=2, alpha=0.5)
+print("a) Daily COVID-19 Case Trends: A Line Plot Visualization")
+import pandas as pd
+import plotly.express as px
 
-def draw_graph(G):
-  nx.draw_circular(G, node_size=400, with_labels=True)
+# URL for the COVID-19 data
+URL = "https://covid.ourworldindata.org/data/owid-covid-data.csv"
 
-draw_graph(G)
+# Load the dataset into a DataFrame
+df = pd.read_csv(URL)
 
-ranks_pr = nx.pagerank(G)
-print("PageRank:")
+# Filter the DataFrame for the specific country
+country = 'Germany'
+df_country = df[df['location'] == country]
 
-print(ranks_pr)
-print(" ")
+# Select relevant columns for the plot
+df_country = df_country[['date', 'new_cases']]
+
+# Create a line plot to visualize COVID-19 new cases over time for the selected country
+fig = px.line(df_country, x='date', y='new_cases', title=f'  | Corona Cases in {country} over time')
+
+# Show the plot
+fig.show()
+
+
+print("b) Monthly COVID-19 Case Trends: A Bar Plot Visualization")
+#!pip install pandas plotly
+import pandas as pd
+import plotly.express as px
+
+# URL for the COVID-19 data
+URL = "https://covid.ourworldindata.org/data/owid-covid-data.csv"
+
+# Load the dataset into a DataFrame
+df = pd.read_csv(URL)
+
+# Define the country of interest
+country = 'Germany'
+
+# Filter the DataFrame for the specific country
+df_country = df[df['location'] == country]
+
+# Check if the filtered DataFrame is empty and raise an error if so
+if df_country.empty:
+    raise ValueError(f'Country {country} not found in the dataset')
+
+# Convert the 'date' column to datetime format
+df_country['date'] = pd.to_datetime(df_country['date'])
+
+# Extract the month from the date and create a new column for it
+df_country['month'] = df_country['date'].dt.to_period('M')
+
+# Aggregate the data to get the total number of new cases per month
+monthly_cases = df_country.groupby('month')['new_cases'].sum().reset_index()
+
+# Convert the 'month' period to a string for plotting
+monthly_cases['month'] = monthly_cases['month'].astype(str)
+
+# Create a bar plot to visualize the total number of new COVID-19 cases per month
+fig = px.bar(monthly_cases, x='month', y='new_cases', title=f'  | Total Corona Cases in {country} over time')
+
+# Show the plot
+fig.show()
+
 
 `;
 
@@ -358,29 +318,58 @@ print(" ")
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn import datasets, linear_model
+from sklearn.metrics import mean_squared_error, r2_score
+
+# Load the diabetes dataset
+diabetes = datasets.load_diabetes()
+
+# Use only one feature
+diabetes_X = diabetes.data[:, np.newaxis, 2]
+
+# Split the data into training/testing sets
+diabetes_X_train = diabetes_X[:-30]
+diabetes_X_test = diabetes_X[-50:]
+
+# Split the targets into training/testing sets
+diabetes_y_train = diabetes.target[:-30]
+diabetes_y_test = diabetes.target[-50:]
+
+# Create linear regression object
+regr = linear_model.LinearRegression()
+
+# Train the model using the training sets
+regr.fit(diabetes_X_train, diabetes_y_train)
+
+# Make predictions using the testing set
+diabetes_y_pred = regr.predict(diabetes_X_test)
+
+# The coefficients
+print('Coefficients: \n', regr.coef_)
+# The mean squared error
+print("Mean squared error: %.2f"
+% mean_squared_error(diabetes_y_test, diabetes_y_pred))
+# Explained variance score: 1 is perfect prediction
+print('Variance score: %.2f' % r2_score(diabetes_y_test, diabetes_y_pred))
+
+#print("Sample BMI VALUES")
+#for i in range(len(diabetes_X_test)):
+    #print(diabetes_X_test[i])
 print(" ")
-import requests
-from bs4 import BeautifulSoup
+# Plot outputs
+plt.scatter(diabetes_X_test, diabetes_y_test, color='blue')
+plt.plot(diabetes_X_test, diabetes_y_pred, color='red', linewidth=2)
 
+plt.xticks(())
+plt.yticks(())
 
-def check_word_in_webpage(url, word):
-  response = requests. get(url)
-
-  if response.status_code == 200:
-    soup = BeautifulSoup(response.content,'html.parser')
-    text_content = soup.get_text()
-
-    if word.lower() in text_content.lower():
-      print(f"The word '{word}' is present in the webpage.")
-    else:
-      print(f"The word '{word}' is not present in the webpage.")
-  else:
-    print("Failed to retrieve webpage.")
-
-url = input("Enter the url you want to Scrap : ")
-word_to_check = input("Enter the text you want to know which is present or not : ")
-check_word_in_webpage(url, word_to_check)
-print(" ")
+plt.axis('tight')
+plt.title("Diabetes")
+plt.xlabel("BMI")
+plt.ylabel("Age")
+plt.show()
 
 
 `;
@@ -411,61 +400,15 @@ print(" ")
       // Your variable containing multiline text data
       var yourMultilineVariable = ` 
       
-print(" ")
-import requests
-from bs4 import BeautifulSoup
-from urllib.parse import urljoin
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
-import re
-import nltk
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+text = "DANIEL Beauty Power Presonality Vision Illusion Happiness Belives Fairness"
+wordcloud = WordCloud(width=800, height=400, background_color='white').generate(text)
+plt.figure(figsize=(12,12))
+plt.imshow(wordcloud)
+plt.axis('off')
+plt.show()
 
-# Seed URLs
-seed_urls = ['https://indianexpress.com/section/india/', 'https://www.indianretailer.com/restaurant/']
-# Keywords to focus on
-nltk.download('stopwords')
-nltk.download('punkt_tab')
-
-keywords = ['restaurant', 'food', 'local']
-
-# Stop words (to filter out common words)
-stop_words = set(stopwords.words('english'))
-# Visited URLs
-visited = set()
-
-def is_relevant(content, keywords):
-#Check if the content is relevant based on the keywords.
-  words = word_tokenize(content.lower())
-  words = [w for w in words if w.isalnum() and w not in stop_words]
-  return any(keyword in words for keyword in keywords)
-
-def crawl(url):
-#Crawl a single webpage.
-  try:
-    response = requests.get(url)
-    soup = BeautifulSoup(response.content, 'html.parser')
-    text = soup.get_text()
-
-# Check if the content is relevant
-    if is_relevant(text, keywords):
-      print(f"Relevant content found at: {url}")
-# Here you could save the content to a file or database
-
-# Extract links and follow them
-      for link in soup.find_all('a', href=True):
-        new_url = urljoin(url, link['href'])
-        if new_url not in visited and re.match(r'^https ?: //', new_url):
-          visited.add(new_url)
-          crawl(new_url)
-  except requests.exceptions.RequestException as e:
-    print(f"Error crawling {url}: {e}")
-
-# Start crawling from the seed URLs
-for url in seed_urls:
-  if url not in visited:
-    visited.add(url)
-    print(crawl(url))
-print(" ")
 
       `;
 
@@ -495,24 +438,546 @@ print(" ")
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
+ need java 8u40
+cqlsh - start
+help
+show host;
+show version;
+consistency
+describe cluster;
+describe tables;
+describe keyspaces;
+CREATE KEYSPACE DANIEL
+describe keyspaces;
+
+`;
+
+      // Assign the variable's value to the text variable
+      var text = yourMultilineVariable;
+
+      // Create a temporary textarea element to hold the text
+      var tempTextArea = document.createElement("textarea");
+      tempTextArea.value = text;
+
+      // Append the textarea element to the DOM
+      document.body.appendChild(tempTextArea);
+
+      // Select the text in the textarea
+      tempTextArea.select();
+      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
+
+      // Copy the selected text to the clipboard
+      document.execCommand("copy");
+
+      // Remove the temporary textarea
+      document.body.removeChild(tempTextArea);
+
+      
+    }
+    function copyMultilineText9() {
+      // Your variable containing multiline text data
+      var yourMultilineVariable = `
+
+print("a) Extracting Frames from Video: Converting MP4 to JPEG Images")
+# Utility Start Movie to HORUS (Part 1) ======================
+# Standard Tools
+#=============================================================
+import os
+import shutil
+import cv2
+import os
+#=============================================================
+sInputFileName = '/content/video.mp4'
+sDataBaseDir = '/content/DANIEL_011'
+if os.path.exists(sDataBaseDir):
+    shutil.rmtree(sDataBaseDir)
+if not os.path.exists(sDataBaseDir):
+    os.makedirs(sDataBaseDir)
+print('=====================================================')
+print(' ')
+print('=====================================================')
+print('Start Movie to Frames')
+print('=====================================================')
+vidcap = cv2.VideoCapture(sInputFileName)
+success,image = vidcap.read()
+count = 0
+while success:
+    success,image = vidcap.read()
+    sFrame=sDataBaseDir + str('/pic-frame-' + str(format(count, '04d')) + '.jpg')
+    print('Extracted: ', sFrame)
+    cv2.imwrite(sFrame, image)
+    if os.path.getsize(sFrame) == 0:
+        count += -1
+        os.remove(sFrame)
+        print('Removed: ', sFrame)
+    if cv2.waitKey(10) == 27: # exit if Escape is hit
+        break
+    if count > 50: # exit
+        break
+    count += 1
+print('=====================================================')
+print('Generated : ', count, ' Frames')
+print('=====================================================')
+print('Movie to Frames HORUS - Done')
+print('=====================================================')
+# Utility done ===============================================
+
+
+
+print("b) Reconstructing a Video from Image Frames")
+import cv2
+import os
 print(" ")
-!pip install praw
-import praw
+
+# Define the directory containing the images and the path for the output video
+sDataBaseDir = "/content/Video_to_Images"
+output_video_file = "/content/Image_to_Video/OutputVideo.mp4"
+
+# Ensure the output directory exists
+os.makedirs(os.path.dirname(output_video_file), exist_ok=True)
+
+# List all image files in the directory and sort them
+frame_files = [f for f in os.listdir(sDataBaseDir) if f.endswith('.jpg')]
+frame_files.sort()  # Ensure images are processed in the correct order
+
+# Check if there are any images to process
+if not frame_files:
+    print("No frames found in the directory.")
+    exit()
+
+# Read the first frame to get the dimensions for the video
+first_frame_path = os.path.join(sDataBaseDir, frame_files[0])
+first_frame = cv2.imread(first_frame_path)
+
+if first_frame is None:
+    print(f"Error reading the first frame: {first_frame_path}")
+    exit()
+
+# Get the height and width of the frames
+height, width, _ = first_frame.shape
+
+# Define the codec and create a VideoWriter object
+fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Codec for MP4 format
+fps = 30  # Frames per second
+out = cv2.VideoWriter(output_video_file, fourcc, fps, (width, height))
+
+print("===================================================")
+print("Creating video from frames")
+print("===================================================")
+
+# Write each frame to the video file
+for frame_file in frame_files:
+    frame_path = os.path.join(sDataBaseDir, frame_file)
+    frame = cv2.imread(frame_path)
+    if frame is not None:
+        out.write(frame)
+        print(f"Added frame: {frame_path}")
+    else:
+        print(f"Failed to read frame: {frame_path}")
+
+# Release the VideoWriter object
+out.release()
+
+print("=====================================================")
+print(f'Video saved as: {output_video_file}')
+print("=====================================================")
+
+
+`;
+
+      // Assign the variable's value to the text variable
+      var text = yourMultilineVariable;
+
+      // Create a temporary textarea element to hold the text
+      var tempTextArea = document.createElement("textarea");
+      tempTextArea.value = text;
+
+      // Append the textarea element to the DOM
+      document.body.appendChild(tempTextArea);
+
+      // Select the text in the textarea
+      tempTextArea.select();
+      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
+
+      // Copy the selected text to the clipboard
+      document.execCommand("copy");
+
+      // Remove the temporary textarea
+      document.body.removeChild(tempTextArea);
+
+      
+    }
+    function copyMultilineText10() {
+      // Your variable containing multiline text data
+      var yourMultilineVariable = `
+
+ATLAS_URI = "mongodb+srv://daniel:RoJzDOmNRn8lFgpI@daniel.ybqet.mongodb.net/?retryWrites=true&w=majority&appName=daniel"
+! pip install pymongo[srv]==4.6.2
+from pymongo import MongoClient
+
+class AtlasClient ():
+
+   def __init__ (self, altas_uri, dbname):
+       self.mongodb_client = MongoClient(altas_uri)
+       self.database = self.mongodb_client[dbname]
+
+   ## A quick way to test if we can connect to Atlas instance
+   def ping (self):
+       self.mongodb_client.admin.command('ping')
+
+   def get_collection (self, collection_name):
+       collection = self.database[collection_name]
+       return collection
+
+   def find (self, collection_name, filter = {}, limit=0):
+       collection = self.database[collection_name]
+       items = list(collection.find(filter=filter, limit=limit))
+       return items
+DB_NAME = 'Practice'
+COLLECTION_NAME = 'UserList'
+
+atlas_client = AtlasClient (ATLAS_URI, DB_NAME)
+atlas_client.ping()
+print ('Connected to Atlas instance! We are good to go!')
+names = atlas_client.find(collection_name=COLLECTION_NAME)
+print(f"Found {len(names)} names")
+# Loop through each document (name) found and print details (id, name, address)
+for idx, name in enumerate(names):
+    print(f'{idx+1}\nid: {name["_id"]}\nname: {name["name"]},\naddress: {name["address"]}')
+
+
+library(mongolite)
+# MongoDB Atlas URI
+ATLAS_URI <- "mongodb+srv://daniel:RoJzDOmNRn8lFgpI@daniel.ybqet.mongodb.net/?retryWrites=true&w=majority&appName=daniel"
+# Define the AtlasClient class
+AtlasClient <- setRefClass(
+  "AtlasClient",
+  fields = list(
+    mongodb_client = "ANY",
+    database = "ANY"
+  ),
+  methods = list(
+    # Constructor
+    initialize = function(atlas_uri, dbname) {
+      mongodb_client <<- mongo(url = atlas_uri, db = dbname)
+      database <<- dbname
+    },
+    # Ping function to test connection
+    ping = function() {
+      message("Connected to Atlas instance! We are good to go!")
+    },
+    # Get collection
+    get_collection = function(collection_name) {
+      return(mongo(collection = collection_name, url = ATLAS_URI, db = database))
+    },
+    # Find documents in the collection
+    find = function(collection_name, filter = '{}', limit = 0) {
+      collection <- get_collection(collection_name)
+      items <- collection$find(query = filter, limit = limit)
+      return(items)
+    }
+  )
+)
+# DB and Collection Name
+DB_NAME <- "Practice"
+COLLECTION_NAME <- "UserList"
+# Create AtlasClient instance and ping
+atlas_client <- AtlasClient$new(ATLAS_URI, DB_NAME)
+atlas_client$ping()
+# Find names in the collection
+names <- atlas_client$find(COLLECTION_NAME)
+# Print number of names found
+cat("Found", nrow(names), "names\n")
+# Print out each name's info
+for (i in seq_len(nrow(names))) {
+  cat(i, "\nid: ", names[i, "_id"], "\nname: ", names[i, "Name"], "\naddress: ", names[i, "Address"], "\n")
+}
+
+
+`;
+
+      // Assign the variable's value to the text variable
+      var text = yourMultilineVariable;
+
+      // Create a temporary textarea element to hold the text
+      var tempTextArea = document.createElement("textarea");
+      tempTextArea.value = text;
+
+      // Append the textarea element to the DOM
+      document.body.appendChild(tempTextArea);
+
+      // Select the text in the textarea
+      tempTextArea.select();
+      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
+
+      // Copy the selected text to the clipboard
+      document.execCommand("copy");
+
+      // Remove the temporary textarea
+      document.body.removeChild(tempTextArea);
+
+      
+    }
+    function copyMultilineText11() {
+      // Your variable containing multiline text data
+      var yourMultilineVariable = `
+
+# Utility Start Audio to HORUS ===============================
+# Importing required libraries
+from scipy.io import wavfile
 import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
 
-# Ensure that your actual client_id, client_secret, and user_agent are entered here without any leading/trailing spaces or invalid characters
-reddit = praw.Reddit(client_id=' ', client_secret=' ', user_agent=' ')
-
-sub_name = input("enter the Keyword")
-max_posts = 5
-
-# Enable read-only mode
-reddit.read_only = True
-title=[]
-for submission in reddit.subreddit(sub_name).new(limit=max_posts):
-  title.append(submission.title)
-print(title)
 print(" ")
+#=============================================================
+
+# Function to display information about the audio file
+def show_info(aname, a, r):
+    print('----------------')
+    print("Audio:", aname)
+    print('----------------')
+    print("Rate:", r)  # Sample rate of the audio
+    print('----------------')
+    print("shape:", a.shape)  # Shape of the audio data array
+    print("dtype:", a.dtype)  # Data type of the audio data
+    print("min, max:", a.min(), a.max())  # Minimum and maximum values in the audio data
+    print('----------------')
+    plot_info(aname, a, r)  # Plot the audio signal
+
+# Function to plot the audio signal
+def plot_info(aname, a, r):
+    sTitle = 'Signal Wave - ' + aname + ' at ' + str(r) + 'hz'  # Title of the plot
+    plt.title(sTitle)
+    sLegend = []  # Legend for the plot
+    for c in range(a.shape[1]):
+        sLabel = 'Ch' + str(c + 1)  # Label for each channel
+        sLegend.append(sLabel)
+        plt.plot(a[:, c], label=sLabel)  # Plot each channel
+    plt.legend(sLegend)  # Show legend on the plot
+    plt.show()  # Display the plot
+
+# Processing 2 channel audio
+sInputFileName = '/content/2ch-sound.wav'  # Input file name for 2 channel audio
+print('=====================================================')
+print('Processing : ', sInputFileName)
+print('=====================================================')
+InputRate, InputData = wavfile.read(sInputFileName)  # Read the audio file
+show_info("2 channel", InputData, InputRate)  # Show information and plot
+ProcessData = pd.DataFrame(InputData)  # Convert audio data to DataFrame
+sColumns = ['Ch1', 'Ch2']  # Column names for the DataFrame
+ProcessData.columns = sColumns
+OutputData = ProcessData
+sOutputFileName = '/content/Output/HORUS-Audio-2ch.csv'  # Output file name
+OutputData.to_csv(sOutputFileName, index=False)  # Save DataFrame to CSV
+
+# Processing 4 channel audio
+sInputFileName = '/content/4ch-sound.wav'  # Input file name for 4 channel audio
+print('=====================================================')
+print('Processing : ', sInputFileName)
+print('=====================================================')
+InputRate, InputData = wavfile.read(sInputFileName)  # Read the audio file
+show_info("4 channel", InputData, InputRate)  # Show information and plot
+ProcessData = pd.DataFrame(InputData)  # Convert audio data to DataFrame
+sColumns = ['Ch1', 'Ch2', 'Ch3', 'Ch4']  # Column names for the DataFrame
+ProcessData.columns = sColumns
+OutputData = ProcessData
+sOutputFileName = '/content/Output/HORUS-Audio-4ch.csv'  # Output file name
+OutputData.to_csv(sOutputFileName, index=False)  # Save DataFrame to CSV
+
+# Processing 6 channel audio
+sInputFileName = '/content/6ch-sound.wav'  # Input file name for 6 channel audio
+print('=====================================================')
+print('Processing : ', sInputFileName)
+print('=====================================================')
+InputRate, InputData = wavfile.read(sInputFileName)  # Read the audio file
+show_info("6 channel", InputData, InputRate)  # Show information and plot
+ProcessData = pd.DataFrame(InputData)  # Convert audio data to DataFrame
+sColumns = ['Ch1', 'Ch2', 'Ch3', 'Ch4', 'Ch5', 'Ch6']  # Column names for the DataFrame
+ProcessData.columns = sColumns
+OutputData = ProcessData
+sOutputFileName = '/content/Output/HORUS-Audio-6ch.csv'  # Output file name
+OutputData.to_csv(sOutputFileName, index=False)  # Save DataFrame to CSV
+
+# Processing 8 channel audio
+sInputFileName = '/content/8Ch-sound.wav'  # Input file name for 8 channel audio
+print('=====================================================')
+print('Processing : ', sInputFileName)
+print('=====================================================')
+InputRate, InputData = wavfile.read(sInputFileName)  # Read the audio file
+show_info("8 channel", InputData, InputRate)  # Show information and plot
+ProcessData = pd.DataFrame(InputData)  # Convert audio data to DataFrame
+sColumns = ['Ch1', 'Ch2', 'Ch3', 'Ch4', 'Ch5', 'Ch6', 'Ch7', 'Ch8']  # Column names for the DataFrame
+ProcessData.columns = sColumns
+OutputData = ProcessData
+sOutputFileName = '/content/Output/HORUS-Audio-8ch.csv'  # Output file name
+OutputData.to_csv(sOutputFileName, index=False)  # Save DataFrame to CSV
+
+print('=====================================================')
+print('Audio to HORUS - Done')
+print('=====================================================')
+#=============================================================
+# Utility done ===============================================
+#=============================================================
+
+
+#image to csv
+from PIL import Image
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+print(" ")
+
+def image_to_csv_and_show(image_path, csv_output_path):
+    # Open and convert image to RGB
+    img = Image.open(image_path).convert('RGB')
+
+    # Convert image to NumPy array
+    img_array = np.array(img)
+
+    # Print image info
+    print(f"Image Path: {image_path}")
+    print(f"Shape: {img_array.shape}")
+    print(f"Dtype: {img_array.dtype}")
+    print(f"Min, Max: {img_array.min()}, {img_array.max()}")
+
+    # Reshape array to 2D (rows of pixel values) and convert to DataFrame
+    df = pd.DataFrame(img_array.reshape(-1, 3), columns=['R', 'G', 'B'])
+
+    # Save DataFrame to CSV
+    df.to_csv(csv_output_path, index=False, header=False)  # Avoid header and index
+
+    # Show the image
+    plt.imshow(img_array)
+    plt.title('Image Preview')
+    plt.axis('off')  # Hide axis
+    plt.show()
+
+def visualize_csv(csv_path, image_shape):
+    df = pd.read_csv(csv_path, header=None, names=['R', 'G', 'B'])
+
+    # Reshape DataFrame to image shape (height, width, 3)
+    img_array = df.values.reshape(image_shape)
+
+    # Plot a horizontal strip of the image (e.g., the middle row) for each channel
+    mid_row = img_array.shape[0] // 2
+
+    plt.figure(figsize=(15, 5))
+
+    # Plot Red channel
+    plt.subplot(3, 1, 1)
+    plt.plot(img_array[mid_row, :, 0], color='red')
+    plt.title('Red Channel Pixel Values')
+
+    # Plot Green channel
+    plt.subplot(3, 1, 2)
+    plt.plot(img_array[mid_row, :, 1], color='green')
+    plt.title('Green Channel Pixel Values')
+
+    # Plot Blue channel
+    plt.subplot(3, 1, 3)
+    plt.plot(img_array[mid_row, :, 2], color='blue')
+    plt.title('Blue Channel Pixel Values')
+
+    plt.tight_layout()
+    plt.show()
+
+# Define file paths
+image_path = '/content/image.jpg'  # Replace with your image path
+csv_output_path = '/content/Output/ImageToCSV.csv'  # Replace with your desired CSV output path
+
+# Get image array and shape
+img_array = np.array(Image.open(image_path).convert('RGB'))
+shape = img_array.shape
+
+# Process image and save as CSV
+image_to_csv_and_show(image_path, csv_output_path)
+
+# Visualize data from CSV
+visualize_csv(csv_output_path, shape)
+`;
+
+      // Assign the variable's value to the text variable
+      var text = yourMultilineVariable;
+
+      // Create a temporary textarea element to hold the text
+      var tempTextArea = document.createElement("textarea");
+      tempTextArea.value = text;
+
+      // Append the textarea element to the DOM
+      document.body.appendChild(tempTextArea);
+
+      // Select the text in the textarea
+      tempTextArea.select();
+      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
+
+      // Copy the selected text to the clipboard
+      document.execCommand("copy");
+
+      // Remove the temporary textarea
+      document.body.removeChild(tempTextArea);
+
+      
+    }
+    function copyMultilineText12() {
+      // Your variable containing multiline text data
+      var yourMultilineVariable = `
+
+
+print(" ")
+import pandas as pd
+ages = [18,23,22,25,46,34,45,87]
+bins = [0,25,50,75,100]
+bin_labels = ["YOUNG", "MID_AGED", "SENIOR","OLD"]
+age_bins = pd.cut(ages,bins=bins,labels=bin_labels,right='True')
+print('Age_Bins: ',age_bins)
+
+
+#location co average
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+!pip install basemap
+from mpl_toolkits.basemap import Basemap
+print(" ")
+LatitudeData = pd.Series(np.array(range(-90,91,1)))
+LongitudeData = pd.Series(np.array(range(-180,181,1)))
+LatitudeSet=LatitudeData.sample(10)
+LongitudeSet=LongitudeData.sample(10)
+LatitudeAverage=np.average(LatitudeSet)
+LongitudeAverage=np.average(LongitudeSet)
+print('Latitude',LatitudeSet)
+print('Latitude(Avg):',LatitudeAverage)
+print('Longitude',LongitudeSet)
+print('Longitude(Avg):',LongitudeAverage)
+
+#random lat and long basemap
+# Plotting on a world map
+plt.figure(figsize=(12, 6))
+map = Basemap(projection='mill', llcrnrlat=-60, urcrnrlat=90,
+llcrnrlon=-180, urcrnrlon=180, resolution='c')
+
+map.drawcoastlines()
+map.drawcountries()
+map.drawmapboundary(fill_color='aqua')
+map.fillcontinents(color='lightgreen', lake_color='aqua')
+
+# Convert latitude and longitude to map projection coordinates
+x, y = map(LongitudeSet.values, LatitudeSet.values)
+
+# Plot the sampled points
+map.scatter(x, y, marker='o', color='red', s=100, label='Sampled Points')
+
+# Plot the average point
+avg_x, avg_y = map(LongitudeAverage, LatitudeAverage)
+map.scatter(avg_x, avg_y, marker='X', color='blue', s=200, label='Average Point')
+
+# Add title and legend
+plt.title('Randomly Sampled Latitude and Longitude Points on World Map')
+plt.legend()
+plt.show()
+
 
 `;
 
