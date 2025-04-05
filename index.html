@@ -22,7 +22,7 @@
       // Your variable containing multiline text data
       var yourMultilineVariable = `
       
- !pip install pyspark
+!pip install pyspark
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import * #
 
@@ -67,26 +67,38 @@ panda_df.head()
       // Your variable containing multiline text data
       var yourMultilineVariable = `
       
- #Visualising Geospecial data with geopanda
-!pip install fiona
-import geopandas as gpd
-import matplotlib.pyplot as plt
-import fiona
-from shapely.geometry import Point # Import the Point object
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import *
 
-fiona.drvsupport.supported_drivers['ESRI Shapefile'] = 'rw'
-with fiona.Env(SHAPE_RESTORE_SHX='YES'):
-  india_gdf = gpd.read_file("/content/india_st.shp")
+spark = SparkSession.builder.appName('CombineDataframe').getOrCreate()
 
-#Mumbai City in Bharat
-mumbai=gpd.GeoDataFrame([{'City':'Mumbai','geometry':Point(72.877,19.0760)}],crs="EPSG:4326")
-fig,ax=plt.subplots(1,1,figsize=(10,10))
-india_gdf.plot(ax=ax,color='white',edgecolor="black")
-mumbai.plot(ax=ax,color='red')
-for x,y,label in zip(mumbai.geometry.x,mumbai.geometry.y,mumbai['City']):
-  ax.text(x,y,label)
-plt.title("  \n India")
-plt.show()
+data1 = [(1, 'Surabhi', 22), (2, 'Glory', 23), (3, 'Sohel', 5)]
+data2 = [(4,'Mitali', 50), (5, 'Siddhi', 24), (6, 'Mangesh', 21)]
+
+columns = ['ID', 'Name', 'Age']
+
+df1 = spark.createDataFrame(data1, columns)
+df2 = spark.createDataFrame(data2, columns)
+
+df1.show()
+df2.show()
+
+combine_df = df1.union(df2)
+combine_df.show()
+
+df3 = df2.select('ID', 'Name','Age')
+df3.show()
+
+data4 =[(1, 'Mumbai'), (2, 'Banglore'), (3, 'Delhi'), (4, 'Orissa'), (5, 'Maurities'), (3, 'Andrapradesh')]
+
+columns4 = ['ID', 'City']
+
+df4 = spark.createDataFrame(data4, columns4)
+df4.show()
+
+join_df = combine_df.join(df4, on='ID', how='inner')
+join_df.show()
+
      
       `;
 
@@ -116,25 +128,36 @@ plt.show()
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-import folium
-import requests
-m = folium.Map(location=[20.5937, 78.9629], zoom_start=5)
-geojson_data = requests.get("https://raw.githubusercontent.com/python-visualization/folium/master/examples/data/world-countries.json").json()
-folium.GeoJson(geojson_data, name="India", highlight_function=lambda x: {'fillColor': 'green'}).add_to(m)
-cities = [
-    {"name": "New Delhi", "location": [28.6139, 77.2090], "population": "21.75 million"},
-    {"name": "Mumbai", "location": [19.0760, 72.8777], "population": "20.18 million"},
-    {"name": "Bengaluru", "location": [12.9716, 77.5946], "population": "8.42 million"},
-    {"name": "Chennai", "location": [13.0827, 80.2707], "population": "10.97 million"},
-    {"name": "Kolkata", "location": [22.5726, 88.3639], "population": "14.85 million"}
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import col
+
+spark = SparkSession.builder.appName('ecommerce').getOrCreate()
+data = [
+    ("Alice", 25, "HR"),
+    ("Bob", 30, "IT"),
+    ("Charlie", 35, "Finance"),
+    ("David", 28, "IT"),
+    ("Eve", 40, "HR")
 ]
-folium.GeoJson(geojson_data, name="India", highlight_function=lambda x: {'fillColor': 'green'}).add_to(m)
 
-for city in cities:
-    folium.Marker(city['location'], popup=f"<b>{city['name']}</b><br>Population: {city['population']}", tooltip=city['name']).add_to(m)
+columns = ["Name", "Age", "Department"]
 
-m.save("india_cities_map.html")
-m
+df = spark.createDataFrame(data, columns)
+df.show()
+
+collected_data = df.collect()
+for row in collected_data:
+  print(row)
+
+filtered_df = df.filter(col("Age") > 30)
+filtered_df.show()
+
+mapped_rdd = df.rdd.map(lambda row: (row["Name"], row["Age"] * 2))
+mapped_rdd.collect()
+
+rdd = df.rdd.map(lambda row: (row["Department"], 1))
+department_count = rdd.reduceByKey(lambda a, b: a + b)
+department_count.collect()
 
 
       
@@ -166,26 +189,38 @@ m
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-from astropy.coordinates import solar_system_ephemeris, get_moon, AltAz, EarthLocation
-import astropy.units as u
-import matplotlib.pyplot as plt
-solar_system_ephemeris.set('builtin')
-from astropy.time import Time
+from pyspark.sql import SparkSession,Row
+#create spark session with configuration
+spark = SparkSession.builder.appName('Spark Session Example') \
+  .config("sparkconfig","config-value").getOrCreate()
 
-time_utc = Time.now()
+data = [Row(name="surabhi",age=24),Row(name="glory",age=22),Row(name="mitali",age=23)]
+df = spark.createDataFrame(data)
+df.show()
+df.printSchema()
 
-moon = get_moon(time_utc)
-location = EarthLocation.of_site('Kitt Peak')
-moon_altaz = moon.transform_to(AltAz(obstime=time_utc, location=location))
-print(f'Moon coordinates (RA, Dec): {moon.ra}, {moon.dec}')
-print(f'Moon Altitude: {moon_altaz.alt}')
-print(f'Moon Azimuth: {moon_altaz.az}')
-plt.figure(figsize=(10, 8))
-plt.subplot(111, projection='polar')
-plt.title('Moon Position', y=1.1)
-plt.polar(moon.ra.radian, moon.dec.radian, 'o', markersize=10)
-plt.grid(True)
-plt.show()
+#second method user input
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.appName('Spark Session Example').getOrCreate()
+num_rows = int(input("num of rows:"))
+data = []
+for i in range (num_rows):
+  name = input("Enter name:")
+  age = int(input("Enter age:"))
+  city = input("Enter city:")
+  data.append((name,age,city))
+
+column = ['name','age','city']
+df = spark.createDataFrame(data,column)
+df.show()
+df.printSchema()
+
+print(" Original data ")
+df.select("name","age").show()
+print(" Age Filter ")
+df.filter(df.age>22).show()
+print(" where filter ")
+df.where(df.city=="mumbai").show()
       
       `;
 
@@ -215,68 +250,35 @@ plt.show()
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-print("a) Daily COVID-19 Case Trends: A Line Plot Visualization")
+from pyspark.sql import SparkSession
+data  = [(1,'electronics',1000,'2024-01-01'),
+         (2,'fashion',50,'2024-01-02'),
+         (3,'cosmetics',500,'2024-01-03'),
+         (4,'novels',1500,'2025-04-04'),(5,)]
+columns = ['id','category','price','date']
+spark = SparkSession.builder.appName('ecommerce').getOrCreate()
+df = spark.createDataFrame(data,columns)
+df.show()
+
+df.createOrReplaceTempView("sales")
+result = spark.sql("SELECT category, avg(price) as avg_amt from sales group by category").show()
+
+result = spark.sql("select category, price from sales order by price desc limit 2")
+result.show()
+
+import matplotlib.pyplot as plt
+import seaborn as sns
 import pandas as pd
-import plotly.express as px
 
-# URL for the COVID-19 data
-URL = "https://covid.ourworldindata.org/data/owid-covid-data.csv"
-
-# Load the dataset into a DataFrame
-df = pd.read_csv(URL)
-
-# Filter the DataFrame for the specific country
-country = 'Germany'
-df_country = df[df['location'] == country]
-
-# Select relevant columns for the plot
-df_country = df_country[['date', 'new_cases']]
-
-# Create a line plot to visualize COVID-19 new cases over time for the selected country
-fig = px.line(df_country, x='date', y='new_cases', title=f'  | Corona Cases in {country} over time')
-
-# Show the plot
-fig.show()
-
-
-print("b) Monthly COVID-19 Case Trends: A Bar Plot Visualization")
-#!pip install pandas plotly
-import pandas as pd
-import plotly.express as px
-
-# URL for the COVID-19 data
-URL = "https://covid.ourworldindata.org/data/owid-covid-data.csv"
-
-# Load the dataset into a DataFrame
-df = pd.read_csv(URL)
-
-# Define the country of interest
-country = 'Germany'
-
-# Filter the DataFrame for the specific country
-df_country = df[df['location'] == country]
-
-# Check if the filtered DataFrame is empty and raise an error if so
-if df_country.empty:
-    raise ValueError(f'Country {country} not found in the dataset')
-
-# Convert the 'date' column to datetime format
-df_country['date'] = pd.to_datetime(df_country['date'])
-
-# Extract the month from the date and create a new column for it
-df_country['month'] = df_country['date'].dt.to_period('M')
-
-# Aggregate the data to get the total number of new cases per month
-monthly_cases = df_country.groupby('month')['new_cases'].sum().reset_index()
-
-# Convert the 'month' period to a string for plotting
-monthly_cases['month'] = monthly_cases['month'].astype(str)
-
-# Create a bar plot to visualize the total number of new COVID-19 cases per month
-fig = px.bar(monthly_cases, x='month', y='new_cases', title=f'  | Total Corona Cases in {country} over time')
-
-# Show the plot
-fig.show()
+# Convert the DataFrame to Pandas
+df_q1 = result.toPandas()
+df_q1.head()
+plt.figure(figsize=(8, 6))
+sns.barplot(x='category', y='price', data=df_q1)
+plt.title('Top 2 Categories by Price')
+plt.xlabel('Category')
+plt.ylabel('Price')
+plt.show()
 
 
 `;
@@ -307,58 +309,33 @@ fig.show()
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-import matplotlib.pyplot as plt
-import numpy as np
-from sklearn import datasets, linear_model
-from sklearn.metrics import mean_squared_error, r2_score
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import udf
+from pyspark.sql.types import StringType
 
-# Load the diabetes dataset
-diabetes = datasets.load_diabetes()
+spark = SparkSession.builder.appName("UDFExample").getOrCreate()
 
-# Use only one feature
-diabetes_X = diabetes.data[:, np.newaxis, 2]
+data = [("surabhi",24),("glory",22),("dany",65),("dhanraj",23),("chintuChaitu",10)]
+column = ['name','age']
 
-# Split the data into training/testing sets
-diabetes_X_train = diabetes_X[:-30]
-diabetes_X_test = diabetes_X[-50:]
+df = spark.createDataFrame(data,column)
+print(df.show())
 
-# Split the targets into training/testing sets
-diabetes_y_train = diabetes.target[:-30]
-diabetes_y_test = diabetes.target[-50:]
+def age_group(age):
+  if age < 18:
+    return "minor"
+  elif age >=18 and age < 60:
+    return "adult"
+  else:
+    return "senior"
 
-# Create linear regression object
-regr = linear_model.LinearRegression()
+age_group_udf = udf(age_group, StringType())
+df_with_group = df.withColumn("age_group", age_group_udf(df.age))
+df_with_group.show()
 
-# Train the model using the training sets
-regr.fit(diabetes_X_train, diabetes_y_train)
+age_group_counts = df_with_group.groupBy("age_group").count()
+age_group_counts.show()
 
-# Make predictions using the testing set
-diabetes_y_pred = regr.predict(diabetes_X_test)
-
-# The coefficients
-print('Coefficients: \n', regr.coef_)
-# The mean squared error
-print("Mean squared error: %.2f"
-% mean_squared_error(diabetes_y_test, diabetes_y_pred))
-# Explained variance score: 1 is perfect prediction
-print('Variance score: %.2f' % r2_score(diabetes_y_test, diabetes_y_pred))
-
-#print("Sample BMI VALUES")
-#for i in range(len(diabetes_X_test)):
-    #print(diabetes_X_test[i])
-print(" ")
-# Plot outputs
-plt.scatter(diabetes_X_test, diabetes_y_test, color='blue')
-plt.plot(diabetes_X_test, diabetes_y_pred, color='red', linewidth=2)
-
-plt.xticks(())
-plt.yticks(())
-
-plt.axis('tight')
-plt.title("Diabetes")
-plt.xlabel("BMI")
-plt.ylabel("Age")
-plt.show()
 
 
 `;
@@ -389,14 +366,34 @@ plt.show()
       // Your variable containing multiline text data
       var yourMultilineVariable = ` 
       
-from wordcloud import WordCloud
-import matplotlib.pyplot as plt
-text = "DANIEL Beauty Power Presonality Vision Illusion Happiness Belives Fairness"
-wordcloud = WordCloud(width=800, height=400, background_color='white').generate(text)
-plt.figure(figsize=(12,12))
-plt.imshow(wordcloud)
-plt.axis('off')
-plt.show()
+from pyspark.sql import SparkSession
+from pyspark.ml.feature import VectorAssembler
+from pyspark.ml.regression import LinearRegression
+
+spark = SparkSession.builder.appName("LinearRegressionExample").getOrCreate()
+
+data = [(1,100),(2,110),(3,120),(4,130),(5,105)]
+column = ['feature','target']
+
+df = spark.createDataFrame(data,column)
+df.show()
+
+assembler = VectorAssembler(inputCols=['feature'], outputCol="features")
+assembler_df = assembler.transform(df).select('features','target')
+
+lr = LinearRegression(featuresCol='features',labelCol='target')
+lr_model = lr.fit(assembler_df)
+print("Coefficients:", lr_model.coefficients)
+print("Intercept:", lr_model.intercept)
+
+training_summary = lr_model.summary
+print("RMSE:", training_summary.rootMeanSquaredError)
+print("R-squared:", training_summary.r2)
+
+prediction = lr_model.transform(assembler_df)
+prediction.select('features','target','prediction').show()
+
+
 
 
       `;
@@ -427,17 +424,28 @@ plt.show()
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
- need java 8u40
-cqlsh - start
-help
-show host;
-show version;
-consistency
-describe cluster;
-describe tables;
-describe keyspaces;
-CREATE KEYSPACE DANIEL
-describe keyspaces;
+from pyspark.sql import SparkSession
+from pyspark.ml.clustering import KMeans
+from pyspark.ml.feature import VectorAssembler
+
+spark = SparkSession.builder.appName("KMeansExample").getOrCreate()
+data = [(1,2),(2,5),(5,8),(8,8),(4,6),(9,11)]
+columns = ['subject1','subject2']
+df = spark.createDataFrame(data,columns)
+df.show()
+assembler = VectorAssembler(inputCols=['subject1','subject2'], outputCol="features")
+assemble1 = assembler.transform(df)
+assemble1.show()
+
+kmeans = KMeans(k=2,seed=1)
+model = kmeans.fit(assemble1)
+predictions = model.transform(assemble1)
+predictions.show()
+
+for center in model.clusterCenters():
+  print(center)
+
+
 
 `;
 
@@ -467,109 +475,42 @@ describe keyspaces;
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-print("a) Extracting Frames from Video: Converting MP4 to JPEG Images")
-# Utility Start Movie to HORUS (Part 1) ======================
-# Standard Tools
-#=============================================================
-import os
-import shutil
-import cv2
-import os
-#=============================================================
-sInputFileName = '/content/video.mp4'
-sDataBaseDir = '/content/DANIEL_011'
-if os.path.exists(sDataBaseDir):
-    shutil.rmtree(sDataBaseDir)
-if not os.path.exists(sDataBaseDir):
-    os.makedirs(sDataBaseDir)
-print('=====================================================')
-print(' ')
-print('=====================================================')
-print('Start Movie to Frames')
-print('=====================================================')
-vidcap = cv2.VideoCapture(sInputFileName)
-success,image = vidcap.read()
-count = 0
-while success:
-    success,image = vidcap.read()
-    sFrame=sDataBaseDir + str('/pic-frame-' + str(format(count, '04d')) + '.jpg')
-    print('Extracted: ', sFrame)
-    cv2.imwrite(sFrame, image)
-    if os.path.getsize(sFrame) == 0:
-        count += -1
-        os.remove(sFrame)
-        print('Removed: ', sFrame)
-    if cv2.waitKey(10) == 27: # exit if Escape is hit
-        break
-    if count > 50: # exit
-        break
-    count += 1
-print('=====================================================')
-print('Generated : ', count, ' Frames')
-print('=====================================================')
-print('Movie to Frames HORUS - Done')
-print('=====================================================')
-# Utility done ===============================================
+from pyspark.sql import SparkSession
+from pyspark.ml.classification import LogisticRegression
+from pyspark.ml.feature import CountVectorizer,IDF,Tokenizer
 
+spark = SparkSession.builder.appName("LogisticRegressionExample").getOrCreate()
+email = [(1,'Congratulations! You have won a lottery worth $1 million. Click here to claim your prize.'),
+         (0,'Hi John, can we meet tomorrow for lunch?'),
+         (1,'Urgent: Your account has been hacked. Click here to recover your password.'),
+         (0,'Hey, how are you doing?'),
+         (1,'Congratulations! You have won a free vacation. Click here to claim your prize.')]
 
+columns = ['label','email']
+df = spark.createDataFrame(email,columns)
+df.show()
 
-print("b) Reconstructing a Video from Image Frames")
-import cv2
-import os
-print(" ")
+token = Tokenizer(inputCol='email',outputCol='tokens')
+df = token.transform(df)
+df.show()
 
-# Define the directory containing the images and the path for the output video
-sDataBaseDir = "/content/Video_to_Images"
-output_video_file = "/content/Image_to_Video/OutputVideo.mp4"
+vect = CountVectorizer(inputCol="tokens",outputCol="raw features")
+vect_model = vect.fit(df)
+df = vect_model.transform(df)
+df.show()
 
-# Ensure the output directory exists
-os.makedirs(os.path.dirname(output_video_file), exist_ok=True)
+idf = IDF(inputCol="raw features",outputCol="features")
+idf_model = idf.fit(df)
+df = idf_model.transform(df)
+df.show()
 
-# List all image files in the directory and sort them
-frame_files = [f for f in os.listdir(sDataBaseDir) if f.endswith('.jpg')]
-frame_files.sort()  # Ensure images are processed in the correct order
+df = df.select('label','features')
+df.show()
+lr = LogisticRegression(featuresCol='features',labelCol='label')
+lr_model = lr.fit(df)
+predictions = lr_model.transform(df)
+predictions.show()
 
-# Check if there are any images to process
-if not frame_files:
-    print("No frames found in the directory.")
-    exit()
-
-# Read the first frame to get the dimensions for the video
-first_frame_path = os.path.join(sDataBaseDir, frame_files[0])
-first_frame = cv2.imread(first_frame_path)
-
-if first_frame is None:
-    print(f"Error reading the first frame: {first_frame_path}")
-    exit()
-
-# Get the height and width of the frames
-height, width, _ = first_frame.shape
-
-# Define the codec and create a VideoWriter object
-fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Codec for MP4 format
-fps = 30  # Frames per second
-out = cv2.VideoWriter(output_video_file, fourcc, fps, (width, height))
-
-print("===================================================")
-print("Creating video from frames")
-print("===================================================")
-
-# Write each frame to the video file
-for frame_file in frame_files:
-    frame_path = os.path.join(sDataBaseDir, frame_file)
-    frame = cv2.imread(frame_path)
-    if frame is not None:
-        out.write(frame)
-        print(f"Added frame: {frame_path}")
-    else:
-        print(f"Failed to read frame: {frame_path}")
-
-# Release the VideoWriter object
-out.release()
-
-print("=====================================================")
-print(f'Video saved as: {output_video_file}')
-print("=====================================================")
 
 
 `;
@@ -600,88 +541,50 @@ print("=====================================================")
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-ATLAS_URI = "mongodb+srv://daniel:RoJzDOmNRn8lFgpI@daniel.ybqet.mongodb.net/?retryWrites=true&w=majority&appName=daniel"
-! pip install pymongo[srv]==4.6.2
-from pymongo import MongoClient
+from pyspark.sql import SparkSession
+from pyspark.ml.classification import NaiveBayes
+from pyspark.ml.evaluation import MulticlassClassificationEvaluator
+from pyspark.ml.feature import VectorAssembler, StringIndexer
 
-class AtlasClient ():
+# Create Spark Session
+spark = SparkSession.builder.appName("NaiveBayes_Weather").getOrCreate()
+# Sample weather data (label = Weather Condition)
+weather_data = [
+    ("Rainy", 22, 85, 15),
+    ("Sunny", 30, 40, 10),
+    ("Cloudy", 25, 60, 12),
+    ("Rainy", 18, 90, 20),
+    ("Sunny", 35, 35, 8),
+    ("Cloudy", 28, 55, 14),
+    ("Rainy", 20, 88, 18),
+    ("Sunny", 33, 38, 9),
+]
 
-   def __init__ (self, altas_uri, dbname):
-       self.mongodb_client = MongoClient(altas_uri)
-       self.database = self.mongodb_client[dbname]
+columns = ["weather", "temperature", "humidity", "wind_speed"]
+df = spark.createDataFrame(weather_data, columns)
 
-   ## A quick way to test if we can connect to Atlas instance
-   def ping (self):
-       self.mongodb_client.admin.command('ping')
+# Show dataset
+df.show()
 
-   def get_collection (self, collection_name):
-       collection = self.database[collection_name]
-       return collection
+indexer = StringIndexer(inputCol="weather", outputCol="label")
+df_indexed = indexer.fit(df).transform(df)
 
-   def find (self, collection_name, filter = {}, limit=0):
-       collection = self.database[collection_name]
-       items = list(collection.find(filter=filter, limit=limit))
-       return items
-DB_NAME = 'Practice'
-COLLECTION_NAME = 'UserList'
+df_indexed.show()
 
-atlas_client = AtlasClient (ATLAS_URI, DB_NAME)
-atlas_client.ping()
-print ('Connected to Atlas instance! We are good to go!')
-names = atlas_client.find(collection_name=COLLECTION_NAME)
-print(f"Found {len(names)} names")
-# Loop through each document (name) found and print details (id, name, address)
-for idx, name in enumerate(names):
-    print(f'{idx+1}\nid: {name["_id"]}\nname: {name["name"]},\naddress: {name["address"]}')
+assembler = VectorAssembler(inputCols=["temperature", "humidity", "wind_speed"], outputCol="features")
+df_transformed = assembler.transform(df_indexed).select("label", "features")
 
+df_transformed.show()
+train_data, test_data = df_transformed.randomSplit([0.7, 0.3], seed=42)
+nb = NaiveBayes(modelType="multinomial")
+model = nb.fit(train_data)
+predictions = model.transform(test_data)
+predictions.show()
 
-library(mongolite)
-# MongoDB Atlas URI
-ATLAS_URI <- "mongodb+srv://daniel:RoJzDOmNRn8lFgpI@daniel.ybqet.mongodb.net/?retryWrites=true&w=majority&appName=daniel"
-# Define the AtlasClient class
-AtlasClient <- setRefClass(
-  "AtlasClient",
-  fields = list(
-    mongodb_client = "ANY",
-    database = "ANY"
-  ),
-  methods = list(
-    # Constructor
-    initialize = function(atlas_uri, dbname) {
-      mongodb_client <<- mongo(url = atlas_uri, db = dbname)
-      database <<- dbname
-    },
-    # Ping function to test connection
-    ping = function() {
-      message("Connected to Atlas instance! We are good to go!")
-    },
-    # Get collection
-    get_collection = function(collection_name) {
-      return(mongo(collection = collection_name, url = ATLAS_URI, db = database))
-    },
-    # Find documents in the collection
-    find = function(collection_name, filter = '{}', limit = 0) {
-      collection <- get_collection(collection_name)
-      items <- collection$find(query = filter, limit = limit)
-      return(items)
-    }
-  )
-)
-# DB and Collection Name
-DB_NAME <- "Practice"
-COLLECTION_NAME <- "UserList"
-# Create AtlasClient instance and ping
-atlas_client <- AtlasClient$new(ATLAS_URI, DB_NAME)
-atlas_client$ping()
-# Find names in the collection
-names <- atlas_client$find(COLLECTION_NAME)
-# Print number of names found
-cat("Found", nrow(names), "names\n")
-# Print out each name's info
-for (i in seq_len(nrow(names))) {
-  cat(i, "\nid: ", names[i, "_id"], "\nname: ", names[i, "Name"], "\naddress: ", names[i, "Address"], "\n")
-}
+evaluator = MulticlassClassificationEvaluator(labelCol="label", predictionCol="prediction", metricName="accuracy")
+accuracy = evaluator.evaluate(predictions)
 
+print(f"Model Accuracy: {accuracy * 100:.2f}%")
 
 `;
 
@@ -711,180 +614,38 @@ for (i in seq_len(nrow(names))) {
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-# Utility Start Audio to HORUS ===============================
-# Importing required libraries
-from scipy.io import wavfile
-import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
+from pyspark.sql import SparkSession
 
-print(" ")
-#=============================================================
+# Initialize Spark Session
+spark = SparkSession.builder.appName("WordCount").getOrCreate()
+sc = spark.sparkContext  # Get the SparkContext
 
-# Function to display information about the audio file
-def show_info(aname, a, r):
-    print('----------------')
-    print("Audio:", aname)
-    print('----------------')
-    print("Rate:", r)  # Sample rate of the audio
-    print('----------------')
-    print("shape:", a.shape)  # Shape of the audio data array
-    print("dtype:", a.dtype)  # Data type of the audio data
-    print("min, max:", a.min(), a.max())  # Minimum and maximum values in the audio data
-    print('----------------')
-    plot_info(aname, a, r)  # Plot the audio signal
+# Sample text data (simulating a small dataset)
+data = [
+    "hello world",
+    "hello pyspark",
+    "pyspark map reduce example",
+    "reduce and map are powerful",
+]
 
-# Function to plot the audio signal
-def plot_info(aname, a, r):
-    sTitle = 'Signal Wave - ' + aname + ' at ' + str(r) + 'hz'  # Title of the plot
-    plt.title(sTitle)
-    sLegend = []  # Legend for the plot
-    for c in range(a.shape[1]):
-        sLabel = 'Ch' + str(c + 1)  # Label for each channel
-        sLegend.append(sLabel)
-        plt.plot(a[:, c], label=sLabel)  # Plot each channel
-    plt.legend(sLegend)  # Show legend on the plot
-    plt.show()  # Display the plot
+# Create an RDD (Resilient Distributed Dataset)
+rdd = sc.parallelize(data)
 
-# Processing 2 channel audio
-sInputFileName = '/content/2ch-sound.wav'  # Input file name for 2 channel audio
-print('=====================================================')
-print('Processing : ', sInputFileName)
-print('=====================================================')
-InputRate, InputData = wavfile.read(sInputFileName)  # Read the audio file
-show_info("2 channel", InputData, InputRate)  # Show information and plot
-ProcessData = pd.DataFrame(InputData)  # Convert audio data to DataFrame
-sColumns = ['Ch1', 'Ch2']  # Column names for the DataFrame
-ProcessData.columns = sColumns
-OutputData = ProcessData
-sOutputFileName = '/content/Output/HORUS-Audio-2ch.csv'  # Output file name
-OutputData.to_csv(sOutputFileName, index=False)  # Save DataFrame to CSV
+# Map Step: Split sentences into words and assign count 1 to each
+mapped_rdd = rdd.flatMap(lambda line: line.split(" ")).map(lambda word: (word, 1))
 
-# Processing 4 channel audio
-sInputFileName = '/content/4ch-sound.wav'  # Input file name for 4 channel audio
-print('=====================================================')
-print('Processing : ', sInputFileName)
-print('=====================================================')
-InputRate, InputData = wavfile.read(sInputFileName)  # Read the audio file
-show_info("4 channel", InputData, InputRate)  # Show information and plot
-ProcessData = pd.DataFrame(InputData)  # Convert audio data to DataFrame
-sColumns = ['Ch1', 'Ch2', 'Ch3', 'Ch4']  # Column names for the DataFrame
-ProcessData.columns = sColumns
-OutputData = ProcessData
-sOutputFileName = '/content/Output/HORUS-Audio-4ch.csv'  # Output file name
-OutputData.to_csv(sOutputFileName, index=False)  # Save DataFrame to CSV
+# Reduce Step: Sum up occurrences of each word
+word_counts = mapped_rdd.reduceByKey(lambda a, b: a + b)
 
-# Processing 6 channel audio
-sInputFileName = '/content/6ch-sound.wav'  # Input file name for 6 channel audio
-print('=====================================================')
-print('Processing : ', sInputFileName)
-print('=====================================================')
-InputRate, InputData = wavfile.read(sInputFileName)  # Read the audio file
-show_info("6 channel", InputData, InputRate)  # Show information and plot
-ProcessData = pd.DataFrame(InputData)  # Convert audio data to DataFrame
-sColumns = ['Ch1', 'Ch2', 'Ch3', 'Ch4', 'Ch5', 'Ch6']  # Column names for the DataFrame
-ProcessData.columns = sColumns
-OutputData = ProcessData
-sOutputFileName = '/content/Output/HORUS-Audio-6ch.csv'  # Output file name
-OutputData.to_csv(sOutputFileName, index=False)  # Save DataFrame to CSV
+# Collect and print results
+result = word_counts.collect()
+for word, count in result:
+    print(f"{word}: {count}")
 
-# Processing 8 channel audio
-sInputFileName = '/content/8Ch-sound.wav'  # Input file name for 8 channel audio
-print('=====================================================')
-print('Processing : ', sInputFileName)
-print('=====================================================')
-InputRate, InputData = wavfile.read(sInputFileName)  # Read the audio file
-show_info("8 channel", InputData, InputRate)  # Show information and plot
-ProcessData = pd.DataFrame(InputData)  # Convert audio data to DataFrame
-sColumns = ['Ch1', 'Ch2', 'Ch3', 'Ch4', 'Ch5', 'Ch6', 'Ch7', 'Ch8']  # Column names for the DataFrame
-ProcessData.columns = sColumns
-OutputData = ProcessData
-sOutputFileName = '/content/Output/HORUS-Audio-8ch.csv'  # Output file name
-OutputData.to_csv(sOutputFileName, index=False)  # Save DataFrame to CSV
-
-print('=====================================================')
-print('Audio to HORUS - Done')
-print('=====================================================')
-#=============================================================
-# Utility done ===============================================
-#=============================================================
+# Stop Spark session
+spark.stop()
 
 
-#image to csv
-from PIL import Image
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-
-print(" ")
-
-def image_to_csv_and_show(image_path, csv_output_path):
-    # Open and convert image to RGB
-    img = Image.open(image_path).convert('RGB')
-
-    # Convert image to NumPy array
-    img_array = np.array(img)
-
-    # Print image info
-    print(f"Image Path: {image_path}")
-    print(f"Shape: {img_array.shape}")
-    print(f"Dtype: {img_array.dtype}")
-    print(f"Min, Max: {img_array.min()}, {img_array.max()}")
-
-    # Reshape array to 2D (rows of pixel values) and convert to DataFrame
-    df = pd.DataFrame(img_array.reshape(-1, 3), columns=['R', 'G', 'B'])
-
-    # Save DataFrame to CSV
-    df.to_csv(csv_output_path, index=False, header=False)  # Avoid header and index
-
-    # Show the image
-    plt.imshow(img_array)
-    plt.title('Image Preview')
-    plt.axis('off')  # Hide axis
-    plt.show()
-
-def visualize_csv(csv_path, image_shape):
-    df = pd.read_csv(csv_path, header=None, names=['R', 'G', 'B'])
-
-    # Reshape DataFrame to image shape (height, width, 3)
-    img_array = df.values.reshape(image_shape)
-
-    # Plot a horizontal strip of the image (e.g., the middle row) for each channel
-    mid_row = img_array.shape[0] // 2
-
-    plt.figure(figsize=(15, 5))
-
-    # Plot Red channel
-    plt.subplot(3, 1, 1)
-    plt.plot(img_array[mid_row, :, 0], color='red')
-    plt.title('Red Channel Pixel Values')
-
-    # Plot Green channel
-    plt.subplot(3, 1, 2)
-    plt.plot(img_array[mid_row, :, 1], color='green')
-    plt.title('Green Channel Pixel Values')
-
-    # Plot Blue channel
-    plt.subplot(3, 1, 3)
-    plt.plot(img_array[mid_row, :, 2], color='blue')
-    plt.title('Blue Channel Pixel Values')
-
-    plt.tight_layout()
-    plt.show()
-
-# Define file paths
-image_path = '/content/image.jpg'  # Replace with your image path
-csv_output_path = '/content/Output/ImageToCSV.csv'  # Replace with your desired CSV output path
-
-# Get image array and shape
-img_array = np.array(Image.open(image_path).convert('RGB'))
-shape = img_array.shape
-
-# Process image and save as CSV
-image_to_csv_and_show(image_path, csv_output_path)
-
-# Visualize data from CSV
-visualize_csv(csv_output_path, shape)
 `;
 
       // Assign the variable's value to the text variable
@@ -913,59 +674,21 @@ visualize_csv(csv_output_path, shape)
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import explode, split, col
 
-print(" ")
-import pandas as pd
-ages = [18,23,22,25,46,34,45,87]
-bins = [0,25,50,75,100]
-bin_labels = ["YOUNG", "MID_AGED", "SENIOR","OLD"]
-age_bins = pd.cut(ages,bins=bins,labels=bin_labels,right='True')
-print('Age_Bins: ',age_bins)
+spark = SparkSession.builder.appName("WordCount").getOrCreate()
 
+#load the sample text data
+data = [("hello world",),("how are you",),("i am fine",),("surabhi",)]
+df = spark.createDataFrame(data, ["text"])
+df.show(truncate = False)
 
-#location co average
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-!pip install basemap
-from mpl_toolkits.basemap import Basemap
-print(" ")
-LatitudeData = pd.Series(np.array(range(-90,91,1)))
-LongitudeData = pd.Series(np.array(range(-180,181,1)))
-LatitudeSet=LatitudeData.sample(10)
-LongitudeSet=LongitudeData.sample(10)
-LatitudeAverage=np.average(LatitudeSet)
-LongitudeAverage=np.average(LongitudeSet)
-print('Latitude',LatitudeSet)
-print('Latitude(Avg):',LatitudeAverage)
-print('Longitude',LongitudeSet)
-print('Longitude(Avg):',LongitudeAverage)
+word_df = df.withColumn("words",explode(split(col('text')," ")))
+word_df.show()
 
-#random lat and long basemap
-# Plotting on a world map
-plt.figure(figsize=(12, 6))
-map = Basemap(projection='mill', llcrnrlat=-60, urcrnrlat=90,
-llcrnrlon=-180, urcrnrlon=180, resolution='c')
-
-map.drawcoastlines()
-map.drawcountries()
-map.drawmapboundary(fill_color='aqua')
-map.fillcontinents(color='lightgreen', lake_color='aqua')
-
-# Convert latitude and longitude to map projection coordinates
-x, y = map(LongitudeSet.values, LatitudeSet.values)
-
-# Plot the sampled points
-map.scatter(x, y, marker='o', color='red', s=100, label='Sampled Points')
-
-# Plot the average point
-avg_x, avg_y = map(LongitudeAverage, LatitudeAverage)
-map.scatter(avg_x, avg_y, marker='X', color='blue', s=200, label='Average Point')
-
-# Add title and legend
-plt.title('Randomly Sampled Latitude and Longitude Points on World Map')
-plt.legend()
-plt.show()
+word_count = word_df.groupBy("words").count().orderBy(col("count").desc())
+word_count.show()
 
 
 `;
