@@ -4,50 +4,39 @@
   <title>Copy Multiline Variable Text to Clipboard</title>
 </head>
 <body>
-  <button onclick="copyMultilineText1()">p1-Color Maps in Matplotlib</button>
-  <button onclick="copyMultilineText2()">p2-Geospatial Visualization</button>
-  <button onclick="copyMultilineText3()">p3- Geo Visual with Folium</button>
-  <button onclick="copyMultilineText4()">p4-Moon Using Astropy</button>
-  <button onclick="copyMultilineText5()">p5-COVID-19 Cases Using Plotly Express</button>
-  <button onclick="copyMultilineText6()">p6-Linear Regression Analysis Diabities</button>
-  <button onclick="copyMultilineText7()">p7-Word Cloud </button>
-  <button onclick="copyMultilineText8()">p8-Cassandra</button>
-  <button onclick="copyMultilineText9()">p8-vid to img</button>
-  <button onclick="copyMultilineText10()">p8-mongo db</button>
-  <button onclick="copyMultilineText11()">p8-audio to horus</button>
-  <button onclick="copyMultilineText12()">p8-Data Analysis and Visualization</button>
-  
+  <button onclick="copyMultilineText1()">p1-P.S Data Read</button>
+  <button onclick="copyMultilineText2()">p2-P.S Combine</button>
+  <button onclick="copyMultilineText3()">p3-col,filter,mapred P.S</button>
+  <button onclick="copyMultilineText4()">p4-spark config df create</button>
+  <button onclick="copyMultilineText5()">p5-tempview df sql</button>
+  <button onclick="copyMultilineText6()">p6-UDF SS</button>
+  <button onclick="copyMultilineText7()">p7-MLIB Linear reg </button>
+  <button onclick="copyMultilineText8()">p8-MLIB KMCLUS</button>
+  <button onclick="copyMultilineText9()">p9-MLIB LOG Res</button>
+  <button onclick="copyMultilineText10()">p10-MLIB Naive</button>
+  <button onclick="copyMultilineText11()">p11-word count</button>
+  <button onclick="copyMultilineText12()">p12-word count data mal</button>
+    
   <script>
     function copyMultilineText1() {
       // Your variable containing multiline text data
       var yourMultilineVariable = `
       
- # Import the necessary libraries
-import matplotlib.pyplot as plt  # For creating plots
-import numpy as np  # For numerical operations, especially for generating random numbers
+ !pip install pyspark
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import * #
 
-# Loop through the color maps, limiting to the first 5
-for index, i in enumerate(plt.colormaps()):
-    if index >= 3:  # Stop the loop after 5 iterations
-        break
+#Step Create Objetct
 
-    # Set the title for each plot based on the color map name
-    sTitle = '  \n Color Map: ' + i
+spark = SparkSession.builder.appName('test').getOrCreate()
+df = spark.read.option('header', True).csv('/content/employees.csv')
+df.show()
 
-    # Create a figure for the plot with a specific size
-    fig = plt.figure(figsize=(4, 4))
+df.select('salary').show(5)
+df.printSchema() 
 
-    # Set the title for the plot
-    plt.title(sTitle)
-
-    # Generate a random 10x10 matrix and plot it as an image
-    imgplot = plt.imshow(np.random.rand(10, 10))
-
-    # Apply the current color map to the image plot
-    imgplot.set_cmap(i)
-
-    # Display the plot
-    plt.show()
+panda_df = df.toPandas()
+panda_df.head()
 
       
       `;
