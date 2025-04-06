@@ -1093,7 +1093,12 @@ ggplot(df_pca, aes(x = PC1, y = PC2, color = Cluster) ) +
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-
+open weka
+click on explorer
+in preprocess click on open file & select iris arff file
+in attribute select all except class
+click on visualize all for graph
+then go to visualize you will get plots
 
 
 `;
@@ -1124,7 +1129,15 @@ ggplot(df_pca, aes(x = PC1, y = PC2, color = Cluster) ) +
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-
+open weka
+click on explorer
+in preprocess click on open file & select iris arff file
+in attribute select all except class
+go to classify & click choose go in trees folder & select j48
+go to more options & select output prediction as plain text and click ok
+click on start full summary will be visible
+right click on session name below start eg 22:50:13-treesJ48
+select visualize tree 
 
 
 `;
@@ -1155,7 +1168,21 @@ ggplot(df_pca, aes(x = PC1, y = PC2, color = Cluster) ) +
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-
+open weka
+click on explorer
+in preprocess click on open file & select weather.nominal arff file
+in attribute select all except outlook
+go to classify & click choose go in bayes folder & select NaiveByayes
+go to more options & select output prediction as plain text and click ok
+click on start full summary will be visible
+go to home page of weka and click on tools select arffViewer
+click file and open weather.nominal arff file
+by pressing ctrl select all entries keep one entry to use as test data
+go to edit and select delete instances
+go to files and select save as and name as test.arff
+now again go to explorer page
+select radio button supplied test set and select new file(test.arff)
+select start
 
 
 `;
@@ -1186,7 +1213,18 @@ ggplot(df_pca, aes(x = PC1, y = PC2, color = Cluster) ) +
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-
+open weka
+click on explorer
+in preprocess click on open file & select iris arff file
+go to cluster section click on choose in clusteres folder select simpleKmeans
+tap on simpleKmeans edit numCluster as 3 and ok
+click ignor attributes and select class to be ignored
+click on start full summary will be visible
+select radio button classes to clusters evaluation
+click on start cluster detail will be visible
+right click on session name below start eg 22:50:13-SimpleKMeans
+select visualize cluster assigments
+graph will be ready
 
 
 `;
