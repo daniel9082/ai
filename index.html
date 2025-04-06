@@ -1063,7 +1063,7 @@ df_pca <- data.frame(pca_result$x[, 1:2], Cluster = as.factor(kmeans_result$clus
 ggplot(df_pca, aes(x = PC1, y = PC2, color = Cluster) ) +
   geom_point(size = 3) +Z
   labs(title = "K-means Clustering (PCA Reduced Data), Daniel 011")
-
+print()
 
 
 
