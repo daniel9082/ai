@@ -15,88 +15,51 @@
   <button onclick="copyMultilineText9()">p3A-NB spam</button>
   <button onclick="copyMultilineText10()">p3B-NB Iris</button>
   <button onclick="copyMultilineText11()">p4A-R-ReadData</button>
-  <button onclick="copyMultilineText12()">p4B-R-Desc Tree</button>
-  <button onclick="copyMultilineText13()">p4C-R-NB</button>
-  <button onclick="copyMultilineText14()">p5A-P-SVM</button>
-  <button onclick="copyMultilineText15()">p5B-R-SVM</button>
-  <button onclick="copyMultilineText16()">p6A-P-KMean</button>
-  <button onclick="copyMultilineText17()">p6B-R-KMean</button>
-  <button onclick="copyMultilineText18()">p7-Under WEKA</button>
-  <button onclick="copyMultilineText19()">p8-Weka Desc Tree</button>
-  <button onclick="copyMultilineText20()">p9-Weka NB</button>
-  <button onclick="copyMultilineText21()">p21-Weka Clust</button>
+
   
-    
   <script>
     function copyMultilineText1() {
       // Your variable containing multiline text data
       var yourMultilineVariable = `
+
+#Importing the required packages
+import pandas as pd
+from sklearn.metrics.pairwise import cosine_similarity
+df1 = pd.read_csv(r'movies.csv')
+df2 = pd.read_csv(r'ratings.csv')
+df = df2.merge(df1, left_on='movieId', right_on='movieId', how='left')
+del df['timestamp']
+del df['genres']
+df.head()
+user_movie_matrix = pd.pivot_table(df, values = 'rating', index='movieId', columns = 'userId')
+user_movie_matrix
+user_movie_matrix = user_movie_matrix.fillna(0)
+user_movie_matrix.head()
+#user-based collaborative filtering
+user_user_matrix = user_movie_matrix.corr(method='pearson')
+user_user_matrix
+#Extarcing top 10 similar users for User2 by sorting them in descending order based on their similarties
+user_user_matrix.loc[2].sort_values(ascending=False).head(10)
+df_2 = pd.DataFrame(user_user_matrix.loc[2].sort_values(ascending=False).head(10))
+df_2 = df_2.reset_index()
+df_2.columns = ['userId', 'similarity']
+df_2 = df_2.drop((df_2[df_2['userId'] ==2]).index)
+df_2
+#Now we are creating a new DF which has all the similar users and their rated movies
+final_df = df_2.merge(df, left_on='userId', right_on='userId', how='left')
+final_df
+final_df['score'] = final_df['similarity']*final_df['rating']
+final_df
+watched_df = df[df['userId'] == 2]
+watched_df
+cond = final_df['movieId'].isin(watched_df['movieId'])
+final_df.drop(final_df[cond].index, inplace = True)
+recommended_df = final_df.sort_values(by = 'score', ascending = False)['title'].head(10)
+recommended_df = recommended_df.reset_index()
+del recommended_df['index']
+recommended_df
       
-import pandas as pd
-df = pd.read_csv('SampleData.csv')
-print(df.head())
 
-print(df.info())
-
-print(df["Name"])
-
-print(df["Name"].isnull())
-
-print(df["Name"])
-df.fillna("null", inplace=True)
-print(df["Name"])
-
-df["Name"] = df["Name"].str.replace("null","Daniel")
-print(df["Name"])
-
-#Handling inconsistent formatting
-#1. Standardizing Text Data
-print(df["Name"].isnull())
-
-#a. Convert to Lowercase or Uppercase
-df["Name"] = df["Name"].str.lower()
-print(df["Name"])
-
-df["Name"] = df["Name"].str.upper()
-print(df["Name"])
-
-#b. Remove Leading/Trailing Whitespaces
-df["Name"] = df["Name"].str.strip()
-print(df["Name"])
-
-#Handling outliers
-import pandas as pd
-import numpy as np
-df = pd.read_csv('SampleData.csv')
-data = df['Age']
-dataInt = data.astype(int)
-datatolist = dataInt.tolist()
-print(datatolist)
-
-Q1 = dataInt.quantile(0.25)
-Q3 = dataInt.quantile(0.75)
-IQR = Q3 - Q1
-lower_bound = Q1 - 1.5 * IQR
-upper_bound = Q3 + 1.5 * IQR
-
-outliers = dataInt [(dataInt < lower_bound) | (dataInt > upper_bound)]
-print("\nOutliers using IQR method:")
-print(outliers)
-
-
-import pandas as pd
-import numpy as np
-data = {'Value' : [10,20,30,40,200,60,70,80,90,100]}
-df=pd.DataFrame(data)
-Q1 = dataInt.quantile(0.25)
-Q3 = dataInt.quantile(0.75)
-IQR = Q3 - Q1
-lower_bound = Q1 - 1.5 * IQR
-upper_bound = Q3 + 1.5 * IQR
-
-outliers = dataInt [(dataInt < lower_bound) | (dataInt > upper_bound)]
-print("\nOutliers using IQR method:")
-print(outliers)
 
       
       `;
