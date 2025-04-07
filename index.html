@@ -834,46 +834,42 @@ table(NB_Predictions,weather_df$play, dnn=c("Prediction","Actual"))
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-import pandas as pd
-data ={
-  'feature1': [5.1,4.9,6.2,5.9],
-  'feature2': [3.5,3.0,3.4,3.0],
-  'feature3': [1.4,1.4,5.4,5.1],
-  'target': [0,0,2,1]
-}
-df = pd.DataFrame(data)
-print(df)
-
-
-feature_columns = ['feature1', 'feature2', 'feature3']
-target_column = 'target'
-X = df[feature_columns]
-y = df[target_column]
-print(X)
-print(y)
-
-
-from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-print("X_Train:")
-print(X_train)
-
-
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_classification
 from sklearn.svm import SVC
-svm_classifier = SVC(kernel='linear', C=1.0)
-svm_classifier.fit(X_train, y_train)
-print("Model is trained")
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 
-y_pred = svm_classifier.predict(X_test)
-print("Predicted values:")
-print(y_pred)
+# Data generation and split
+X, y = make_classification(n_samples=100, n_features=2, n_classes=3,
+                           n_clusters_per_class=1, n_informative=2,
+                           n_redundant=0, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
-from sklearn.metrics import classification_report, accuracy_score
-accuracy = accuracy_score(y_test, y_pred)
-print("Accuracy:", accuracy)
-print("classification_report:")
-print(classification_report(y_test, y_pred))
+# Scaling
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
 
+# SVM training
+clf = SVC(kernel='linear', decision_function_shape='ovr')
+clf.fit(X_train, y_train)
+
+# Accuracy
+print("Accuracy:", clf.score(X_test, y_test))
+
+# Plot decision boundary
+xx, yy = np.meshgrid(np.linspace(X_train[:,0].min(), X_train[:,0].max(), 200),
+                     np.linspace(X_train[:,1].min(), X_train[:,1].max(), 200))
+Z = clf.predict(np.c_[xx.ravel(), yy.ravel()]).reshape(xx.shape)
+
+plt.contourf(xx, yy, Z, alpha=0.3, cmap=plt.cm.coolwarm)
+plt.scatter(X_train[:,0], X_train[:,1], c=y_train, cmap=plt.cm.coolwarm, edgecolors='k')
+plt.title("SVM Decision Boundary")
+plt.xlabel("Feature 1")
+plt.ylabel("Feature 2")
+plt.show()
 
 
 `;
