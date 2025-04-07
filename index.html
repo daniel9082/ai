@@ -557,7 +557,27 @@ print(billboard_data)
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-not yet
+!pip install pygal pyspark  > /dev/null
+import pygal
+import random
+regions = [f'Region {i}' for i in range(1, 11)]
+months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+# Generate random sales data for 10 regions over 12 months
+sales_data = {region: [random.randint(1000, 10000) for _ in months] for region in regions}
+bar_chart = pygal.Bar(title='Total Sales Across 10 Regions (Yearly)')
+for region, sales in sales_data.items():
+    bar_chart.add(region, sum(sales))  # Summing up monthly sales per region
+# Save as SVG
+bar_chart.render_to_file('total_sales_regions.svg')
+top_regions = sorted(sales_data.items(), key=lambda x: sum(x[1]), reverse=True)[:3]
+line_chart = pygal.Line(title='Monthly Sales Trends for Top 3 Regions')
+line_chart.x_labels = months
+# Add monthly sales data for top 3 regions
+for region, sales in top_regions:
+    line_chart.add(region, sales)
+line_chart.render_to_file('top_regions_trends.svg')
+
 
 
 `;
