@@ -4,99 +4,61 @@
   <title>Copy Multiline Variable Text to Clipboard</title>
 </head>
 <body>
-  <button onclick="copyMultilineText1()">p1A-data pre-pro & explo</button>
-  <button onclick="copyMultilineText2()">p1B-load data stats visual </button>
-  <button onclick="copyMultilineText3()">p1C-Label Enco,Scale,binar </button>
-  <button onclick="copyMultilineText4()">p2A-Decs tree learn</button>
-  <button onclick="copyMultilineText5()">p2B-DTL gini index</button>
-  <button onclick="copyMultilineText6()">p2C-Gini in python</button>
-  <button onclick="copyMultilineText7()">p2D-DT info gain </button>
-  <button onclick="copyMultilineText8()">p2E-Imple Info gain</button>
-  <button onclick="copyMultilineText9()">p3A-NB spam</button>
-  <button onclick="copyMultilineText10()">p3B-NB Iris</button>
-  <button onclick="copyMultilineText11()">p4A-R-ReadData</button>
-  <button onclick="copyMultilineText12()">p4B-R-Desc Tree</button>
-  <button onclick="copyMultilineText13()">p4C-R-NB</button>
-  <button onclick="copyMultilineText14()">p5A-P-SVM</button>
-  <button onclick="copyMultilineText15()">p5B-R-SVM</button>
-  <button onclick="copyMultilineText16()">p6A-P-KMean</button>
-  <button onclick="copyMultilineText17()">p6B-R-KMean</button>
-  <button onclick="copyMultilineText18()">p7-Under WEKA</button>
-  <button onclick="copyMultilineText19()">p8-Weka Desc Tree</button>
-  <button onclick="copyMultilineText20()">p9-Weka NB</button>
-  <button onclick="copyMultilineText21()">p21-Weka Clust</button>
-  
+  <button onclick="copyMultilineText1()">p1-Recommed Sys</button>
+  <button onclick="copyMultilineText2()">p2-Process Data from Social media</button>
+  <button onclick="copyMultilineText3()">p3-Ingest Data using Data Acess connect </button>
+  <button onclick="copyMultilineText4()">p4-Genome Analysis calc GC content</button>
+  <button onclick="copyMultilineText5()">p5-MVDI & Sentinel hub</button>
+  <button onclick="copyMultilineText6()">p6-Explor Data Analysis E-comm reviews</button>
+  <button onclick="copyMultilineText7()">p7-Sentiment Analysis IMDB data</button>
+  <button onclick="copyMultilineText8()">p8-PY/R prog select billboard </button>
+  <button onclick="copyMultilineText9()">p9- Data Visual pygal</button>
+  <button onclick="copyMultilineText10()">p10-Process Balance sheet data</button>
+  <button onclick="copyMultilineText11()">p11-Working with MongoDB</button>
+   
     
   <script>
     function copyMultilineText1() {
       // Your variable containing multiline text data
       var yourMultilineVariable = `
       
+#Importing the required packages
 import pandas as pd
-df = pd.read_csv('SampleData.csv')
-print(df.head())
+from sklearn.metrics.pairwise import cosine_similarity
+df1 = pd.read_csv(r'movies.csv')
+df2 = pd.read_csv(r'ratings.csv')
+df = df2.merge(df1, left_on='movieId', right_on='movieId', how='left')
+del df['timestamp']
+del df['genres']
+df.head()
+user_movie_matrix = pd.pivot_table(df, values = 'rating', index='movieId', columns = 'userId')
+user_movie_matrix
+user_movie_matrix = user_movie_matrix.fillna(0)
+user_movie_matrix.head()
+#user-based collaborative filtering
+user_user_matrix = user_movie_matrix.corr(method='pearson')
+user_user_matrix
+#Extarcing top 10 similar users for User2 by sorting them in descending order based on their similarties
+user_user_matrix.loc[2].sort_values(ascending=False).head(10)
+df_2 = pd.DataFrame(user_user_matrix.loc[2].sort_values(ascending=False).head(10))
+df_2 = df_2.reset_index()
+df_2.columns = ['userId', 'similarity']
+df_2 = df_2.drop((df_2[df_2['userId'] ==2]).index)
+df_2
+#Now we are creating a new DF which has all the similar users and their rated movies
+final_df = df_2.merge(df, left_on='userId', right_on='userId', how='left')
+final_df
+final_df['score'] = final_df['similarity']*final_df['rating']
+final_df
+watched_df = df[df['userId'] == 2]
+watched_df
+cond = final_df['movieId'].isin(watched_df['movieId'])
+final_df.drop(final_df[cond].index, inplace = True)
+recommended_df = final_df.sort_values(by = 'score', ascending = False)['title'].head(10)
+recommended_df = recommended_df.reset_index()
+del recommended_df['index']
+recommended_df
 
-print(df.info())
-
-print(df["Name"])
-
-print(df["Name"].isnull())
-
-print(df["Name"])
-df.fillna("null", inplace=True)
-print(df["Name"])
-
-df["Name"] = df["Name"].str.replace("null","Daniel")
-print(df["Name"])
-
-#Handling inconsistent formatting
-#1. Standardizing Text Data
-print(df["Name"].isnull())
-
-#a. Convert to Lowercase or Uppercase
-df["Name"] = df["Name"].str.lower()
-print(df["Name"])
-
-df["Name"] = df["Name"].str.upper()
-print(df["Name"])
-
-#b. Remove Leading/Trailing Whitespaces
-df["Name"] = df["Name"].str.strip()
-print(df["Name"])
-
-#Handling outliers
-import pandas as pd
-import numpy as np
-df = pd.read_csv('SampleData.csv')
-data = df['Age']
-dataInt = data.astype(int)
-datatolist = dataInt.tolist()
-print(datatolist)
-
-Q1 = dataInt.quantile(0.25)
-Q3 = dataInt.quantile(0.75)
-IQR = Q3 - Q1
-lower_bound = Q1 - 1.5 * IQR
-upper_bound = Q3 + 1.5 * IQR
-
-outliers = dataInt [(dataInt < lower_bound) | (dataInt > upper_bound)]
-print("\nOutliers using IQR method:")
-print(outliers)
-
-
-import pandas as pd
-import numpy as np
-data = {'Value' : [10,20,30,40,200,60,70,80,90,100]}
-df=pd.DataFrame(data)
-Q1 = dataInt.quantile(0.25)
-Q3 = dataInt.quantile(0.75)
-IQR = Q3 - Q1
-lower_bound = Q1 - 1.5 * IQR
-upper_bound = Q3 + 1.5 * IQR
-
-outliers = dataInt [(dataInt < lower_bound) | (dataInt > upper_bound)]
-print("\nOutliers using IQR method:")
-print(outliers)
 
       
       `;
@@ -127,41 +89,8 @@ print(outliers)
       // Your variable containing multiline text data
       var yourMultilineVariable = `
       
-import pandas as pd
-df = pd.read_csv("/content/train.csv")
-print(df.head())
-print(df.describe())
-print(df.describe(include='all'))
 
-x = df.drop(["Survived"], axis=1)
-y = df["Survived"]
-print("Features :\n",x)
-print("Target :\n",y)
 
-import matplotlib.pyplot as plt
-df.hist(figsize=(10,10))
-plt.show()
-
-import matplotlib.pyplot as plt
-df.plot.bar()
-plt.bar(['Age'], df['Pclass'])
-plt.xlabel("Age")
-plt.ylabel("Pclass")
-plt.title("TITLE")
-plt.show()
-
-import matplotlib.pyplot as plt
-plt.scatter(df['Pclass'], df['Age'])
-plt.xlabel("Pclass")
-plt.ylabel("Age")
-plt.title("TITLE")
-plt.show()
-
-import matplotlib.pyplot as plt
-import seaborn as sns
-sns.boxplot(x='Pclass', y='Age', data=df)
-plt.title("TITLE")
-plt.show()
 
      
       `;
@@ -192,28 +121,9 @@ plt.show()
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-#Label Encoding
-import numpy as np
-import pandas as pd
-df = pd.read_csv("/content/iris.csv")
-print(df['species'].unique())
 
-from sklearn import preprocessing
-label_encoder = preprocessing.LabelEncoder()
-df['species'] = label_encoder.fit_transform(df['species'])
-print(df['species'].unique())
 
-#Binarization
-import pandas as pd
-from sklearn.datasets import load_iris
-from sklearn.preprocessing import Binarizer
-data = load_iris(as_frame=True)
-df = data.frame
-print(df["sepal length (cm)"])
 
-binarizer = Binarizer(threshold=5.0)
-df['sepal length (cm) binary'] = binarizer.fit_transform(df[['sepal length (cm)']])
-print(df['sepal length (cm) binary'])
 
       
       `;
@@ -244,48 +154,34 @@ print(df['sepal length (cm) binary'])
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-import numpy as np
-import pandas as pd
-data = pd.read_csv("/content/iris.csv")
-print(data.head())
+pip install bio
 
-x = data.drop('species', axis=1)
-y = data['species']
-print("Features:\n",x)
-print("Target:\n",y)
-
-#Split dataset into Training and Testing
-from sklearn.model_selection import train_test_split
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
-
-print("Training data")
-print(x_train)
-print(y_train)
-
-print("Testing data")
-print(x_test)
-print(y_test)
-
-#Model Creation and Training
-from sklearn.tree import DecisionTreeClassifier
-model = DecisionTreeClassifier()
-model.fit(x_train, y_train)
-
-#Test the Model
-y_pred = model.predict(x_test)
-print("Predicted values:\n",y_pred)
-
-#Calculate Accuracy of model
-from sklearn.metrics import accuracy_score
-accuracy = accuracy_score(y_test, y_pred)
-print("Accuracy:", accuracy)
-
-#Plot Decision Tree
+from  Bio import SeqIO
 import matplotlib.pyplot as plt
-from sklearn.tree import plot_tree
-plt.figure(figsize=(10, 6))
-plot_tree(model, filled=True, feature_names=x.columns)
-plt.title("TITLE")
+fp="/content/sample.fasta"
+for seq_record in SeqIO.parse(fp, "fasta"):
+    print(seq_record.id)
+    print(repr(seq_record.seq))
+    print(len(seq_record))
+def calculate_gc_content(sequence, window_size):
+    gc_content = []
+    for i in range(0, len(sequence) - window_size + 1):
+        window = sequence[i:i + window_size]
+        gc_count = window.count("G") + window.count("C")
+        gc_content.append(gc_count / window_size * 100)
+    return gc_content
+# Example DNA sequence
+dna_sequence = "ATGCGCGTAGCTAGGCTACGCGTACGTAGCGTAGCGTAGCTAGGCTAGCGTACGTAGC"
+window_size = 10
+# Calculate GC content
+gc_values = calculate_gc_content(dna_sequence, window_size)
+# Plot GC content
+plt.figure(figsize=(10, 5))
+plt.plot(range(len(gc_values)), gc_values, marker='o', linestyle='-', color='b')
+plt.title(f"GC Content with Window Size {window_size}")
+plt.xlabel("Window Position")
+plt.ylabel("GC Content (%)")
+plt.grid()
 plt.show()
 
 
@@ -318,36 +214,59 @@ plt.show()
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-from sklearn.datasets import load_iris
-from sklearn.tree import DecisionTreeClassifier, export_text, plot_tree
+
+!pip install sentinelhub numpy matplotlib geopandas shapely> /dev/null
+from sentinelhub import SHConfig, BBox, CRS, DataCollection, SentinelHubRequest, MimeType
+import numpy as np
 import matplotlib.pyplot as plt
-
-# Step 1: Load the dataset
-# Here, we use the Iris dataset as an example
-data = load_iris()
-X = data.data # Features
-y = data.target # Labels
-
-# Step 2: Train a Decision Tree Classifier with Gini Index
-# By default, DecisionTreeClassifier uses Gini Index as the criterion
-clf = DecisionTreeClassifier(criterion='gini', max_depth=3, random_state=42)
-clf.fit(X, y)
-
-# Step 3: Visualize the Decision Tree
-plt.figure(figsize=(12, 8))
-plot_tree(
-    clf,
-    feature_names=data.feature_names,
-    class_names=data.target_names,
-    filled=True,
-    rounded=True
+print('\033[1mSentinel Hub API Configuration:\033[0m')
+print('\033[1m====================================\033[0m')
+config = SHConfig()
+config.instance_id = 'fb89a462-8e6b-4d31-8c2b-87f6fe40471b'
+config.sh_client_id = '4120319c-6ecc-4a34-8903-ad3a76be7ba3'
+config.sh_client_secret = 'S3fZ0K23xmxTZhNDc5Zpwe70m8Wz1gcl'
+area_of_interest = BBox(bbox=(-74.0, 40.5, -73.8, 40.7), crs=CRS.WGS84)  # Example: NYC
+time_interval = ('2024-01-01', '2024-01-10')
+evalscript = """
+function setup() {
+    return {
+        input: ["B04", "B08"],
+        output: { bands: 1 }
+    };
+}
+function evaluatePixel(sample) {
+    let ndvi = (sample.B08 - sample.B04) / (sample.B08 + sample.B04);
+    return [ndvi];
+}
+"""
+request = SentinelHubRequest(
+    evalscript=evalscript,
+    input_data=[
+        SentinelHubRequest.input_data(
+            data_collection=DataCollection.SENTINEL2_L2A,
+            time_interval=time_interval
+        )
+    ],
+    responses=[
+        SentinelHubRequest.output_response('default', MimeType.TIFF)
+    ],
+    bbox=area_of_interest,
+    size=(512, 512),
+    config=config
 )
-plt.title("Decision Tree (Using Gini Index)")
+response = request.get_data()
+ndvi_data = response[0]
+ndvi_data = ndvi_data.astype(np.float32)
+ndvi_data = np.clip(ndvi_data, -1, 1)
+if ndvi_data.ndim == 3 and ndvi_data.shape[-1] == 1:
+    ndvi_data = ndvi_data.squeeze(-1)
+plt.figure(figsize=(10, 8))
+plt.title("NDVI Analysis")
+plt.imshow(ndvi_data, cmap='YlGn')
+plt.colorbar(label="NDVI Value")
 plt.show()
 
-# Step 4: Print the Decision Tree in Text Format
-tree_rules = export_text(clf, feature_names=data.feature_names)
-print(tree_rules)
+
 
 
 `;
@@ -378,40 +297,52 @@ print(tree_rules)
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-def gini_index(classes):
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import re
+# Load dataset
+file_path = "/content/Womens Clothing E-Commerce Reviews.csv"
+df = pd.read_csv(file_path)
+# Drop rows with missing reviews
+df = df.dropna(subset=['Review Text'])
+# Function to clean text
+def clean_text(text):
+    text = text.lower()  # Convert to lowercase
+    text = re.sub(r'[^a-zA-Z\s]', '', text)  # Remove special characters
+    text = re.sub(r'\s+', ' ', text).strip()  # Remove extra spaces
+    return text
+# Apply text cleaning
+df['Cleaned Review'] = df['Review Text'].apply(clean_text)
+# Plot rating distribution
+plt.figure(figsize=(8,5))
+sns.countplot(x=df['Rating'], palette='viridis')
+plt.title('Review Rating Distribution')
+plt.xlabel('Rating')
+plt.ylabel('Count')
+plt.show()
+# Pie chart for recommended vs. not recommended
+plt.figure(figsize=(6,6))
+df['Recommended IND'].value_counts().plot.pie(autopct='%1.1f%%', colors=['lightblue', 'orange'])
+plt.title('Recommendation Distribution')
+plt.ylabel('')
+plt.show()
+# Boxplot for age distribution by rating
+plt.figure(figsize=(10,6))
+sns.boxplot(x='Rating', y='Age', data=df, palette='coolwarm')
+plt.title('Age Distribution by Rating')
+plt.xlabel('Rating')
+plt.ylabel('Age')
+plt.show()
+# Bar chart for top 10 most reviewed clothing items
+plt.figure(figsize=(12,6))
+top_products = df['Clothing ID'].value_counts().nlargest(10)
+top_products.plot(kind='bar', color='teal')
+plt.title('Top 10 Most Reviewed Clothing Items')
+plt.xlabel('Clothing ID')
+plt.ylabel('Number of Reviews')
+plt.show()
 
-  total = sum(classes)
-  proportions = [count / total for count in classes]
-  return 1 - sum(p ** 2 for p in proportions)
-
-def weighted_gini(children):
-
-  total_instances = sum(sum(child) for child in children)
-  weighted_gini = sum(
-      (sum(child) / total_instances) * gini_index(child) for child in children
-  )
-  return weighted_gini
-
-def gini_gain(parent, children):
-
-  gini_parent = gini_index(parent)
-  gini_split = weighted_gini(children)
-  return gini_parent - gini_split
-
-# Example: Dataset
-parent_node = [50, 30, 20] # Class A: 50, Class B: 30, Class C: 20
-child_1 = [30, 20, 10]     # Class A: 30, Class B: 20, Class C: 10
-child_2 = [20, 10, 10]     # Class A: 20, Class B: 10, Class C: 10
-
-# Calculations
-gini_parent = gini_index(parent_node)
-gini_split = weighted_gini([child_1, child_2])
-gain = gini_gain(parent_node, [child_1, child_2])
-# Results
-
-print(f"Gini Index (Parent Node): {gini_parent :.4f}")
-print(f"Weighted Gini Index (After Split): {gini_split :.4f}")
-print(f"Gini Gain: {gain :.4f}")
 
 
 
@@ -443,34 +374,102 @@ print(f"Gini Gain: {gain :.4f}")
       // Your variable containing multiline text data
       var yourMultilineVariable = ` 
       
-from sklearn.datasets import load_iris
-from sklearn.tree import DecisionTreeClassifier, export_text, plot_tree
+!pip install wordcloud seaborn nltk > /dev/null
+import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
+from wordcloud import WordCloud
+import nltk
+from nltk.corpus import stopwords
+from collections import Counter
+import re
+# Keras utility for the IMDb dataset
+from keras.datasets import imdb
+# Download NLTK resources
+nltk.download('stopwords')
+nltk.download('punkt')
+stop_words = set(stopwords.words('english'))
+def load_and_clean_data(num_words=10000):
+    (train_data, train_labels), (test_data, test_labels) = imdb.load_data(num_words=num_words)
+    word_index = imdb.get_word_index()
+    reverse_word_index = {value: key for (key, value) in word_index.items()}
+    def decode_review(encoded_review):
+        return " ".join([reverse_word_index.get(i - 3, "?") for i in encoded_review if i >= 3])
+    train_reviews = [decode_review(seq) for seq in train_data]
+    test_reviews = [decode_review(seq) for seq in test_data]
+    # 4. Create DataFrames for train and test
+    df_train = pd.DataFrame({
+        "review": train_reviews,
+        "sentiment": train_labels
+    })
+    df_test = pd.DataFrame({
+        "review": test_reviews,
+        "sentiment": test_labels
+    })
+    # Combine train and test sets
+    df = pd.concat([df_train, df_test], ignore_index=True)
+    # 5. Convert sentiment from 0/1 to string labels (optional)
+    #    If you prefer numeric, skip this step
+    df["sentiment"] = df["sentiment"].map({0: "negative", 1: "positive"})
+    # 6. Drop duplicates
+    df.drop_duplicates(inplace=True)
+    # 7. Drop missing values (if any)
+    df.dropna(inplace=True)
+    # 8. Ensure 'review' and 'sentiment' columns exist
+    if "review" not in df.columns or "sentiment" not in df.columns:
+        raise ValueError("Dataset does not have required columns: 'review' and 'sentiment'")
+    return df
+# ------------------------------------------------------------------
+# Main script
+# ------------------------------------------------------------------
+df = load_and_clean_data(num_words=10000)
+# Check the first few rows
+print(df.head())
+# Check for missing values
+print("\nMissing Values:\n", df.isnull().sum())
+# (Optional) Check distribution of sentiments
+print("\nSentiment Distribution:\n", df["sentiment"].value_counts())
+def clean_text(text):
+    text = re.sub(r'<.*?>', '', text)  # Remove HTML tags
+    text = re.sub(r'[^a-zA-Z ]', '', text)  # Remove non-alphabetic characters
+    text = text.lower()
+    words = text.split()
+    words = [word for word in words if word not in stop_words]
+    return ' '.join(words)
+# Apply cleaning
+df['clean_review'] = df['review'].astype(str).apply(clean_text)
 
-# Step 1: Load the dataset
-# Here, we use the Iris dataset as an example
-data = load_iris()
-X = data.data # Features
-y = data.target # Labels
-
-# Step 2: Train a Decision Tree Classifier with Information Gain (Entropy)
-clf = DecisionTreeClassifier(criterion='entropy', max_depth=4, random_state=42)
-clf.fit(X, y)
-
-# Step 3: Visualize the Decision Tree
-plt.figure(figsize=(12, 8))
-plot_tree(
-    clf,
-    feature_names=data.feature_names,
-    class_names=data.target_names,
-    filled=True,
-    rounded=True
-)
-plt.title("Decision Tree (Using Information Gain - Entropy)")
+# Sentiment Analysis Visualization
+plt.figure(figsize=(8, 5))
+sns.barplot(x=df['sentiment'].value_counts().index, y=df['sentiment'].value_counts().values, palette='coolwarm')
+plt.title("Sentiment Distribution in IMDb Reviews")
+plt.xlabel("Sentiment")
+plt.ylabel("Count")
 plt.show()
-# Step 4: Print the Decision Tree in Text Format
-tree_rules = export_text(clf, feature_names=data.feature_names)
-print(tree_rules)
+
+# Word Frequency in Positive vs Negative Reviews
+from collections import Counter
+# Tokenizing words for each sentiment category
+positive_words = ' '.join(df[df['sentiment'] == 'positive']['clean_review']).split()
+negative_words = ' '.join(df[df['sentiment'] == 'negative']['clean_review']).split()
+# Counting word frequency
+positive_word_counts = Counter(positive_words).most_common(20)
+negative_word_counts = Counter(negative_words).most_common(20)
+# Converting to DataFrame
+positive_df = pd.DataFrame(positive_word_counts, columns=['Word', 'Count'])
+negative_df = pd.DataFrame(negative_word_counts, columns=['Word', 'Count'])
+# Plot most common words in positive reviews
+plt.figure(figsize=(8, 5))
+sns.barplot(x='Count', y='Word', data=positive_df, palette='coolwarm')
+plt.title("Top 20 Words in Positive Reviews")
+plt.show()
+# Plot most common words in negative reviews
+plt.figure(figsize=(8, 5))
+sns.barplot(x='Count', y='Word', data=negative_df, palette='coolwarm')
+plt.title("Top 20 Words negative in reviews")
+plt.show()
+
 
 
 
@@ -503,32 +502,40 @@ print(tree_rules)
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-import numpy as np
-def entropy(classes):
-    total = sum(classes)
-    proportions = [count / total for count in classes if count > 0]
-    return -sum(p * np.log2(p) for p in proportions)
+pick_bill_song <- function(songs,num_songs){
+    shuffle_songs <-sample(songs)
+    bill_songs <-head(shuffle_songs,num_songs)
+    return(bill_songs)
+    }
+all_songs <-c("song 1","song 2","song 3","song 4","song5","song6","song 7","song8","song 9","song 10"
+)
+num_bill_song <-4
 
-def information_gain(parent, children):
-    total_instances = sum(parent)
-    parent_entropy = entropy(parent)
-    weighted_entropy = sum(
-        (sum(child) / total_instances) * entropy(child) for child in children
-    )
-    return parent_entropy - weighted_entropy
+bill_songs <- pick_bill_song(all_songs,num_bill_song)
+cat("BILLBOARD SONGS ARE :\n")
+for (song in bill_songs){
+    cat(song,"\n")
+    }
 
-# Dataset
-parent_node = [50, 30, 20]  # Class A: 50, Class B: 30, Class C: 20
-child_1 = [30, 20, 10]      # Class A: 30, Class B: 20, Class C: 10
-child_2 = [20, 10, 10]      # Class A: 20, Class B: 10, Class C: 10
 
-# Calculations
-parent_entropy = entropy(parent_node)
-weighted_entropy = sum([entropy(child_1), entropy(child_2)])
-gain = information_gain(parent_node, [child_1, child_2])
-print("Parent Entropy:", parent_entropy)
-print("Weighted Entropy:", weighted_entropy)
-print("Information Gain:", gain)
+import pandas as pd
+
+data = {
+    'content_id': [1, 2, 3, 4, 5, 6],
+    'title': ['Tiger 3', 'Arijit Singh Live in Concert', 'Super Bowl Ad', 'Bajrangi Bhaijaan', 'The Voice Finale', 'Coca-Cola Ad'],
+    'category': ['Entertainment', 'Music', 'Advertisement', 'Entertainment', 'TV Show', 'Advertisement'],
+    'views': [95000, 80000, 70000, 85000, 45000, 90000]
+}
+
+df = pd.DataFrame(data)
+
+billboard_data = df[(df['category'] == 'Entertainment') & (df['views'] > 50000)]
+
+# Display the filtered content
+print("Billboard Content:")
+print(billboard_data)
+
+
 
 
 
@@ -560,46 +567,28 @@ print("Information Gain:", gain)
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-import numpy as np
-from sklearn.naive_bayes import BernoulliNB
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
+!pip install pygal pyspark  > /dev/null
+import pygal
+import random
+regions = [f'Region {i}' for i in range(1, 11)]
+months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+# Generate random sales data for 10 regions over 12 months
+sales_data = {region: [random.randint(1000, 10000) for _ in months] for region in regions}
+bar_chart = pygal.Bar(title='Total Sales Across 10 Regions (Yearly)')
+for region, sales in sales_data.items():
+    bar_chart.add(region, sum(sales))  # Summing up monthly sales per region
+# Save as SVG
+bar_chart.render_to_file('total_sales_regions.svg')
+top_regions = sorted(sales_data.items(), key=lambda x: sum(x[1]), reverse=True)[:3]
+line_chart = pygal.Line(title='Monthly Sales Trends for Top 3 Regions')
+line_chart.x_labels = months
+# Add monthly sales data for top 3 regions
+for region, sales in top_regions:
+    line_chart.add(region, sales)
+line_chart.render_to_file('top_regions_trends.svg')
 
-print("KAUSTUBH KARANDE 015")
-print("===================")
 
-X = np.array([
-    [1,1,1,0,0], #Email 1 (Spam)
-    [1,1,0,0,0], #Email 2 (Spam)
-    [1,0,0,0,0], #Email 3 (Spam)
-    [0,0,0,1,1], #Email 4 (Ham)
-    [0,0,0,1,1], #Email 5 (Ham)
-    [1,0,0,1,1], #Email 6 (Ham)
-])
-
-#Labels (1: Spam, 0: Ham)
-y = np.array([1,1,1,0,0,0])
-
-#Step 2: Split the dataset into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-#Step 3: Initialize the Naive Bayes Classifier
-model = BernoulliNB()
-
-#Step 4: Train the model
-model.fit(X_train, y_train)
-
-#Step 5: Make Prediction on the test set
-y_pred = model.predict(X_test)
-
-#Step 6: Evaluate the model
-accuracy = accuracy_score(y_test, y_pred)
-print(f'Accuracy: {accuracy * 100:.2f}%')
-
-#Example of prediciting the clas for a new email
-new_email = np.array([[0,0,0,1,1]]) #New Email with words "Free" and "Money"
-new_prediction = model.predict(new_email)
-print(f'Predicted class for the new email (0=Ham, 1=Spam): {new_prediction[0]}')
 
 
 `;
@@ -630,28 +619,16 @@ print(f'Predicted class for the new email (0=Ham, 1=Spam): {new_prediction[0]}')
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-from sklearn.datasets import load_iris
-
-iris = load_iris()
-X = iris.data
-y = iris.target
-print("Dataset \n",iris)
-
-from sklearn.model_selection import train_test_split
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-from sklearn.naive_bayes import GaussianNB
-model = GaussianNB()
-model.fit(X_train, y_train)
-
-y_pred = model.predict(X_test)
-print("Predicted Output \n",y_pred)
-
-from sklearn.metrics import accuracy_score
-accuracy = accuracy_score(y_test, y_pred)
-print("Accuracy \n",accuracy)
-
+balance_data = pd.DataFrame({
+    'Date': ['2024-01-01', '2024-01-05', '2024-01-10', '2024-01-12',
+    '2024-01-15', '2024-01-20', '2024-01-25'],
+    'Account': ['Sales', 'Purchase', 'Sales', 'Expense', 'Sales', 'Purchase', 'Salary'],
+    'Amount': [15000, -12000, 20000, -5000, 0, -8000, 10000],
+    'Status': ['Valid', 'Valid', 'Invalid', 'Valid', 'Invalid', 'Valid', 'Valid']
+})
+valid_data = balance_data[(balance_data['Status'] == 'Valid') & (balance_data['Amount'] != 0)]
+valid_data.to_csv('cleaned_balance_sheet.csv', index=False)
+print("Valid balance sheet data processed and saved to 'cleaned_balance_sheet.csv'.")
 
 `;
 
@@ -681,25 +658,6 @@ print("Accuracy \n",accuracy)
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-library(datasets)
-data(iris)
-print(iris)
-
-names(iris)
-
-summary(iris)
-
-summary(iris$Sepal.Width)
-
-is.na(iris$Sepal.Width)
-is.na(iris)
-
-length(unique(iris$Sepal.Width))
-
-plot(iris$Sepal.Width)
-plot(iris)
-
-plot(iris$Petal.Width,iris$Petal.Length)
 
 
 `;
@@ -725,528 +683,7 @@ plot(iris$Petal.Width,iris$Petal.Length)
       document.body.removeChild(tempTextArea);
 
       
-    }
-    function copyMultilineText12() {
-      // Your variable containing multiline text data
-      var yourMultilineVariable = `
-
-install.packages("party")
-
-library(party) # Load package party
-
-library(party) # Load package party
-library (datasets) # load datasets package
-data (iris) # load dataset
-
-print(iris)
-
-target = Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width
-
-cdt <- ctree(target, iris) #Build tree
-
-table(predict(cdt), iris$Species) # Create confusion matrix
-cdt #To display decision tree rulesplot(cdt, type=”simple”) #Plotting of decision tree
-
-plot(cdt, type="simple") #Plotting of decision tree
-
-
-library(party)
-indexes = sample(150,90)
-iris_train = iris[indexes,]
-
-iris_test = iris[-indexes,]
-target = Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width
-cdt <- ctree(target, iris_train)
-
-table(predict(cdt, newdata=iris_test), iris_test$Species)
-summary(iris_test)
-
-plot(cdt, type="simple")
-`;
-
-      // Assign the variable's value to the text variable
-      var text = yourMultilineVariable;
-
-      // Create a temporary textarea element to hold the text
-      var tempTextArea = document.createElement("textarea");
-      tempTextArea.value = text;
-
-      // Append the textarea element to the DOM
-      document.body.appendChild(tempTextArea);
-
-      // Select the text in the textarea
-      tempTextArea.select();
-      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
-
-      // Copy the selected text to the clipboard
-      document.execCommand("copy");
-
-      // Remove the temporary textarea
-      document.body.removeChild(tempTextArea);
-
-      
-    }
-    function copyMultilineText13() {
-      // Your variable containing multiline text data
-      var yourMultilineVariable = `
-
-install.packages("e1071")
-
-library("e1071")
-data<-read.csv("/content/weather-nominal-weka.csv",header =TRUE)
-print(data)
-
-weather_df=as.data.frame(data)
-weather_df
-
-Naive_Bayes_Model=naiveBayes(play ~., data=weather_df)
-print(Naive_Bayes_Model)
-
-NB_Predictions=predict(Naive_Bayes_Model,weather_df)
-table(NB_Predictions,weather_df$play, dnn=c("Prediction","Actual"))
-
-
-`;
-
-      // Assign the variable's value to the text variable
-      var text = yourMultilineVariable;
-
-      // Create a temporary textarea element to hold the text
-      var tempTextArea = document.createElement("textarea");
-      tempTextArea.value = text;
-
-      // Append the textarea element to the DOM
-      document.body.appendChild(tempTextArea);
-
-      // Select the text in the textarea
-      tempTextArea.select();
-      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
-
-      // Copy the selected text to the clipboard
-      document.execCommand("copy");
-
-      // Remove the temporary textarea
-      document.body.removeChild(tempTextArea);
-
-      
-    }
-    function copyMultilineText14() {
-      // Your variable containing multiline text data
-      var yourMultilineVariable = `
-
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.datasets import make_classification
-from sklearn.svm import SVC
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-
-# Data generation and split
-X, y = make_classification(n_samples=100, n_features=2, n_classes=3,
-                           n_clusters_per_class=1, n_informative=2,
-                           n_redundant=0, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-
-# Scaling
-scaler = StandardScaler()
-X_train = scaler.fit_transform(X_train)
-X_test = scaler.transform(X_test)
-
-# SVM training
-clf = SVC(kernel='linear', decision_function_shape='ovr')
-clf.fit(X_train, y_train)
-
-# Accuracy
-print("Accuracy:", clf.score(X_test, y_test))
-
-# Plot decision boundary
-xx, yy = np.meshgrid(np.linspace(X_train[:,0].min(), X_train[:,0].max(), 200),
-                     np.linspace(X_train[:,1].min(), X_train[:,1].max(), 200))
-Z = clf.predict(np.c_[xx.ravel(), yy.ravel()]).reshape(xx.shape)
-
-plt.contourf(xx, yy, Z, alpha=0.3, cmap=plt.cm.coolwarm)
-plt.scatter(X_train[:,0], X_train[:,1], c=y_train, cmap=plt.cm.coolwarm, edgecolors='k')
-plt.title("SVM Decision Boundary")
-plt.xlabel("Feature 1")
-plt.ylabel("Feature 2")
-plt.show()
-
-
-`;
-
-      // Assign the variable's value to the text variable
-      var text = yourMultilineVariable;
-
-      // Create a temporary textarea element to hold the text
-      var tempTextArea = document.createElement("textarea");
-      tempTextArea.value = text;
-
-      // Append the textarea element to the DOM
-      document.body.appendChild(tempTextArea);
-
-      // Select the text in the textarea
-      tempTextArea.select();
-      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
-
-      // Copy the selected text to the clipboard
-      document.execCommand("copy");
-
-      // Remove the temporary textarea
-      document.body.removeChild(tempTextArea);
-
-      
-    }
-    function copyMultilineText15() {
-      // Your variable containing multiline text data
-      var yourMultilineVariable = `
-
-install.packages("e1071", dep = TRUE)
-
-install.packages("caret")
-
-install.packages("ggplot2")
-
-install.packages("lattice")
-
-library(e1071)
-library(caret)
-
-data<-data.frame(
-    feature1=c(5.1,4.9,6.2,5.9),
-    feature2=c(3.5,3.0,3.4,3.0),
-    feature3=c(1.4,1.4,5.4,5.1),
-    target=as.factor(c(0,0,2,1))
-)
-
-set.seed(42)
-train_indices <- createDataPartition(data$target, p=0.5, list=FALSE)
-train_data <- data[train_indices,]
-test_data <- data[-train_indices,]
-
-svm_model <- svm(target ~ ., data=train_data, kernel="linear", cost=1)
-svm_predictions <- predict(svm_model, test_data)
-
-conf_matrix <- confusionMatrix(svm_predictions,test_data$target)
-print("Confusion Matrix:")
-print(conf_matrix)
-
-accuracy <- conf_matrix$overall['Accuracy']
-cat("Accuracy:", accuracy,"/n")
-
-print(data)
-
-
-`;
-
-      // Assign the variable's value to the text variable
-      var text = yourMultilineVariable;
-
-      // Create a temporary textarea element to hold the text
-      var tempTextArea = document.createElement("textarea");
-      tempTextArea.value = text;
-
-      // Append the textarea element to the DOM
-      document.body.appendChild(tempTextArea);
-
-      // Select the text in the textarea
-      tempTextArea.select();
-      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
-
-      // Copy the selected text to the clipboard
-      document.execCommand("copy");
-
-      // Remove the temporary textarea
-      document.body.removeChild(tempTextArea);
-
-      
-    }
-    function copyMultilineText16() {
-      // Your variable containing multiline text data
-      var yourMultilineVariable = `
-
-import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn.datasets import load_iris
-from sklearn.cluster import KMeans
-from sklearn.decomposition import PCA
-
-# Load the Iris dataset
-iris = load_iris()
-X = iris.data
-y = iris.target
-
-# Apply KMeans clustering
-kmeans = KMeans(n_clusters=3, random_state=42)
-kmeans.fit(X)
-
-# Predict the cluster labels
-predictions = kmeans.predict(X)
-
-# Reduce dimensionality for plotting using PCA
-pca = PCA(n_components=2)
-X_pca = pca.fit_transform(X)
-
-# Plotting the clusters
-plt.figure(figsize=(8, 6))
-plt.scatter(X_pca[:, 0], X_pca[:, 1], c=predictions, cmap='viridis', s=50)
-centers = pca.transform(kmeans.cluster_centers_)
-plt.scatter(centers[:, 0], centers[:, 1], c='red', s=200, alpha=0.75, marker='X', label='Centroids')
-plt.title("KMeans Clustering on Iris Dataset (PCA-Reduced)")
-plt.xlabel("PCA Component 1")
-plt.ylabel("PCA Component 2")
-plt.legend()
-plt.grid(True)
-plt.show()
-
-`;
-
-      // Assign the variable's value to the text variable
-      var text = yourMultilineVariable;
-
-      // Create a temporary textarea element to hold the text
-      var tempTextArea = document.createElement("textarea");
-      tempTextArea.value = text;
-
-      // Append the textarea element to the DOM
-      document.body.appendChild(tempTextArea);
-
-      // Select the text in the textarea
-      tempTextArea.select();
-      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
-
-      // Copy the selected text to the clipboard
-      document.execCommand("copy");
-
-      // Remove the temporary textarea
-      document.body.removeChild(tempTextArea);
-
-      
-    }
-    function copyMultilineText17() {
-      // Your variable containing multiline text data
-      var yourMultilineVariable = `
-
-
-# Load necessary libraries
-cat("Daniel 011\n")
-cat("================================================\n")
-
-library(ggplot2)
-library(datasets)
-
-# Load dataset and remove categorical column
-data(iris)
-df <- iris[, 1:4]
-
-# Determine the optimal number of clusters (Elbow Method)
-set.seed(123)
-wcss <- vector()
-for (k in 1:10) {
-  wcss[k] <- sum(kmeans(df, centers = k, nstart = 10)$tot.withinss)
-}
-plot(1:10, wcss, type = "b", pch = 19, col = "blue",
-xlab = "Number of Clusters", ylab = "WCSS",
-main = "Elbow Method for Finding Optimal K: Daniel 011")
-
-# Apply K-means clustering with K=3
-set.seed(123)
-kmeans_result <- kmeans(df, centers = 3, nstart = 25)
-
-# Perform PCA for visualization
-pca_result <- prcomp(df, scale. = TRUE)
-df_pca <- data.frame(pca_result$x[, 1:2], Cluster = as.factor(kmeans_result$cluster))
-
-# Plot the clusters
-ggplot(df_pca, aes(x = PC1, y = PC2, color = Cluster) ) +
-  geom_point(size = 3) +Z
-  labs(title = "K-means Clustering (PCA Reduced Data), Daniel 011")
-
-`;
-
-      // Assign the variable's value to the text variable
-      var text = yourMultilineVariable;
-
-      // Create a temporary textarea element to hold the text
-      var tempTextArea = document.createElement("textarea");
-      tempTextArea.value = text;
-
-      // Append the textarea element to the DOM
-      document.body.appendChild(tempTextArea);
-
-      // Select the text in the textarea
-      tempTextArea.select();
-      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
-
-      // Copy the selected text to the clipboard
-      document.execCommand("copy");
-
-      // Remove the temporary textarea
-      document.body.removeChild(tempTextArea);
-
-      
-    }
-    function copyMultilineText18() {
-      // Your variable containing multiline text data
-      var yourMultilineVariable = `
-
-open weka
-click on explorer
-in preprocess click on open file & select iris arff file
-in attribute select all except class
-click on visualize all for graph
-then go to visualize you will get plots
-
-
-`;
-
-      // Assign the variable's value to the text variable
-      var text = yourMultilineVariable;
-
-      // Create a temporary textarea element to hold the text
-      var tempTextArea = document.createElement("textarea");
-      tempTextArea.value = text;
-
-      // Append the textarea element to the DOM
-      document.body.appendChild(tempTextArea);
-
-      // Select the text in the textarea
-      tempTextArea.select();
-      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
-
-      // Copy the selected text to the clipboard
-      document.execCommand("copy");
-
-      // Remove the temporary textarea
-      document.body.removeChild(tempTextArea);
-
-      
-    }
-    function copyMultilineText19() {
-      // Your variable containing multiline text data
-      var yourMultilineVariable = `
-
-open weka
-click on explorer
-in preprocess click on open file & select iris arff file
-in attribute select all except class
-go to classify & click choose go in trees folder & select j48
-go to more options & select output prediction as plain text and click ok
-click on start full summary will be visible
-right click on session name below start eg 22:50:13-treesJ48
-select visualize tree 
-
-
-`;
-
-      // Assign the variable's value to the text variable
-      var text = yourMultilineVariable;
-
-      // Create a temporary textarea element to hold the text
-      var tempTextArea = document.createElement("textarea");
-      tempTextArea.value = text;
-
-      // Append the textarea element to the DOM
-      document.body.appendChild(tempTextArea);
-
-      // Select the text in the textarea
-      tempTextArea.select();
-      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
-
-      // Copy the selected text to the clipboard
-      document.execCommand("copy");
-
-      // Remove the temporary textarea
-      document.body.removeChild(tempTextArea);
-
-      
-    }
-    function copyMultilineText20() {
-      // Your variable containing multiline text data
-      var yourMultilineVariable = `
-
-open weka
-click on explorer
-in preprocess click on open file & select weather.nominal arff file
-in attribute select all except outlook
-go to classify & click choose go in bayes folder & select NaiveByayes
-go to more options & select output prediction as plain text and click ok
-click on start full summary will be visible
-go to home page of weka and click on tools select arffViewer
-click file and open weather.nominal arff file
-by pressing ctrl select all entries keep one entry to use as test data
-go to edit and select delete instances
-go to files and select save as and name as test.arff
-now again go to explorer page
-select radio button supplied test set and select new file(test.arff)
-select start
-
-
-`;
-
-      // Assign the variable's value to the text variable
-      var text = yourMultilineVariable;
-
-      // Create a temporary textarea element to hold the text
-      var tempTextArea = document.createElement("textarea");
-      tempTextArea.value = text;
-
-      // Append the textarea element to the DOM
-      document.body.appendChild(tempTextArea);
-
-      // Select the text in the textarea
-      tempTextArea.select();
-      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
-
-      // Copy the selected text to the clipboard
-      document.execCommand("copy");
-
-      // Remove the temporary textarea
-      document.body.removeChild(tempTextArea);
-
-      
-    }
-    function copyMultilineText21() {
-      // Your variable containing multiline text data
-      var yourMultilineVariable = `
-
-open weka
-click on explorer
-in preprocess click on open file & select iris arff file
-go to cluster section click on choose in clusteres folder select simpleKmeans
-tap on simpleKmeans edit numCluster as 3 and ok
-click ignor attributes and select class to be ignored
-click on start full summary will be visible
-select radio button classes to clusters evaluation
-click on start cluster detail will be visible
-right click on session name below start eg 22:50:13-SimpleKMeans
-select visualize cluster assigments
-graph will be ready
-
-
-`;
-
-      // Assign the variable's value to the text variable
-      var text = yourMultilineVariable;
-
-      // Create a temporary textarea element to hold the text
-      var tempTextArea = document.createElement("textarea");
-      tempTextArea.value = text;
-
-      // Append the textarea element to the DOM
-      document.body.appendChild(tempTextArea);
-
-      // Select the text in the textarea
-      tempTextArea.select();
-      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
-
-      // Copy the selected text to the clipboard
-      document.execCommand("copy");
-
-      // Remove the temporary textarea
-      document.body.removeChild(tempTextArea);
-
-      
-    }
+    } 
   </script>
 </body>
 </html>
