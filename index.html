@@ -14,7 +14,7 @@
   <button onclick="copyMultilineText8()">p8-PY/R prog select billboard</button>
   <button onclick="copyMultilineText9()">p9- Data Visual pyga</button>
   <button onclick="copyMultilineText10()">p10-Process Balance sheet data</button>
-  <button onclick="copyMultilineText11()">p11-Working with MongoDB</button>
+  <button onclick="copyMultilineText11()">p11-M-Working with MongoDB</button>
 
   
   <script>
@@ -87,7 +87,128 @@ recommended_df
       // Your variable containing multiline text data
       var yourMultilineVariable = `
       
-not yet
+import os
+import sys
+from pathlib import Path
+import pandas as pd
+import numpy as np
+# Options for pandas
+pd.options.display.max_columns = 50
+pd.options.display.max_rows = 30
+pd.options.display.float_format = '{:,.4f}'.format
+# autoreload extension
+%load_ext autoreload
+%autoreload 2
+sys.path.insert(0, str(Path.cwd().parent))
+import ast
+from PIL import Image
+REPO_PATH = Path.cwd()
+report_path = '/content/BigData_sizes.csv'
+df = pd.read_csv(report_path, converters={'logo_path': str, 'description_html': str,
+                                          'logo_rendering': ast.literal_eval,
+                                          'arrow_specs': ast.literal_eval
+                                          })
+df
+sort_idx = df.sort_values('size_PB').index
+df.loc[sort_idx]
+import plotly.graph_objects as go
+big_lbls = df.loc[df.size_label.str.contains('EB'), 'size_label']
+df.loc[df.size_label.str.contains('EB'), 'size_label'] = ''
+layout = {
+    'template': "plotly_white",
+    'paper_bgcolor': 'rgba(0,0,0,0)',
+    'plot_bgcolor': 'rgba(0,0,0,0)',
+    'title': {
+        'x': 0.5, 'xanchor': 'center'
+    },
+    'font': dict(
+        family="Helvetica",
+        size=18,
+    ),
+    'showlegend': False,
+    'autosize': False,
+    'width': 1400,
+    'height': 720,
+    'margin': dict(l=0, r=0, t=0, b=0),
+}
+# Bubble plot
+fig = go.Figure(data=[
+    go.Scatter(
+        x=df.x, y=df.size_PB,
+        #         x0=1,dx=6,
+        mode='markers+text',
+        marker=dict(
+            size=df.area_size,
+            color=df.color,
+            opacity=[0.7]*(df.shape[0]-1) + [0.4],
+            sizemin=12,
+            sizemode='area',
+            sizeref=2. * df.area_size.max() / (840 ** 2)
+        ),
+        text=df.size_label.str.replace('yr', 'y'),
+        textposition='bottom center',
+        textfont=dict(size=14),
+    )
+]
+)
+# Big bubbles labels
+fig.add_trace(go.Scatter(
+    x=[42, 74, 71],
+    y=[20000, 3800, 25],
+    mode="text",
+    text=big_lbls,
+    textposition="bottom center",
+    textfont=dict(size=[14, 14, 18])
+))
+# Image annotations
+logos_path = REPO_PATH / "/content/"
+
+for v in df[['logo_path', 'logo_rendering']].itertuples():
+    if not v.logo_path:
+        continue
+    src = Image.open(logos_path / v.logo_path)  # logos_path + v.logo_path
+    xpos, ypos, xs, ys = v.logo_rendering
+    fig.add_layout_image(
+        dict(
+            source=src,
+            xref="paper", yref="paper",
+            x=xpos, y=ypos,
+            sizex=xs, sizey=ys,
+            xanchor="right", yanchor="bottom"
+        )
+    )
+# Text annotations
+for v in df[['description_html', 'arrow_specs']].itertuples():
+    if not v.arrow_specs:
+        continue
+    xpos, ypos, xlen, ylen = v.arrow_specs
+    fig.add_annotation(
+        xref="x", yref="y domain",
+        x=xpos, y=ypos,
+        ax=xlen, ay=ylen,
+        text=v.description_html,
+        showarrow=True,
+        arrowhead=0,
+        font=dict(size=14),
+    )
+# Layout
+fig.update_layout(
+    yaxis=dict(
+        type="log",
+        range=[1, 7.5],
+        visible=True,
+    ),
+    yaxis_title="log size (PB)",
+    xaxis_title="source",
+    xaxis=dict(
+        range=[-4.5, df.x.max()+2],
+        visible=True,
+        showticklabels=False,
+    ),
+)
+fig.update_layout(layout)
+fig.show()
+
 
      
       `;
@@ -118,7 +239,94 @@ not yet
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-not yet
+import pandas as pd
+import plotly.graph_objects as go
+# Load the dataset
+file_path = '/content/my_experiment.csv'
+data = pd.read_csv(file_path)
+# Ensure 'area_size' is numeric
+data['area_size'] = pd.to_numeric(data['area_size'], errors='coerce')
+# Handle missing or NaN values (if any)
+data['area_size'] = data['area_size'].fillna(0)  # Replace NaN with 0 or use .dropna()
+# Calculate sizeref after ensuring numeric values
+sizeref = 2. * data['area_size'].max() / (840 ** 2)
+# Prepare the layout for the plot
+layout = {
+    'template': "plotly_white",
+    'paper_bgcolor': 'rgba(0,0,0,0)',
+    'plot_bgcolor': 'rgba(0,0,0,0)',
+    'title': {
+        'text': "Storage Systems Visualization",
+        'x': 0.5, 'xanchor': 'center'
+    },
+    'font': dict(
+        family="Helvetica",
+        size=18,
+    ),
+    'showlegend': False,
+    'autosize': False,
+    'width': 1400,
+    'height': 720,
+    'margin': dict(l=0, r=0, t=50, b=0),
+    'images': [
+        # Example of adding logos, adjust the 'x', 'y' coordinates and 'sizing'
+        {
+            'source': '/content/google_icon.png',  # Replace with the URL or path to the logo
+            'xref': 'paper',  # Relative to paper coordinates
+            'yref': 'paper',
+            'x': 0.05,  # Horizontal position (between 0 and 1)
+            'y': 0.95,  # Vertical position (between 0 and 1)
+            'sizex': 0.1,  # Width as a fraction of the plot size
+            'sizey': 0.1,  # Height as a fraction of the plot size
+            'opacity': 0.7,
+            'layer': 'above'
+        },
+        {
+            'source': '/content/IBM.png',  # Replace with the URL or path to another logo
+            'xref': 'paper',
+            'yref': 'paper',
+            'x': 0.9,
+            'y': 0.05,
+            'sizex': 0.1,
+            'sizey': 0.1,
+            'opacity': 0.7,
+            'layer': 'above'
+        }
+    ]
+}
+# Create a bubble plot
+fig = go.Figure(data=[
+    go.Scatter(
+        x=data['source'],
+        y=data['size_PB'],
+        mode='markers+text',
+        marker=dict(
+            size=data['area_size'],
+            color=data['color'],
+            opacity=0.7,
+            sizemode='area',
+            sizeref=sizeref
+        ),
+        text=data['source'],
+        textposition='top center',
+        textfont=dict(size=14),
+    )
+])
+# Layout settings
+fig.update_layout(
+    yaxis=dict(
+        type="linear",
+        title="Size",
+        visible=True,
+    ),
+    xaxis=dict(
+        title="Storage",
+        visible=True,
+    )
+)
+fig.update_layout(layout)
+# Show the plot
+fig.show()
       
       `;
 
@@ -648,128 +856,36 @@ print("Valid balance sheet data processed and saved to 'cleaned_balance_sheet.cs
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-import os
-import sys
-from pathlib import Path
-import pandas as pd
-import numpy as np
-# Options for pandas
-pd.options.display.max_columns = 50
-pd.options.display.max_rows = 30
-pd.options.display.float_format = '{:,.4f}'.format
-# autoreload extension
-%load_ext autoreload
-%autoreload 2
-sys.path.insert(0, str(Path.cwd().parent))
-import ast
-from PIL import Image
-REPO_PATH = Path.cwd()
-report_path = '/content/BigData_sizes.csv'
-df = pd.read_csv(report_path, converters={'logo_path': str, 'description_html': str,
-                                          'logo_rendering': ast.literal_eval,
-                                          'arrow_specs': ast.literal_eval
-                                          })
-df
-sort_idx = df.sort_values('size_PB').index
-df.loc[sort_idx]
-import plotly.graph_objects as go
-big_lbls = df.loc[df.size_label.str.contains('EB'), 'size_label']
-df.loc[df.size_label.str.contains('EB'), 'size_label'] = ''
-layout = {
-    'template': "plotly_white",
-    'paper_bgcolor': 'rgba(0,0,0,0)',
-    'plot_bgcolor': 'rgba(0,0,0,0)',
-    'title': {
-        'x': 0.5, 'xanchor': 'center'
-    },
-    'font': dict(
-        family="Helvetica",
-        size=18,
-    ),
-    'showlegend': False,
-    'autosize': False,
-    'width': 1400,
-    'height': 720,
-    'margin': dict(l=0, r=0, t=0, b=0),
-}
-# Bubble plot
-fig = go.Figure(data=[
-    go.Scatter(
-        x=df.x, y=df.size_PB,
-        #         x0=1,dx=6,
-        mode='markers+text',
-        marker=dict(
-            size=df.area_size,
-            color=df.color,
-            opacity=[0.7]*(df.shape[0]-1) + [0.4],
-            sizemin=12,
-            sizemode='area',
-            sizeref=2. * df.area_size.max() / (840 ** 2)
-        ),
-        text=df.size_label.str.replace('yr', 'y'),
-        textposition='bottom center',
-        textfont=dict(size=14),
-    )
-]
-)
-# Big bubbles labels
-fig.add_trace(go.Scatter(
-    x=[42, 74, 71],
-    y=[20000, 3800, 25],
-    mode="text",
-    text=big_lbls,
-    textposition="bottom center",
-    textfont=dict(size=[14, 14, 18])
-))
-# Image annotations
-logos_path = REPO_PATH / "/content/"
-
-for v in df[['logo_path', 'logo_rendering']].itertuples():
-    if not v.logo_path:
-        continue
-    src = Image.open(logos_path / v.logo_path)  # logos_path + v.logo_path
-    xpos, ypos, xs, ys = v.logo_rendering
-    fig.add_layout_image(
-        dict(
-            source=src,
-            xref="paper", yref="paper",
-            x=xpos, y=ypos,
-            sizex=xs, sizey=ys,
-            xanchor="right", yanchor="bottom"
-        )
-    )
-# Text annotations
-for v in df[['description_html', 'arrow_specs']].itertuples():
-    if not v.arrow_specs:
-        continue
-    xpos, ypos, xlen, ylen = v.arrow_specs
-    fig.add_annotation(
-        xref="x", yref="y domain",
-        x=xpos, y=ypos,
-        ax=xlen, ay=ylen,
-        text=v.description_html,
-        showarrow=True,
-        arrowhead=0,
-        font=dict(size=14),
-    )
-# Layout
-fig.update_layout(
-    yaxis=dict(
-        type="log",
-        range=[1, 7.5],
-        visible=True,
-    ),
-    yaxis_title="log size (PB)",
-    xaxis_title="source",
-    xaxis=dict(
-        range=[-4.5, df.x.max()+2],
-        visible=True,
-        showticklabels=False,
-    ),
-)
-fig.update_layout(layout)
-fig.show()
-
+import matplotlib.pyplot as plt
+from pymongo import MongoClient
+class MongoDBClient:
+ def __init__(self, uri, db_name):
+  self.client = MongoClient(uri)
+  self.db = self.client[db_name]
+  self.status_message = f"Connected to {db_name}"
+ def retrieve_documents(self, collection_name, limit=0):
+  """Retrieve documents from the specified collection."""
+  return list(self.db[collection_name].find(limit=limit))
+ATLAS_URI = "mongodb+srv://mitali039:Atlas123@practice.auav4.mongodb.net/?retryWrites=true&w=majority&appName=Practice"
+DB_NAME = 'sample_mflix'
+COLLECTION_NAME = 'embedded_movies'
+client = MongoDBClient(ATLAS_URI, DB_NAME)
+docs = client.retrieve_documents(COLLECTION_NAME, limit=5)
+total_movies = client.db[COLLECTION_NAME].count_documents({})
+output_message = (
+ f"{client.status_message}\n"
+ f"Total Movies: {total_movies}\n"
+ f"Retrieved: {len(docs)} Movies\n\n"
+ + "\n\n".join(
+ [f'Title: {doc.get("title", "N/A")}\n'
+ f'Year: {doc.get("year", "N/A")}\n'
+ f'Plot: {doc.get("plot", "N/A")}\n'
+ for doc in docs] ))
+plt.figure(figsize=(10, 6))
+plt.text(0.1, 0.5, output_message, fontsize=12, ha='left', va='center', wrap=True)
+plt.axis('off')
+plt.title("Movie Information", fontsize=16)
+plt.show()
 
 
 `;
