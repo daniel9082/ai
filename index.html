@@ -207,7 +207,57 @@ plt.show()
       var yourMultilineVariable = `
 
 
-not yet
+!pip install sentinelhub numpy matplotlib geopandas shapely> /dev/null
+from sentinelhub import SHConfig, BBox, CRS, DataCollection, SentinelHubRequest, MimeType
+import numpy as np
+import matplotlib.pyplot as plt
+print('\033[1mSentinel Hub API Configuration:\033[0m')
+print('\033[1m====================================\033[0m')
+config = SHConfig()
+config.instance_id = 'fb89a462-8e6b-4d31-8c2b-87f6fe40471b'
+config.sh_client_id = '4120319c-6ecc-4a34-8903-ad3a76be7ba3'
+config.sh_client_secret = 'S3fZ0K23xmxTZhNDc5Zpwe70m8Wz1gcl'
+area_of_interest = BBox(bbox=(-74.0, 40.5, -73.8, 40.7), crs=CRS.WGS84)  # Example: NYC
+time_interval = ('2024-01-01', '2024-01-10')
+evalscript = """
+function setup() {
+    return {
+        input: ["B04", "B08"],
+        output: { bands: 1 }
+    };
+}
+function evaluatePixel(sample) {
+    let ndvi = (sample.B08 - sample.B04) / (sample.B08 + sample.B04);
+    return [ndvi];
+}
+"""
+request = SentinelHubRequest(
+    evalscript=evalscript,
+    input_data=[
+        SentinelHubRequest.input_data(
+            data_collection=DataCollection.SENTINEL2_L2A,
+            time_interval=time_interval
+        )
+    ],
+    responses=[
+        SentinelHubRequest.output_response('default', MimeType.TIFF)
+    ],
+    bbox=area_of_interest,
+    size=(512, 512),
+    config=config
+)
+response = request.get_data()
+ndvi_data = response[0]
+ndvi_data = ndvi_data.astype(np.float32)
+ndvi_data = np.clip(ndvi_data, -1, 1)
+if ndvi_data.ndim == 3 and ndvi_data.shape[-1] == 1:
+    ndvi_data = ndvi_data.squeeze(-1)
+plt.figure(figsize=(10, 8))
+plt.title("NDVI Analysis")
+plt.imshow(ndvi_data, cmap='YlGn')
+plt.colorbar(label="NDVI Value")
+plt.show()
+
 
 
 
