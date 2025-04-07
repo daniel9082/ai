@@ -365,7 +365,102 @@ plt.show()
       var yourMultilineVariable = ` 
       
 
-not yet
+!pip install wordcloud seaborn nltk > /dev/null
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from wordcloud import WordCloud
+import nltk
+from nltk.corpus import stopwords
+from collections import Counter
+import re
+# Keras utility for the IMDb dataset
+from keras.datasets import imdb
+# Download NLTK resources
+nltk.download('stopwords')
+nltk.download('punkt')
+stop_words = set(stopwords.words('english'))
+def load_and_clean_data(num_words=10000):
+    (train_data, train_labels), (test_data, test_labels) = imdb.load_data(num_words=num_words)
+    word_index = imdb.get_word_index()
+    reverse_word_index = {value: key for (key, value) in word_index.items()}
+    def decode_review(encoded_review):
+        return " ".join([reverse_word_index.get(i - 3, "?") for i in encoded_review if i >= 3])
+    train_reviews = [decode_review(seq) for seq in train_data]
+    test_reviews = [decode_review(seq) for seq in test_data]
+    # 4. Create DataFrames for train and test
+    df_train = pd.DataFrame({
+        "review": train_reviews,
+        "sentiment": train_labels
+    })
+    df_test = pd.DataFrame({
+        "review": test_reviews,
+        "sentiment": test_labels
+    })
+    # Combine train and test sets
+    df = pd.concat([df_train, df_test], ignore_index=True)
+    # 5. Convert sentiment from 0/1 to string labels (optional)
+    #    If you prefer numeric, skip this step
+    df["sentiment"] = df["sentiment"].map({0: "negative", 1: "positive"})
+    # 6. Drop duplicates
+    df.drop_duplicates(inplace=True)
+    # 7. Drop missing values (if any)
+    df.dropna(inplace=True)
+    # 8. Ensure 'review' and 'sentiment' columns exist
+    if "review" not in df.columns or "sentiment" not in df.columns:
+        raise ValueError("Dataset does not have required columns: 'review' and 'sentiment'")
+    return df
+# ------------------------------------------------------------------
+# Main script
+# ------------------------------------------------------------------
+df = load_and_clean_data(num_words=10000)
+# Check the first few rows
+print(df.head())
+# Check for missing values
+print("\nMissing Values:\n", df.isnull().sum())
+# (Optional) Check distribution of sentiments
+print("\nSentiment Distribution:\n", df["sentiment"].value_counts())
+def clean_text(text):
+    text = re.sub(r'<.*?>', '', text)  # Remove HTML tags
+    text = re.sub(r'[^a-zA-Z ]', '', text)  # Remove non-alphabetic characters
+    text = text.lower()
+    words = text.split()
+    words = [word for word in words if word not in stop_words]
+    return ' '.join(words)
+# Apply cleaning
+df['clean_review'] = df['review'].astype(str).apply(clean_text)
+
+# Sentiment Analysis Visualization
+plt.figure(figsize=(8, 5))
+sns.barplot(x=df['sentiment'].value_counts().index, y=df['sentiment'].value_counts().values, palette='coolwarm')
+plt.title("Sentiment Distribution in IMDb Reviews")
+plt.xlabel("Sentiment")
+plt.ylabel("Count")
+plt.show()
+
+# Word Frequency in Positive vs Negative Reviews
+from collections import Counter
+# Tokenizing words for each sentiment category
+positive_words = ' '.join(df[df['sentiment'] == 'positive']['clean_review']).split()
+negative_words = ' '.join(df[df['sentiment'] == 'negative']['clean_review']).split()
+# Counting word frequency
+positive_word_counts = Counter(positive_words).most_common(20)
+negative_word_counts = Counter(negative_words).most_common(20)
+# Converting to DataFrame
+positive_df = pd.DataFrame(positive_word_counts, columns=['Word', 'Count'])
+negative_df = pd.DataFrame(negative_word_counts, columns=['Word', 'Count'])
+# Plot most common words in positive reviews
+plt.figure(figsize=(8, 5))
+sns.barplot(x='Count', y='Word', data=positive_df, palette='coolwarm')
+plt.title("Top 20 Words in Positive Reviews")
+plt.show()
+# Plot most common words in negative reviews
+plt.figure(figsize=(8, 5))
+sns.barplot(x='Count', y='Word', data=negative_df, palette='coolwarm')
+plt.title("Top 20 Words negative in reviews")
+plt.show()
+
 
 
 
