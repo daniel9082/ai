@@ -493,8 +493,39 @@ plt.show()
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
+pick_bill_song <- function(songs,num_songs){
+    shuffle_songs <-sample(songs)
+    bill_songs <-head(shuffle_songs,num_songs)
+    return(bill_songs)
+    }
+all_songs <-c("song 1","song 2","song 3","song 4","song5","song6","song 7","song8","song 9","song 10"
+)
+num_bill_song <-4
 
-not yet
+bill_songs <- pick_bill_song(all_songs,num_bill_song)
+cat("BILLBOARD SONGS ARE :\n")
+for (song in bill_songs){
+    cat(song,"\n")
+    }
+
+import pandas as pd
+
+data = {
+    'content_id': [1, 2, 3, 4, 5, 6],
+    'title': ['Tiger 3', 'Arijit Singh Live in Concert', 'Super Bowl Ad', 'Bajrangi Bhaijaan', 'The Voice Finale', 'Coca-Cola Ad'],
+    'category': ['Entertainment', 'Music', 'Advertisement', 'Entertainment', 'TV Show', 'Advertisement'],
+    'views': [95000, 80000, 70000, 85000, 45000, 90000]
+}
+
+df = pd.DataFrame(data)
+
+billboard_data = df[(df['category'] == 'Entertainment') & (df['views'] > 50000)]
+
+# Display the filtered content
+print("Billboard Content:")
+print(billboard_data)
+
+
 
 
 
