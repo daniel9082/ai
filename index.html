@@ -148,7 +148,35 @@ not yet
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-not yet
+pip install bio
+
+from  Bio import SeqIO
+import matplotlib.pyplot as plt
+fp="/content/sample.fasta"
+for seq_record in SeqIO.parse(fp, "fasta"):
+    print(seq_record.id)
+    print(repr(seq_record.seq))
+    print(len(seq_record))
+def calculate_gc_content(sequence, window_size):
+    gc_content = []
+    for i in range(0, len(sequence) - window_size + 1):
+        window = sequence[i:i + window_size]
+        gc_count = window.count("G") + window.count("C")
+        gc_content.append(gc_count / window_size * 100)
+    return gc_content
+# Example DNA sequence
+dna_sequence = "ATGCGCGTAGCTAGGCTACGCGTACGTAGCGTAGCGTAGCTAGGCTAGCGTACGTAGC"
+window_size = 10
+# Calculate GC content
+gc_values = calculate_gc_content(dna_sequence, window_size)
+# Plot GC content
+plt.figure(figsize=(10, 5))
+plt.plot(range(len(gc_values)), gc_values, marker='o', linestyle='-', color='b')
+plt.title(f"GC Content with Window Size {window_size}")
+plt.xlabel("Window Position")
+plt.ylabel("GC Content (%)")
+plt.grid()
+plt.show()
       
       `;
 
