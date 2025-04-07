@@ -289,7 +289,51 @@ plt.show()
       // Your variable containing multiline text data
       var yourMultilineVariable = `
 
-not yet
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import re
+# Load dataset
+file_path = "/content/Womens Clothing E-Commerce Reviews.csv"
+df = pd.read_csv(file_path)
+# Drop rows with missing reviews
+df = df.dropna(subset=['Review Text'])
+# Function to clean text
+def clean_text(text):
+    text = text.lower()  # Convert to lowercase
+    text = re.sub(r'[^a-zA-Z\s]', '', text)  # Remove special characters
+    text = re.sub(r'\s+', ' ', text).strip()  # Remove extra spaces
+    return text
+# Apply text cleaning
+df['Cleaned Review'] = df['Review Text'].apply(clean_text)
+# Plot rating distribution
+plt.figure(figsize=(8,5))
+sns.countplot(x=df['Rating'], palette='viridis')
+plt.title('Review Rating Distribution')
+plt.xlabel('Rating')
+plt.ylabel('Count')
+plt.show()
+# Pie chart for recommended vs. not recommended
+plt.figure(figsize=(6,6))
+df['Recommended IND'].value_counts().plot.pie(autopct='%1.1f%%', colors=['lightblue', 'orange'])
+plt.title('Recommendation Distribution')
+plt.ylabel('')
+plt.show()
+# Boxplot for age distribution by rating
+plt.figure(figsize=(10,6))
+sns.boxplot(x='Rating', y='Age', data=df, palette='coolwarm')
+plt.title('Age Distribution by Rating')
+plt.xlabel('Rating')
+plt.ylabel('Age')
+plt.show()
+# Bar chart for top 10 most reviewed clothing items
+plt.figure(figsize=(12,6))
+top_products = df['Clothing ID'].value_counts().nlargest(10)
+top_products.plot(kind='bar', color='teal')
+plt.title('Top 10 Most Reviewed Clothing Items')
+plt.xlabel('Clothing ID')
+plt.ylabel('Number of Reviews')
+plt.show()
 
 
 `;
