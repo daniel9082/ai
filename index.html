@@ -15,6 +15,7 @@
   <button onclick="copyMultilineText9()">p9- Data Visual pyga</button>
   <button onclick="copyMultilineText10()">p10-Process Balance sheet data</button>
   <button onclick="copyMultilineText11()">p11-M-Working with MongoDB</button>
+  <button onclick="copyMultilineText12()">p11-S-Working with MongoDB</button>
 
   
   <script>
@@ -851,34 +852,122 @@ print("Valid balance sheet data processed and saved to 'cleaned_balance_sheet.cs
 
 import matplotlib.pyplot as plt
 from pymongo import MongoClient
+
 class MongoDBClient:
- def __init__(self, uri, db_name):
-  self.client = MongoClient(uri)
-  self.db = self.client[db_name]
-  self.status_message = f"Connected to {db_name}"
- def retrieve_documents(self, collection_name, limit=0):
-  """Retrieve documents from the specified collection."""
-  return list(self.db[collection_name].find(limit=limit))
-ATLAS_URI = "mongodb+srv://mitali039:Atlas123@practice.auav4.mongodb.net/?retryWrites=true&w=majority&appName=Practice"
+    def __init__(self, uri, db_name):
+        self.client = MongoClient(uri)
+        self.db = self.client[db_name]
+        self.status_message = f"Connected to {db_name}"
+
+    def retrieve_documents(self, collection_name, limit=0):
+        """Retrieve documents from the specified collection."""
+        return list(self.db[collection_name].find(limit=limit))
+
+ATLAS_URI = "mongodb+srv://mitali039:Atlas123@practiceprac11.2hmrfh6.mongodb.net/?retryWrites=true&w=majority&appName=practiceprac11"
 DB_NAME = 'sample_mflix'
 COLLECTION_NAME = 'embedded_movies'
+
 client = MongoDBClient(ATLAS_URI, DB_NAME)
 docs = client.retrieve_documents(COLLECTION_NAME, limit=5)
 total_movies = client.db[COLLECTION_NAME].count_documents({})
-output_message = (
- f"{client.status_message}\n"
- f"Total Movies: {total_movies}\n"
- f"Retrieved: {len(docs)} Movies\n\n"
- + "\n\n".join(
- [f'Title: {doc.get("title", "N/A")}\n'
- f'Year: {doc.get("year", "N/A")}\n'
- f'Plot: {doc.get("plot", "N/A")}\n'
- for doc in docs] ))
+
+# Use triple-quoted string formatting
+movie_info = "\n\n".join([
+    f"""Title: {doc.get("title", "N/A")}
+Year: {doc.get("year", "N/A")}
+Plot: {doc.get("plot", "N/A")}"""
+    for doc in docs
+])
+
+output_message = f"""\
+{client.status_message}
+Total Movies: {total_movies}
+Retrieved: {len(docs)} Movies
+
+{movie_info}
+"""
+
 plt.figure(figsize=(10, 6))
 plt.text(0.1, 0.5, output_message, fontsize=12, ha='left', va='center', wrap=True)
 plt.axis('off')
 plt.title("Movie Information", fontsize=16)
 plt.show()
+
+
+`;
+
+      // Assign the variable's value to the text variable
+      var text = yourMultilineVariable;
+
+      // Create a temporary textarea element to hold the text
+      var tempTextArea = document.createElement("textarea");
+      tempTextArea.value = text;
+
+      // Append the textarea element to the DOM
+      document.body.appendChild(tempTextArea);
+
+      // Select the text in the textarea
+      tempTextArea.select();
+      tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
+
+      // Copy the selected text to the clipboard
+      document.execCommand("copy");
+
+      // Remove the temporary textarea
+      document.body.removeChild(tempTextArea);
+
+      
+    }
+    function copyMultilineText12() {
+      // Your variable containing multiline text data
+      var yourMultilineVariable = `
+
+!pip install pymongo matplotlib > /dev/null
+
+import matplotlib.pyplot as plt
+from pymongo import MongoClient
+
+class MongoDBClient:
+    def __init__(self, uri, db_name):  # Fixed typo: __init__ not _init_
+        self.client = MongoClient(uri)
+        self.db = self.client[db_name]
+        self.status_message = f"Connected to {db_name}"
+
+    def retrieve_documents(self, collection_name, limit=0):
+        """Retrieve documents from the specified collection."""
+        return list(self.db[collection_name].find(limit=limit))
+
+ATLAS_URI = "mongodb+srv://surabhisalunke02:C3g8b2m8#@cluster0.w1xhx.mongodb.net/?retryWrites=true&w=majority"
+DB_NAME = 'sample_mflix'
+COLLECTION_NAME = 'embedded_movies'
+
+client = MongoDBClient(ATLAS_URI, DB_NAME)
+docs = client.retrieve_documents(COLLECTION_NAME, limit=5)
+total_movies = client.db[COLLECTION_NAME].count_documents({})
+
+# Build the movie info using multiline f-strings
+movie_info = "\n\n".join([
+    f"""Title: {doc.get("title", "N/A")}
+Year: {doc.get("year", "N/A")}
+Plot: {doc.get("plot", "N/A")}"""
+    for doc in docs
+])
+
+# Combine all parts using triple-quoted string
+output_message = f"""\
+{client.status_message}
+Total Movies: {total_movies}
+Retrieved: {len(docs)} Movies
+
+{movie_info}
+"""
+
+plt.figure(figsize=(10, 6))
+plt.text(0.1, 0.5, output_message, fontsize=12, ha='left', va='center', wrap=True)
+plt.axis('off')
+plt.title("Movie Information", fontsize=16)
+plt.show()
+
 
 
 `;
